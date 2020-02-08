@@ -26,6 +26,13 @@ namespace Domain
 
 			return session;
 		}
+
+		public void CheckTheQuestionChoiceOnSession(Guid questionId, QuestionChoice questionChoice, Guid sessionId)
+		{
+			Session session = SessionRepository.GetById(sessionId);
+
+			session.CheckTheQuestionChoice(questionId, questionChoice);
+		}
 	}
 
 	public class Session
@@ -37,6 +44,24 @@ namespace Domain
 
 		public Guid Id { get; } = Guid.NewGuid();
 		public IEnumerable<Question> Questions { get; set; }
+		private Dictionary<Guid, ChoicesOfQuestion> ChoicesByQuestion { get; set; } = new Dictionary<Guid, ChoicesOfQuestion>();
+
+		internal void CheckTheQuestionChoice(Guid questionId, QuestionChoice questionChoice)
+		{
+			if (!ChoicesByQuestion.TryGetValue(questionId, out ChoicesOfQuestion choicesOfQuestion))
+			{
+				choicesOfQuestion = new ChoicesOfQuestion();
+
+				ChoicesByQuestion.Add(questionId, choicesOfQuestion);
+			}
+
+			choicesOfQuestion.CheckChoice(questionChoice);
+		}
+
+		public ChoicesOfQuestion GetChoicesOfQuestion(Guid questionId)
+		{
+			return ChoicesByQuestion[questionId];
+		}
 	}
 
 	public class Question
@@ -47,6 +72,23 @@ namespace Domain
 	public enum QuestionChoice
 	{
 		Green
+	}
+
+	public class ChoicesOfQuestion
+	{
+		private Dictionary<QuestionChoice, int> CountByChoice { get; set; } = new Dictionary<QuestionChoice, int>();
+
+		public int GetCountByChoice(QuestionChoice questionChoice)
+		{
+			return CountByChoice[questionChoice];
+		}
+
+		public void CheckChoice(QuestionChoice questionChoice)
+		{
+			CountByChoice.TryGetValue(questionChoice, out int count);
+
+			CountByChoice[questionChoice] = ++count;
+		}
 	}
 
 	public class InMemoryQuestionRepository

@@ -35,7 +35,23 @@ namespace Domain.Test
 			Session session = service.CreateSession();
 
 			Assert.That(session, Is.EqualTo(sessionRepository.GetById(session.Id)));
-		}		
+		}
+		
+		[Test]
+		public void CheckTheQuestionChoiceOnSession()
+		{
+			TeamBarometerService service = CreateService();
+			Session session = service.CreateSession();
+			Question question = session.Questions.First();
+
+			service.CheckTheQuestionChoiceOnSession(questionId: question.Id, questionChoice: QuestionChoice.Green, sessionId: session.Id);
+
+
+			ChoicesOfQuestion questionOfChoices = session.GetChoicesOfQuestion(question.Id);
+			
+			Assert.That(questionOfChoices, Is.Not.Null);
+			Assert.That(questionOfChoices.GetCountByChoice(QuestionChoice.Green), Is.EqualTo(1));
+		}
 
 		private TeamBarometerService CreateService(InMemorySessionRepository sessionRepository = null)
 		{
@@ -54,7 +70,7 @@ namespace Domain.Test
 		{
 			Session session = CreateSession();
 
-			Assert.That(session.Id, Is.Not.Null.And.Not.Empty);
+			Assert.That(session.Id, Is.Not.Null);
 		}
 
 		[Test]
