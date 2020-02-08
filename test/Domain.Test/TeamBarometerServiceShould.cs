@@ -10,22 +10,67 @@ namespace Domain.Test
 		}
 
 		[Test]
-		public void GenerateUniqueSessionID()
+		public void GenerateSession()
 		{
-			TeamBarometerService service = new TeamBarometerService();
+			TeamBarometerService service = CreateService();
 
+			Session session = service.CreateSession();
 
-			string firstSessionID = service.GenerateSessionID();
-			string secondSessionID = service.GenerateSessionID();
-			string thirdSessionID = service.GenerateSessionID();
+			Assert.That(session, Is.Not.Null);
+		}
 
+		[Test]
+		public void GenerateSessionWithQuestions()
+		{
+			TeamBarometerService service = CreateService();
 
-			Assert.That(firstSessionID, Is.Not.Null.And.Not.Empty);
-			Assert.That(secondSessionID, Is.Not.Null.And.Not.Empty);
-			Assert.That(thirdSessionID, Is.Not.Null.And.Not.Empty);
+			Session session = service.CreateSession();
 
-			Assert.That(firstSessionID, Is.Not.EqualTo(secondSessionID), "First session id is equal to second");
-			Assert.That(secondSessionID, Is.Not.EqualTo(thirdSessionID), "Second session id is equal to third");
+			Assert.That(session.Questions, Is.Not.Null.And.Not.Empty);
+		}
+
+		private static TeamBarometerService CreateService()
+		{
+			InMemoryQuestionRepository questionRepository = new InMemoryQuestionRepository();
+
+			return new TeamBarometerService(questionRepository);
+		}
+	}
+
+	public class SessionShould
+	{
+		[Test]
+		public void HasId()
+		{
+			Session session = CreateSession();
+
+			Assert.That(session.Id, Is.Not.Null.And.Not.Empty);
+		}
+
+		[Test]
+		public void HasUniqueId()
+		{
+			Session firstSession = CreateSession();
+			Session secondSession = CreateSession();
+			Session thirdSession = CreateSession();
+
+			Assert.That(firstSession.Id, Is.Not.EqualTo(secondSession.Id));
+			Assert.That(secondSession.Id, Is.Not.EqualTo(thirdSession.Id));
+		}
+
+		[Test]
+		public void HasReadOnlyId()
+		{
+			Session session = CreateSession();
+
+			bool idIsReadOnly = !session.GetType().GetProperty(nameof(session.Id)).CanWrite;
+
+			Assert.True(idIsReadOnly, "Session id is not read only");
+		}
+
+		private Session CreateSession()
+		{
+			return new Session(null);
 		}
 	}
 }
