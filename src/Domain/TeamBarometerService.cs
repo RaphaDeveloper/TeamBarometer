@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 namespace Domain
 {
 	public class TeamBarometerService
 	{
-		public InMemoryQuestionRepository QuestionRepository { get; }
+		private InMemorySessionRepository SessionRepository { get; }
+		private InMemoryQuestionRepository QuestionRepository { get; }
 
-		public TeamBarometerService(InMemoryQuestionRepository questionRepository)
+		public TeamBarometerService(InMemorySessionRepository sessionRepository, InMemoryQuestionRepository questionRepository)
 		{
+			SessionRepository = sessionRepository;
 			QuestionRepository = questionRepository;
-		}
-
-		public string GenerateSessionID()
-		{
-			return Guid.NewGuid().ToString();
 		}
 
 		public Session CreateSession()
 		{
 			IEnumerable<Question> questions = QuestionRepository.GetAll();
 
-			return new Session(questions);
+			Session session = new Session(questions);
+
+			SessionRepository.Insert(session);
+
+			return session;
 		}
 	}
 
@@ -30,17 +32,21 @@ namespace Domain
 	{
 		public Session(IEnumerable<Question> questions)
 		{
-			Id = Guid.NewGuid().ToString();
 			Questions = questions;
 		}
 
-		public string Id { get; }
+		public Guid Id { get; } = Guid.NewGuid();
 		public IEnumerable<Question> Questions { get; set; }
 	}
 
 	public class Question
 	{
+		public Guid Id { get; } = Guid.NewGuid();
+	}
 
+	public enum QuestionChoice
+	{
+		Green
 	}
 
 	public class InMemoryQuestionRepository
@@ -50,6 +56,21 @@ namespace Domain
 			Question confidence = new Question();
 
 			yield return confidence;
+		}
+	}
+
+	public class InMemorySessionRepository
+	{
+		private readonly List<Session> sessions = new List<Session>();
+
+		public Session GetById(Guid sessionId)
+		{
+			return sessions.FirstOrDefault(s => s.Id == sessionId);
+		}
+
+		public void Insert(Session session)
+		{
+			sessions.Add(session);
 		}
 	}
 }

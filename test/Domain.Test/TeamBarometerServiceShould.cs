@@ -1,14 +1,11 @@
 using NUnit.Framework;
+using System;
+using System.Linq;
 
 namespace Domain.Test
 {
 	public class TeamBarometerServiceShould
 	{
-		[SetUp]
-		public void Setup()
-		{
-		}
-
 		[Test]
 		public void GenerateSession()
 		{
@@ -29,11 +26,24 @@ namespace Domain.Test
 			Assert.That(session.Questions, Is.Not.Null.And.Not.Empty);
 		}
 
-		private static TeamBarometerService CreateService()
+		[Test]
+		public void PersistTheGeneratedSession()
 		{
+			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
+			TeamBarometerService service = CreateService(sessionRepository);
+
+			Session session = service.CreateSession();
+
+			Assert.That(session, Is.EqualTo(sessionRepository.GetById(session.Id)));
+		}		
+
+		private TeamBarometerService CreateService(InMemorySessionRepository sessionRepository = null)
+		{
+			sessionRepository = sessionRepository ?? new InMemorySessionRepository();
+
 			InMemoryQuestionRepository questionRepository = new InMemoryQuestionRepository();
 
-			return new TeamBarometerService(questionRepository);
+			return new TeamBarometerService(sessionRepository, questionRepository);
 		}
 	}
 
