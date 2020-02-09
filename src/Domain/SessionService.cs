@@ -71,7 +71,9 @@ namespace Domain
 
 	public enum Answer
 	{
-		Green
+		Green,
+		Red,
+		Yellow
 	}
 
 	public class Answers

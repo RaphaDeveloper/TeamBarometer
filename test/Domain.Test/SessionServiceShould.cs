@@ -46,12 +46,17 @@ namespace Domain.Test
 
 
 			service.AnswerTheSessionQuestion(questionId: question.Id, answer: Answer.Green, sessionId: session.Id);
+			service.AnswerTheSessionQuestion(questionId: question.Id, answer: Answer.Green, sessionId: session.Id);
+			service.AnswerTheSessionQuestion(questionId: question.Id, answer: Answer.Red, sessionId: session.Id);
+			service.AnswerTheSessionQuestion(questionId: question.Id, answer: Answer.Yellow, sessionId: session.Id);
 
 
 			Answers answers = session.GetTheAnswersOfTheQuestion(question.Id);
 			
 			Assert.That(answers, Is.Not.Null);
-			Assert.That(answers.GetAnswerCount(Answer.Green), Is.EqualTo(1));
+			Assert.That(answers.GetAnswerCount(Answer.Green), Is.EqualTo(2));
+			Assert.That(answers.GetAnswerCount(Answer.Red), Is.EqualTo(1));
+			Assert.That(answers.GetAnswerCount(Answer.Yellow), Is.EqualTo(1));
 		}
 
 		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
