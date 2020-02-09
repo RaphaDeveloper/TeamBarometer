@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Domain.Test
 {
-	public class TeamBarometerServiceShould
+	public class SessionServiceShould
 	{
 		[Test]
-		public void GenerateSession()
+		public void CreateSession()
 		{
-			TeamBarometerService service = CreateService();
+			SessionService service = CreateService();
 
 			Session session = service.CreateSession();
 
@@ -17,9 +17,9 @@ namespace Domain.Test
 		}
 
 		[Test]
-		public void GenerateSessionWithQuestions()
+		public void CreateSessionWithQuestions()
 		{
-			TeamBarometerService service = CreateService();
+			SessionService service = CreateService();
 
 			Session session = service.CreateSession();
 
@@ -27,10 +27,10 @@ namespace Domain.Test
 		}
 
 		[Test]
-		public void PersistTheGeneratedSession()
+		public void PersistTheCreatedSession()
 		{
 			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
-			TeamBarometerService service = CreateService(sessionRepository);
+			SessionService service = CreateService(sessionRepository);
 
 			Session session = service.CreateSession();
 
@@ -38,28 +38,29 @@ namespace Domain.Test
 		}
 		
 		[Test]
-		public void CheckTheQuestionChoiceOnSession()
+		public void AnswerTheSessionQuestion()
 		{
-			TeamBarometerService service = CreateService();
+			SessionService service = CreateService();
 			Session session = service.CreateSession();
 			Question question = session.Questions.First();
 
-			service.CheckTheQuestionChoiceOnSession(questionId: question.Id, questionChoice: QuestionChoice.Green, sessionId: session.Id);
+
+			service.AnswerTheSessionQuestion(questionId: question.Id, answer: Answer.Green, sessionId: session.Id);
 
 
-			ChoicesOfQuestion questionOfChoices = session.GetChoicesOfQuestion(question.Id);
+			Answers answers = session.GetTheAnswersOfTheQuestion(question.Id);
 			
-			Assert.That(questionOfChoices, Is.Not.Null);
-			Assert.That(questionOfChoices.GetCountByChoice(QuestionChoice.Green), Is.EqualTo(1));
+			Assert.That(answers, Is.Not.Null);
+			Assert.That(answers.GetAnswerCount(Answer.Green), Is.EqualTo(1));
 		}
 
-		private TeamBarometerService CreateService(InMemorySessionRepository sessionRepository = null)
+		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
 		{
-			sessionRepository = sessionRepository ?? new InMemorySessionRepository();
+			sessionRepository ??= new InMemorySessionRepository();
 
 			InMemoryQuestionRepository questionRepository = new InMemoryQuestionRepository();
 
-			return new TeamBarometerService(sessionRepository, questionRepository);
+			return new SessionService(sessionRepository, questionRepository);
 		}
 	}
 

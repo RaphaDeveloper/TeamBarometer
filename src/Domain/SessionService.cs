@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace Domain
 {
-	public class TeamBarometerService
+	public class SessionService
 	{
 		private InMemorySessionRepository SessionRepository { get; }
 		private InMemoryQuestionRepository QuestionRepository { get; }
 
-		public TeamBarometerService(InMemorySessionRepository sessionRepository, InMemoryQuestionRepository questionRepository)
+		public SessionService(InMemorySessionRepository sessionRepository, InMemoryQuestionRepository questionRepository)
 		{
 			SessionRepository = sessionRepository;
 			QuestionRepository = questionRepository;
@@ -27,11 +27,11 @@ namespace Domain
 			return session;
 		}
 
-		public void CheckTheQuestionChoiceOnSession(Guid questionId, QuestionChoice questionChoice, Guid sessionId)
+		public void AnswerTheSessionQuestion(Guid questionId, Answer answer, Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
-			session.CheckTheQuestionChoice(questionId, questionChoice);
+			session.AnswerTheQuestion(questionId, answer);
 		}
 	}
 
@@ -44,23 +44,23 @@ namespace Domain
 
 		public Guid Id { get; } = Guid.NewGuid();
 		public IEnumerable<Question> Questions { get; set; }
-		private Dictionary<Guid, ChoicesOfQuestion> ChoicesByQuestion { get; set; } = new Dictionary<Guid, ChoicesOfQuestion>();
+		private Dictionary<Guid, Answers> AnswersByQuestion { get; set; } = new Dictionary<Guid, Answers>();
 
-		internal void CheckTheQuestionChoice(Guid questionId, QuestionChoice questionChoice)
+		internal void AnswerTheQuestion(Guid questionId, Answer answer)
 		{
-			if (!ChoicesByQuestion.TryGetValue(questionId, out ChoicesOfQuestion choicesOfQuestion))
+			if (!AnswersByQuestion.TryGetValue(questionId, out Answers answers))
 			{
-				choicesOfQuestion = new ChoicesOfQuestion();
+				answers = new Answers();
 
-				ChoicesByQuestion.Add(questionId, choicesOfQuestion);
+				AnswersByQuestion.Add(questionId, answers);
 			}
 
-			choicesOfQuestion.CheckChoice(questionChoice);
+			answers.CountAnswer(answer);
 		}
 
-		public ChoicesOfQuestion GetChoicesOfQuestion(Guid questionId)
+		public Answers GetTheAnswersOfTheQuestion(Guid questionId)
 		{
-			return ChoicesByQuestion[questionId];
+			return AnswersByQuestion[questionId];
 		}
 	}
 
@@ -69,25 +69,25 @@ namespace Domain
 		public Guid Id { get; } = Guid.NewGuid();
 	}
 
-	public enum QuestionChoice
+	public enum Answer
 	{
 		Green
 	}
 
-	public class ChoicesOfQuestion
+	public class Answers
 	{
-		private Dictionary<QuestionChoice, int> CountByChoice { get; set; } = new Dictionary<QuestionChoice, int>();
+		private Dictionary<Answer, int> CountByAnswer { get; set; } = new Dictionary<Answer, int>();
 
-		public int GetCountByChoice(QuestionChoice questionChoice)
+		public int GetAnswerCount(Answer answer)
 		{
-			return CountByChoice[questionChoice];
+			return CountByAnswer[answer];
 		}
 
-		public void CheckChoice(QuestionChoice questionChoice)
+		public void CountAnswer(Answer answer)
 		{
-			CountByChoice.TryGetValue(questionChoice, out int count);
+			CountByAnswer.TryGetValue(answer, out int count);
 
-			CountByChoice[questionChoice] = ++count;
+			CountByAnswer[answer] = ++count;
 		}
 	}
 
