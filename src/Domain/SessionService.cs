@@ -82,7 +82,9 @@ namespace Domain
 
 		public int GetAnswerCount(Answer answer)
 		{
-			return CountByAnswer[answer];
+			CountByAnswer.TryGetValue(answer, out int count);
+
+			return count;
 		}
 
 		public void CountAnswer(Answer answer)
@@ -97,9 +99,14 @@ namespace Domain
 	{
 		public IEnumerable<Question> GetAll()
 		{
-			Question confidence = new Question();
+			yield return CreateQuestion();
 
-			yield return confidence;
+			yield return CreateQuestion();
+		}
+
+		private Question CreateQuestion()
+		{
+			return new Question();
 		}
 	}
 

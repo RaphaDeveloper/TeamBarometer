@@ -42,21 +42,32 @@ namespace Domain.Test
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
-			Question question = session.Questions.First();
+			Question firstQuestion = session.Questions.ElementAt(0);
+			Question secondQuestion = session.Questions.ElementAt(1);
 
 
-			service.AnswerTheSessionQuestion(questionId: question.Id, answer: Answer.Green, sessionId: session.Id);
-			service.AnswerTheSessionQuestion(questionId: question.Id, answer: Answer.Green, sessionId: session.Id);
-			service.AnswerTheSessionQuestion(questionId: question.Id, answer: Answer.Red, sessionId: session.Id);
-			service.AnswerTheSessionQuestion(questionId: question.Id, answer: Answer.Yellow, sessionId: session.Id);
+
+			service.AnswerTheSessionQuestion(questionId: firstQuestion.Id, answer: Answer.Green, sessionId: session.Id);
+			service.AnswerTheSessionQuestion(questionId: firstQuestion.Id, answer: Answer.Green, sessionId: session.Id);
+			service.AnswerTheSessionQuestion(questionId: firstQuestion.Id, answer: Answer.Red, sessionId: session.Id);
+			service.AnswerTheSessionQuestion(questionId: firstQuestion.Id, answer: Answer.Yellow, sessionId: session.Id);
+
+			service.AnswerTheSessionQuestion(questionId: secondQuestion.Id, answer: Answer.Green, sessionId: session.Id);
 
 
-			Answers answers = session.GetTheAnswersOfTheQuestion(question.Id);
-			
-			Assert.That(answers, Is.Not.Null);
-			Assert.That(answers.GetAnswerCount(Answer.Green), Is.EqualTo(2));
-			Assert.That(answers.GetAnswerCount(Answer.Red), Is.EqualTo(1));
-			Assert.That(answers.GetAnswerCount(Answer.Yellow), Is.EqualTo(1));
+
+			Answers firstQuestionAnswers = session.GetTheAnswersOfTheQuestion(firstQuestion.Id);
+			Answers secondQuestionAnswers = session.GetTheAnswersOfTheQuestion(secondQuestion.Id);
+
+			Assert.That(firstQuestionAnswers, Is.Not.Null);
+			Assert.That(firstQuestionAnswers.GetAnswerCount(Answer.Green), Is.EqualTo(2));
+			Assert.That(firstQuestionAnswers.GetAnswerCount(Answer.Red), Is.EqualTo(1));
+			Assert.That(firstQuestionAnswers.GetAnswerCount(Answer.Yellow), Is.EqualTo(1));
+
+			Assert.That(secondQuestionAnswers, Is.Not.Null);
+			Assert.That(secondQuestionAnswers.GetAnswerCount(Answer.Green), Is.EqualTo(1));
+			Assert.That(secondQuestionAnswers.GetAnswerCount(Answer.Red), Is.EqualTo(0));
+			Assert.That(secondQuestionAnswers.GetAnswerCount(Answer.Yellow), Is.EqualTo(0));
 		}
 
 		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
