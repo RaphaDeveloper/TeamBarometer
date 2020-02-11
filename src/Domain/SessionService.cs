@@ -27,11 +27,11 @@ namespace Domain
 			return session;
 		}
 
-		public void AnswerTheSessionQuestion(Guid teamMemberId, Guid questionId, Answer answer, Guid sessionId)
+		public void AnswerTheCurrentQuestionOfTheSession(Guid teamMemberId, Answer answer, Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
-			session.AnswerTheQuestion(teamMemberId, questionId, answer);
+			session.AnswerTheCurrentQuestion(teamMemberId, answer);
 		}
 
 		public void AddTeamMemberToTheSession(Guid teamMemberId, Guid sessionId)
@@ -61,9 +61,9 @@ namespace Domain
 		public QuestionOfTheSession CurrentQuestion { get; private set; }
 		private List<Guid> TeamMembers { get; set; } = new List<Guid>();
 
-		internal void AnswerTheQuestion(Guid teamMemberId, Guid questionId, Answer answer)
+		internal void AnswerTheCurrentQuestion(Guid teamMemberId, Answer answer)
 		{
-			if (TeamMemberIsParticipating(teamMemberId) && QuestionIsTheCurrent(questionId) && CurrentQuestion.IsUpToVote)
+			if (TeamMemberIsParticipating(teamMemberId) && CurrentQuestion.IsUpForVote)
 			{
 				CurrentQuestion.ContabilizeTheAnswer(teamMemberId, answer);
 
@@ -99,11 +99,6 @@ namespace Domain
 		public bool TeamMemberIsParticipating(Guid teamMemberId)
 		{
 			return TeamMembers.Contains(teamMemberId);
-		}
-
-		private bool QuestionIsTheCurrent(Guid questionId)
-		{
-			return CurrentQuestion.Id == questionId;
 		}
 
 		private void ConstructQuestionsOfThisSession(IEnumerable<Question> questions)
@@ -164,7 +159,7 @@ namespace Domain
 		private List<Answer> Answers { get; set; } = new List<Answer>();
 		private List<Guid> IdOfTheTeamMembersWhoVoted { get; set; } = new List<Guid>();
 		public QuestionOfTheSession NextQuestion { get; internal set; }
-		public bool IsUpToVote { get; private set; }
+		public bool IsUpForVote { get; private set; }
 
 		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
 		{
@@ -198,12 +193,12 @@ namespace Domain
 
 		internal void StartVoting()
 		{
-			IsUpToVote = true;
+			IsUpForVote = true;
 		}
 
 		internal void StopVoting()
 		{
-			IsUpToVote = false;
+			IsUpForVote = false;
 		}
 	}
 

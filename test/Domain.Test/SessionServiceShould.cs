@@ -62,10 +62,10 @@ namespace Domain.Test
 
 
 			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheSessionQuestion(teamMemberId, firstQuestion.Id, Answer.Red, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Red, session.Id);
 			
 			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheSessionQuestion(teamMemberId, secondQuestion.Id, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Green, session.Id);
 			
 			
 			Assert.That(firstQuestion.GetCountOfTheAnswer(Answer.Red), Is.EqualTo(1));
@@ -77,7 +77,6 @@ namespace Domain.Test
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
-			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.ElementAt(0);
 			QuestionOfTheSession secondQuestion = session.QuestionsById.Values.ElementAt(1);
 			Guid firstTeamMemberId = Guid.NewGuid();
 			Guid secondTeamMemberId = Guid.NewGuid();
@@ -86,8 +85,8 @@ namespace Domain.Test
 
 
 			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheSessionQuestion(firstTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
-			service.AnswerTheSessionQuestion(secondTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
 
 
 			Assert.That(secondQuestion, Is.EqualTo(session.CurrentQuestion));
@@ -106,11 +105,11 @@ namespace Domain.Test
 
 
 			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheSessionQuestion(firstTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
-			service.AnswerTheSessionQuestion(secondTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
 
 
-			Assert.False(firstQuestion.IsUpToVote);
+			Assert.False(firstQuestion.IsUpForVote);
 		}
 
 		[Test]
@@ -126,9 +125,9 @@ namespace Domain.Test
 
 
 			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheSessionQuestion(firstTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
-			service.AnswerTheSessionQuestion(secondTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
-			service.AnswerTheSessionQuestion(secondTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
 
 
 			Assert.That(firstQuestion.GetCountOfTheAnswer(Answer.Green), Is.EqualTo(2));
@@ -144,27 +143,10 @@ namespace Domain.Test
 
 
 			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheSessionQuestion(teamMemberId, firstQuestion.Id, Answer.Red, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Red, session.Id);
 
 
 			Assert.False(firstQuestion.HasAnyAnswer());
-		}
-
-		[Test]
-		public void NotAnswerTheSessionQuestionWhenTheQuestionsIsNotTheCurrent()
-		{
-			SessionService service = CreateService();
-			Session session = service.CreateSession();
-			QuestionOfTheSession secondQuestion = session.QuestionsById.Values.ElementAt(1);
-			Guid firstTeamMemberId = Guid.NewGuid();
-			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
-
-
-			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheSessionQuestion(firstTeamMemberId, secondQuestion.Id, Answer.Green, session.Id);
-
-
-			Assert.False(secondQuestion.HasAnyAnswer());
 		}
 
 		[Test]
@@ -177,7 +159,7 @@ namespace Domain.Test
 			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
 
 
-			service.AnswerTheSessionQuestion(firstTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
 
 
 			Assert.False(firstQuestion.HasAnyAnswer());
@@ -218,7 +200,7 @@ namespace Domain.Test
 			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
 
 
-			Assert.True(session.CurrentQuestion.IsUpToVote);
+			Assert.True(session.CurrentQuestion.IsUpForVote);
 		}
 
 		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
