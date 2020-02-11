@@ -27,11 +27,11 @@ namespace Domain
 			return session;
 		}
 
-		public void AnswerTheSessionQuestion(Guid questionId, Answer answer, Guid sessionId)
+		public void AnswerTheSessionQuestion(Guid teamMemberId, Guid questionId, Answer answer, Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
-			session.AnswerTheQuestion(questionId, answer);
+			session.AnswerTheQuestion(teamMemberId, questionId, answer);
 		}
 	}
 
@@ -44,9 +44,10 @@ namespace Domain
 
 		public Guid Id { get; } = Guid.NewGuid();
 		public IEnumerable<Question> Questions { get; set; }
+		public AnsweredQuestions AnsweredQuestions { get; set; }
 		private Dictionary<Guid, Answers> AnswersByQuestion { get; set; } = new Dictionary<Guid, Answers>();
 
-		internal void AnswerTheQuestion(Guid questionId, Answer answer)
+		internal void AnswerTheQuestion(Guid teamMemberId, Guid questionId, Answer answer)
 		{
 			if (!AnswersByQuestion.TryGetValue(questionId, out Answers answers))
 			{
@@ -55,13 +56,18 @@ namespace Domain
 				AnswersByQuestion.Add(questionId, answers);
 			}
 
-			answers.CountAnswer(answer);
+			answers.CountAnswer(teamMemberId, answer);
 		}
 
 		public Answers GetTheAnswersOfTheQuestion(Guid questionId)
 		{
 			return AnswersByQuestion[questionId];
 		}
+	}
+
+	public class AnsweredQuestions
+	{
+
 	}
 
 	public class Question
@@ -78,20 +84,28 @@ namespace Domain
 
 	public class Answers
 	{
-		private Dictionary<Answer, int> CountByAnswer { get; set; } = new Dictionary<Answer, int>();
+		private Dictionary<Answer, List<Guid>> CountByAnswer { get; set; } = new Dictionary<Answer, List<Guid>>();
 
 		public int GetAnswerCount(Answer answer)
 		{
-			CountByAnswer.TryGetValue(answer, out int count);
+			CountByAnswer.TryGetValue(answer, out List<Guid> members);
 
-			return count;
+			return members.Count;
 		}
 
-		public void CountAnswer(Answer answer)
+		internal void CountAnswer(Guid teamMemberId, Answer answer)
 		{
-			CountByAnswer.TryGetValue(answer, out int count);
+			if (!CountByAnswer.TryGetValue(answer, out List<Guid> members))
+			{
+				members = new List<Guid>();
 
-			CountByAnswer[answer] = ++count;
+				CountByAnswer.Add(answer, members);
+			}
+
+			if (!members.Contains(teamMemberId))
+			{
+				members.Add(teamMemberId);
+			}
 		}
 	}
 

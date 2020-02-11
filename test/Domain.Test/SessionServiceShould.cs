@@ -44,15 +44,13 @@ namespace Domain.Test
 			Session session = service.CreateSession();
 			Question firstQuestion = session.Questions.ElementAt(0);
 			Question secondQuestion = session.Questions.ElementAt(1);
+			Guid teamMemberId = Guid.NewGuid();
 
 
 
-			service.AnswerTheSessionQuestion(questionId: firstQuestion.Id, answer: Answer.Green, sessionId: session.Id);
-			service.AnswerTheSessionQuestion(questionId: firstQuestion.Id, answer: Answer.Green, sessionId: session.Id);
-			service.AnswerTheSessionQuestion(questionId: firstQuestion.Id, answer: Answer.Red, sessionId: session.Id);
-			service.AnswerTheSessionQuestion(questionId: firstQuestion.Id, answer: Answer.Yellow, sessionId: session.Id);
+			service.AnswerTheSessionQuestion(teamMemberId, firstQuestion.Id, Answer.Red, session.Id);
 
-			service.AnswerTheSessionQuestion(questionId: secondQuestion.Id, answer: Answer.Green, sessionId: session.Id);
+			service.AnswerTheSessionQuestion(teamMemberId, secondQuestion.Id, Answer.Green, session.Id);
 
 
 
@@ -60,14 +58,32 @@ namespace Domain.Test
 			Answers secondQuestionAnswers = session.GetTheAnswersOfTheQuestion(secondQuestion.Id);
 
 			Assert.That(firstQuestionAnswers, Is.Not.Null);
-			Assert.That(firstQuestionAnswers.GetAnswerCount(Answer.Green), Is.EqualTo(2));
 			Assert.That(firstQuestionAnswers.GetAnswerCount(Answer.Red), Is.EqualTo(1));
-			Assert.That(firstQuestionAnswers.GetAnswerCount(Answer.Yellow), Is.EqualTo(1));
 
 			Assert.That(secondQuestionAnswers, Is.Not.Null);
 			Assert.That(secondQuestionAnswers.GetAnswerCount(Answer.Green), Is.EqualTo(1));
-			Assert.That(secondQuestionAnswers.GetAnswerCount(Answer.Red), Is.EqualTo(0));
-			Assert.That(secondQuestionAnswers.GetAnswerCount(Answer.Yellow), Is.EqualTo(0));
+		}
+
+		[Test]
+		public void NotAnswerTheSessionQuestion()
+		{
+			SessionService service = CreateService();
+			Session session = service.CreateSession();
+			Question firstQuestion = session.Questions.First();
+			Guid firstTeamMemberId = Guid.NewGuid();
+			Guid secondTeamMemberId = Guid.NewGuid();
+
+
+
+			service.AnswerTheSessionQuestion(firstTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
+			service.AnswerTheSessionQuestion(secondTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
+			service.AnswerTheSessionQuestion(secondTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
+
+
+
+			Answers firstQuestionAnswers = session.GetTheAnswersOfTheQuestion(firstQuestion.Id);
+
+			Assert.That(firstQuestionAnswers.GetAnswerCount(Answer.Green), Is.EqualTo(2));
 		}
 
 		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
