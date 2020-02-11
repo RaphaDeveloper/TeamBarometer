@@ -40,6 +40,13 @@ namespace Domain
 
 			session.AddTeamMember(teamMemberId);
 		}
+
+		public void StartVotingOfTheCurrentQuestionOfTheSession(Guid sessionId)
+		{
+			Session session = SessionRepository.GetById(sessionId);
+
+			session.StartVotingOfTheCurrentQuestion();
+		}
 	}
 
 	public class Session
@@ -56,14 +63,14 @@ namespace Domain
 
 		internal void AnswerTheQuestion(Guid teamMemberId, Guid questionId, Answer answer)
 		{
-			if (TeamMemberIsParticipating(teamMemberId))
+			if (TeamMemberIsParticipating(teamMemberId) && QuestionIsTheCurrent(questionId) && CurrentQuestion.IsUpToVote)
 			{
-				QuestionOfTheSession question = QuestionsById[questionId];
+				CurrentQuestion.ContabilizeTheAnswer(teamMemberId, answer);
 
-				question.ContabilizeTheAnswer(teamMemberId, answer);
-
-				if (question.AllTeamMembersVoted(TeamMembers))
+				if (CurrentQuestion.AllTeamMembersVoted(TeamMembers))
 				{
+					CurrentQuestion.StopVoting();
+
 					ChangeTheCurrentQuestion();
 				}
 			}
@@ -84,9 +91,19 @@ namespace Domain
 			TeamMembers.Add(teamMemberId);
 		}
 
+		internal void StartVotingOfTheCurrentQuestion()
+		{
+			CurrentQuestion.StartVoting();
+		}
+
 		public bool TeamMemberIsParticipating(Guid teamMemberId)
 		{
 			return TeamMembers.Contains(teamMemberId);
+		}
+
+		private bool QuestionIsTheCurrent(Guid questionId)
+		{
+			return CurrentQuestion.Id == questionId;
 		}
 
 		private void ConstructQuestionsOfThisSession(IEnumerable<Question> questions)
@@ -147,6 +164,7 @@ namespace Domain
 		private List<Answer> Answers { get; set; } = new List<Answer>();
 		private List<Guid> IdOfTheTeamMembersWhoVoted { get; set; } = new List<Guid>();
 		public QuestionOfTheSession NextQuestion { get; internal set; }
+		public bool IsUpToVote { get; private set; }
 
 		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
 		{
@@ -176,6 +194,16 @@ namespace Domain
 		internal bool AllTeamMembersVoted(List<Guid> teamMembersId)
 		{
 			return Answers.Count == teamMembersId.Count;
+		}
+
+		internal void StartVoting()
+		{
+			IsUpToVote = true;
+		}
+
+		internal void StopVoting()
+		{
+			IsUpToVote = false;
 		}
 	}
 
