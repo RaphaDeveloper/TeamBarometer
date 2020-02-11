@@ -39,33 +39,17 @@ namespace Domain
 	{
 		public Session(IEnumerable<Question> questions)
 		{
-			Questions = questions;
-
-			InitializeAnswersForEachQuestion(questions);
+			QuestionsById = questions.Select(q => new QuestionOfTheSession(q)).ToDictionary(q => q.Id);
 		}
 
 		public Guid Id { get; } = Guid.NewGuid();
-		public IEnumerable<Question> Questions { get; set; }
-		private Dictionary<Guid, Answers> AnswersByQuestion { get; set; } = new Dictionary<Guid, Answers>();
+		public Dictionary<Guid, QuestionOfTheSession> QuestionsById { get; set; }
 
 		internal void AnswerTheQuestion(Guid teamMemberId, Guid questionId, Answer answer)
 		{
-			Answers answers = GetTheAnswersOfTheQuestion(questionId);
+			QuestionOfTheSession question = QuestionsById[questionId];
 
-			answers.ContabilizeTheAnswer(teamMemberId, answer);
-		}
-
-		public Answers GetTheAnswersOfTheQuestion(Guid questionId)
-		{
-			return AnswersByQuestion[questionId];
-		}
-
-		private void InitializeAnswersForEachQuestion(IEnumerable<Question> questions)
-		{
-			foreach (Question question in questions)
-			{
-				AnswersByQuestion.Add(question.Id, new Answers());
-			}
+			question.ContabilizeTheAnswer(teamMemberId, answer);
 		}
 	}
 
@@ -74,46 +58,45 @@ namespace Domain
 		public Guid Id { get; } = Guid.NewGuid();
 	}
 
+	public class QuestionOfTheSession
+	{
+		private readonly Question question;
+
+		public QuestionOfTheSession(Question question)
+		{
+			this.question = question;
+		}
+
+		public Guid Id => question.Id;
+		private List<Answer> Answers { get; set; } = new List<Answer>();
+		private List<Guid> IdOfTheTeamMembersWhoVoted { get; set; } = new List<Guid>();
+
+		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
+		{
+			if (!TeamMemberHasAlreadyVoted(teamMemberId))
+			{
+				Answers.Add(answer);
+
+				IdOfTheTeamMembersWhoVoted.Add(teamMemberId);
+			}
+		}
+
+		private bool TeamMemberHasAlreadyVoted(Guid teamMemberId)
+		{
+			return IdOfTheTeamMembersWhoVoted.Contains(teamMemberId);
+		}
+
+		public int GetCountOfTheAnswer(Answer answer)
+		{
+			return Answers.Count(a => a == answer);
+		}
+	}
+
 	public enum Answer
 	{
 		Green,
 		Red,
 		Yellow
-	}
-
-	public class Answers
-	{
-		public Answers()
-		{
-			InitializeTeamMembersWhoAlreadyVoted();
-		}
-
-		private Dictionary<Answer, List<Guid>> TeamMembersWhoAlreadyVoted { get; set; } = new Dictionary<Answer, List<Guid>>();
-
-		public int GetAnswerCount(Answer answer)
-		{
-			TeamMembersWhoAlreadyVoted.TryGetValue(answer, out List<Guid> members);
-
-			return members.Count;
-		}
-
-		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
-		{
-			List<Guid> teamMembersWhoAlreadyVoted = TeamMembersWhoAlreadyVoted[answer];
-
-			if (!teamMembersWhoAlreadyVoted.Contains(teamMemberId))
-			{
-				teamMembersWhoAlreadyVoted.Add(teamMemberId);
-			}
-		}
-
-		private void InitializeTeamMembersWhoAlreadyVoted()
-		{
-			foreach (Answer answer in Enum.GetValues(typeof(Answer)))
-			{
-				TeamMembersWhoAlreadyVoted.Add(answer, new List<Guid>());
-			}
-		}
 	}
 
 	public class InMemoryQuestionRepository
