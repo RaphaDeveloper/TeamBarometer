@@ -45,27 +45,27 @@ namespace Domain.Test
 			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.ElementAt(0);
 			QuestionOfTheSession secondQuestion = session.QuestionsById.Values.ElementAt(1);
 			Guid teamMemberId = Guid.NewGuid();
-
+			service.AddTeamMemberToTheSession(teamMemberId, session.Id);
 
 
 			service.AnswerTheSessionQuestion(teamMemberId, firstQuestion.Id, Answer.Red, session.Id);
 			service.AnswerTheSessionQuestion(teamMemberId, secondQuestion.Id, Answer.Green, session.Id);
 			
-
 			
 			Assert.That(firstQuestion.GetCountOfTheAnswer(Answer.Red), Is.EqualTo(1));
 			Assert.That(secondQuestion.GetCountOfTheAnswer(Answer.Green), Is.EqualTo(1));
 		}
 
 		[Test]
-		public void NotAnswerTheSessionQuestion()
+		public void NotAnswerTheSessionQuestionMoreThanOnceForTheSameTeamMember()
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
-			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.ElementAt(0);
+			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.First();
 			Guid firstTeamMemberId = Guid.NewGuid();
 			Guid secondTeamMemberId = Guid.NewGuid();
-
+			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
+			service.AddTeamMemberToTheSession(secondTeamMemberId, session.Id);
 
 
 			service.AnswerTheSessionQuestion(firstTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
@@ -74,6 +74,21 @@ namespace Domain.Test
 
 
 			Assert.That(firstQuestion.GetCountOfTheAnswer(Answer.Green), Is.EqualTo(2));
+		}
+
+		[Test]
+		public void NotAnswerTheSessionQuestionWhenTheTeamMemberIsNotInTheSession()
+		{
+			SessionService service = CreateService();
+			Session session = service.CreateSession();
+			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.First();
+			Guid teamMemberId = Guid.NewGuid();
+
+
+			service.AnswerTheSessionQuestion(teamMemberId, firstQuestion.Id, Answer.Red, session.Id);
+
+
+			Assert.False(firstQuestion.HasAnyAnswer());
 		}
 
 		[Test]

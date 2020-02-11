@@ -55,9 +55,12 @@ namespace Domain
 
 		internal void AnswerTheQuestion(Guid teamMemberId, Guid questionId, Answer answer)
 		{
-			QuestionOfTheSession question = QuestionsById[questionId];
+			if (TeamMemberIsParticipating(teamMemberId))
+			{
+				QuestionOfTheSession question = QuestionsById[questionId];
 
-			question.ContabilizeTheAnswer(teamMemberId, answer);
+				question.ContabilizeTheAnswer(teamMemberId, answer);
+			}
 		}
 
 		internal void AddTeamMember(Guid teamMemberId)
@@ -107,6 +110,11 @@ namespace Domain
 		private bool TeamMemberHasAlreadyVoted(Guid teamMemberId)
 		{
 			return IdOfTheTeamMembersWhoVoted.Contains(teamMemberId);
+		}
+
+		public bool HasAnyAnswer()
+		{
+			return Answers.Any();
 		}
 
 		public int GetCountOfTheAnswer(Answer answer)
