@@ -129,14 +129,12 @@ namespace Domain
 
 			foreach (QuestionOfTheSession question in QuestionsById.Values)
 			{
-				if (priorQuestion == null)
+				if (priorQuestion != null)
 				{
-					priorQuestion = question;
+					priorQuestion.NextQuestion = question;
 				}
-				else
-				{
-					priorQuestion = priorQuestion.NextQuestion = question;
-				}
+
+				priorQuestion = question;
 			}
 		}
 	}
