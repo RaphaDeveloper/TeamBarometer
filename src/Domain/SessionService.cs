@@ -46,11 +46,12 @@ namespace Domain
 	{
 		public Session(IEnumerable<Question> questions)
 		{
-			QuestionsById = questions.Select(q => new QuestionOfTheSession(q)).ToDictionary(q => q.Id);
+			ConstructQuestionsOfThisSession(questions);
 		}
 
 		public Guid Id { get; } = Guid.NewGuid();
-		public Dictionary<Guid, QuestionOfTheSession> QuestionsById { get; set; }
+		public Dictionary<Guid, QuestionOfTheSession> QuestionsById { get; set; } = new Dictionary<Guid, QuestionOfTheSession>();
+		public QuestionOfTheSession CurrentQuestion { get; private set; }
 		private List<Guid> TeamMembers { get; set; } = new List<Guid>();
 
 		internal void AnswerTheQuestion(Guid teamMemberId, Guid questionId, Answer answer)
@@ -60,7 +61,17 @@ namespace Domain
 				QuestionOfTheSession question = QuestionsById[questionId];
 
 				question.ContabilizeTheAnswer(teamMemberId, answer);
+
+				if (question.AllTeamMembersVoted(TeamMembers))
+				{
+					ChangeTheCurrentQuestion();
+				}
 			}
+		}
+
+		private void ChangeTheCurrentQuestion()
+		{
+			CurrentQuestion = CurrentQuestion.NextQuestion;
 		}
 
 		internal void AddTeamMember(Guid teamMemberId)
@@ -76,6 +87,45 @@ namespace Domain
 		public bool TeamMemberIsParticipating(Guid teamMemberId)
 		{
 			return TeamMembers.Contains(teamMemberId);
+		}
+
+		private void ConstructQuestionsOfThisSession(IEnumerable<Question> questions)
+		{
+			IndexTheQuestionsById(questions);
+
+			DefineTheCurrentQuestion();
+
+			LinkTheQuestions();
+		}
+
+		private void IndexTheQuestionsById(IEnumerable<Question> questions)
+		{
+			foreach (Question question in questions)
+			{
+				QuestionsById.Add(question.Id, new QuestionOfTheSession(question));
+			}
+		}
+
+		private void DefineTheCurrentQuestion()
+		{
+			CurrentQuestion = QuestionsById.Values.First();
+		}
+
+		private void LinkTheQuestions()
+		{
+			QuestionOfTheSession priorQuestion = null;
+
+			foreach (QuestionOfTheSession question in QuestionsById.Values)
+			{
+				if (priorQuestion == null)
+				{
+					priorQuestion = question;
+				}
+				else
+				{
+					priorQuestion = priorQuestion.NextQuestion = question;
+				}
+			}
 		}
 	}
 
@@ -96,6 +146,7 @@ namespace Domain
 		public Guid Id => question.Id;
 		private List<Answer> Answers { get; set; } = new List<Answer>();
 		private List<Guid> IdOfTheTeamMembersWhoVoted { get; set; } = new List<Guid>();
+		public QuestionOfTheSession NextQuestion { get; internal set; }
 
 		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
 		{
@@ -120,6 +171,11 @@ namespace Domain
 		public int GetCountOfTheAnswer(Answer answer)
 		{
 			return Answers.Count(a => a == answer);
+		}
+
+		internal bool AllTeamMembersVoted(List<Guid> teamMembersId)
+		{
+			return Answers.Count == teamMembersId.Count;
 		}
 	}
 

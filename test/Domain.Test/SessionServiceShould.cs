@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Domain.Test
@@ -38,6 +39,18 @@ namespace Domain.Test
 		}
 
 		[Test]
+		public void CreateTheSessionWithTheFirstQuestionBeingTheCurrent()
+		{
+			SessionService service = CreateService();
+
+
+			Session session = service.CreateSession();
+
+
+			Assert.That(session.QuestionsById.Values.First(), Is.EqualTo(session.CurrentQuestion));
+		}
+
+		[Test]
 		public void AnswerTheSessionQuestion()
 		{
 			SessionService service = CreateService();
@@ -54,6 +67,26 @@ namespace Domain.Test
 			
 			Assert.That(firstQuestion.GetCountOfTheAnswer(Answer.Red), Is.EqualTo(1));
 			Assert.That(secondQuestion.GetCountOfTheAnswer(Answer.Green), Is.EqualTo(1));
+		}
+		
+		[Test]
+		public void ChangeTheCurrentQuestionWhenAllTeamMemberAnswerTheQuestion()
+		{
+			SessionService service = CreateService();
+			Session session = service.CreateSession();
+			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.ElementAt(0);
+			QuestionOfTheSession secondQuestion = session.QuestionsById.Values.ElementAt(1);
+			Guid firstTeamMemberId = Guid.NewGuid();
+			Guid secondTeamMemberId = Guid.NewGuid();
+			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
+			service.AddTeamMemberToTheSession(secondTeamMemberId, session.Id);
+
+
+			service.AnswerTheSessionQuestion(firstTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
+			service.AnswerTheSessionQuestion(secondTeamMemberId, firstQuestion.Id, Answer.Green, session.Id);
+
+
+			Assert.That(secondQuestion, Is.EqualTo(session.CurrentQuestion));
 		}
 
 		[Test]
@@ -159,7 +192,13 @@ namespace Domain.Test
 
 		private Session CreateSession()
 		{
-			return new Session(Enumerable.Empty<Question>());
+			List<Question> questions = new List<Question>
+			{
+				new Question(),
+				new Question()
+			};
+
+			return new Session(questions);
 		}
 	}
 
