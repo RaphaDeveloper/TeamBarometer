@@ -76,6 +76,31 @@ namespace Domain.Test
 			Assert.That(firstQuestion.GetCountOfTheAnswer(Answer.Green), Is.EqualTo(2));
 		}
 
+		[Test]
+		public void AddTeamMemberToTheSession()
+		{
+			SessionService sessionService = CreateService();
+			Session session = sessionService.CreateSession();
+			Guid teamMemberId = Guid.NewGuid();
+
+			sessionService.AddTeamMemberToTheSession(teamMemberId, session.Id);
+
+			Assert.True(session.TeamMemberIsParticipating(teamMemberId));
+		}
+
+		[Test]
+		public void DoesNotAddTheSameTeamMemberToTheSession()
+		{
+			SessionService sessionService = CreateService();
+			Session session = sessionService.CreateSession();
+			Guid teamMemberId = Guid.NewGuid();
+
+			sessionService.AddTeamMemberToTheSession(teamMemberId, session.Id);
+
+			Assert.That(() => sessionService.AddTeamMemberToTheSession(teamMemberId, session.Id), 
+				Throws.Exception.With.Message.EqualTo("Team member is already participating of this session."));
+		}
+
 		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
 		{
 			sessionRepository ??= new InMemorySessionRepository();

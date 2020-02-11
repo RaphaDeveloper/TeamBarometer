@@ -33,6 +33,13 @@ namespace Domain
 
 			session.AnswerTheQuestion(teamMemberId, questionId, answer);
 		}
+
+		public void AddTeamMemberToTheSession(Guid teamMemberId, Guid sessionId)
+		{
+			Session session = SessionRepository.GetById(sessionId);
+
+			session.AddTeamMember(teamMemberId);
+		}
 	}
 
 	public class Session
@@ -44,12 +51,28 @@ namespace Domain
 
 		public Guid Id { get; } = Guid.NewGuid();
 		public Dictionary<Guid, QuestionOfTheSession> QuestionsById { get; set; }
+		private List<Guid> TeamMembers { get; set; } = new List<Guid>();
 
 		internal void AnswerTheQuestion(Guid teamMemberId, Guid questionId, Answer answer)
 		{
 			QuestionOfTheSession question = QuestionsById[questionId];
 
 			question.ContabilizeTheAnswer(teamMemberId, answer);
+		}
+
+		internal void AddTeamMember(Guid teamMemberId)
+		{
+			if (TeamMemberIsParticipating(teamMemberId))
+			{
+				throw new Exception("Team member is already participating of this session.");
+			}
+
+			TeamMembers.Add(teamMemberId);
+		}
+
+		public bool TeamMemberIsParticipating(Guid teamMemberId)
+		{
+			return TeamMembers.Contains(teamMemberId);
 		}
 	}
 
