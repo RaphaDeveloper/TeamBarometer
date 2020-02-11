@@ -44,7 +44,6 @@ namespace Domain
 
 		public Guid Id { get; } = Guid.NewGuid();
 		public IEnumerable<Question> Questions { get; set; }
-		public AnsweredQuestions AnsweredQuestions { get; set; }
 		private Dictionary<Guid, Answers> AnswersByQuestion { get; set; } = new Dictionary<Guid, Answers>();
 
 		internal void AnswerTheQuestion(Guid teamMemberId, Guid questionId, Answer answer)
@@ -65,11 +64,6 @@ namespace Domain
 		}
 	}
 
-	public class AnsweredQuestions
-	{
-
-	}
-
 	public class Question
 	{
 		public Guid Id { get; } = Guid.NewGuid();
@@ -84,22 +78,22 @@ namespace Domain
 
 	public class Answers
 	{
-		private Dictionary<Answer, List<Guid>> CountByAnswer { get; set; } = new Dictionary<Answer, List<Guid>>();
+		private Dictionary<Answer, List<Guid>> TeamMembersWhoAlreadyVoted { get; set; } = new Dictionary<Answer, List<Guid>>();
 
 		public int GetAnswerCount(Answer answer)
 		{
-			CountByAnswer.TryGetValue(answer, out List<Guid> members);
+			TeamMembersWhoAlreadyVoted.TryGetValue(answer, out List<Guid> members);
 
 			return members.Count;
 		}
 
 		internal void CountAnswer(Guid teamMemberId, Answer answer)
 		{
-			if (!CountByAnswer.TryGetValue(answer, out List<Guid> members))
+			if (!TeamMembersWhoAlreadyVoted.TryGetValue(answer, out List<Guid> members))
 			{
 				members = new List<Guid>();
 
-				CountByAnswer.Add(answer, members);
+				TeamMembersWhoAlreadyVoted.Add(answer, members);
 			}
 
 			if (!members.Contains(teamMemberId))
