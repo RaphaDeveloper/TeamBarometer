@@ -40,6 +40,8 @@ namespace Domain
 		public Session(IEnumerable<Question> questions)
 		{
 			Questions = questions;
+
+			InitializeAnswersForEachQuestion(questions);
 		}
 
 		public Guid Id { get; } = Guid.NewGuid();
@@ -48,19 +50,22 @@ namespace Domain
 
 		internal void AnswerTheQuestion(Guid teamMemberId, Guid questionId, Answer answer)
 		{
-			if (!AnswersByQuestion.TryGetValue(questionId, out Answers answers))
-			{
-				answers = new Answers();
+			Answers answers = GetTheAnswersOfTheQuestion(questionId);
 
-				AnswersByQuestion.Add(questionId, answers);
-			}
-
-			answers.CountAnswer(teamMemberId, answer);
+			answers.ContabilizeTheAnswer(teamMemberId, answer);
 		}
 
 		public Answers GetTheAnswersOfTheQuestion(Guid questionId)
 		{
 			return AnswersByQuestion[questionId];
+		}
+
+		private void InitializeAnswersForEachQuestion(IEnumerable<Question> questions)
+		{
+			foreach (Question question in questions)
+			{
+				AnswersByQuestion.Add(question.Id, new Answers());
+			}
 		}
 	}
 
@@ -87,7 +92,7 @@ namespace Domain
 			return members.Count;
 		}
 
-		internal void CountAnswer(Guid teamMemberId, Answer answer)
+		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
 		{
 			if (!TeamMembersWhoAlreadyVoted.TryGetValue(answer, out List<Guid> members))
 			{
@@ -107,9 +112,11 @@ namespace Domain
 	{
 		public IEnumerable<Question> GetAll()
 		{
-			yield return CreateQuestion();
-
-			yield return CreateQuestion();
+			return new List<Question>
+			{
+				CreateQuestion(),
+				CreateQuestion()
+			}.AsEnumerable();
 		}
 
 		private Question CreateQuestion()

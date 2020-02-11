@@ -49,7 +49,6 @@ namespace Domain.Test
 
 
 			service.AnswerTheSessionQuestion(teamMemberId, firstQuestion.Id, Answer.Red, session.Id);
-
 			service.AnswerTheSessionQuestion(teamMemberId, secondQuestion.Id, Answer.Green, session.Id);
 
 
@@ -129,7 +128,7 @@ namespace Domain.Test
 
 		private Session CreateSession()
 		{
-			return new Session(null);
+			return new Session(Enumerable.Empty<Question>());
 		}
 	}
 }
