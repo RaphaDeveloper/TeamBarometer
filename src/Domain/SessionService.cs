@@ -83,6 +83,11 @@ namespace Domain
 
 	public class Answers
 	{
+		public Answers()
+		{
+			InitializeTeamMembersWhoAlreadyVoted();
+		}
+
 		private Dictionary<Answer, List<Guid>> TeamMembersWhoAlreadyVoted { get; set; } = new Dictionary<Answer, List<Guid>>();
 
 		public int GetAnswerCount(Answer answer)
@@ -94,16 +99,19 @@ namespace Domain
 
 		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
 		{
-			if (!TeamMembersWhoAlreadyVoted.TryGetValue(answer, out List<Guid> members))
-			{
-				members = new List<Guid>();
+			List<Guid> teamMembersWhoAlreadyVoted = TeamMembersWhoAlreadyVoted[answer];
 
-				TeamMembersWhoAlreadyVoted.Add(answer, members);
+			if (!teamMembersWhoAlreadyVoted.Contains(teamMemberId))
+			{
+				teamMembersWhoAlreadyVoted.Add(teamMemberId);
 			}
+		}
 
-			if (!members.Contains(teamMemberId))
+		private void InitializeTeamMembersWhoAlreadyVoted()
+		{
+			foreach (Answer answer in Enum.GetValues(typeof(Answer)))
 			{
-				members.Add(teamMemberId);
+				TeamMembersWhoAlreadyVoted.Add(answer, new List<Guid>());
 			}
 		}
 	}
