@@ -7,32 +7,256 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="session.css">
 </head>
 
 <body>
-    <main class="grid">
-        <header>
-            <h1>Team Barometer</h1>
-        </header>
-
-        <div class="questions">
-            <ul>
-                <li>
-                    <span>Confiança</span>
-                </li>
-            </ul>
+    <main class="container">
+        <div class="row">
+            <header class="col-sm">
+                <h1>Team Barometer</h1>
+            </header>
         </div>
-
-        <div class="answers">
-                <div class="red">                    
+        <div class="row">
+            <div class="questions col-sm-6">
+                <ul>
+                    <li class="current-question">
+                        <div class="question d-flex">
+                            <div class="mr-auto">Confiança</div>
+                            <div class="cont-red">4</div>
+                            <div class="cont-yellow">2</div>
+                            <div class="cont-green">4</div>
+                            <div class="play">
+                                <img src="./play-button.png" alt="">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Colaboração no Time</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Feedback</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Reuniões Participativas</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Compromisso</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Melhora Contínua</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Responsabilidade Mútua</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Autonomia</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Orgulho</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Relações</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Protagonismo</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Compartilhar</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Nos Capacitar</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Lealdade</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Motivação</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Integridade</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Ambiente de Trabalho</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Colaboração entre Times</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Inteligência Emocional</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Objetivos</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Aprendizagem</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Diante das Falhas</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Compromisso com a Qualidade</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Propósito</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Disciplinado</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Resiliência</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="question d-flex">
+                            <div class="mr-auto">Continuidade</div>
+                            <div class="cont-red"></div>
+                            <div class="cont-yellow"></div>
+                            <div class="cont-green"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="answers col-sm">
+                <div class="red">
                     Nós raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.
                 </div>
                 <div class="yellow"></div>
                 <div class="green">
-                    Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivo.
+                    Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões
+                    e
+                    conflitos construtivo.
                 </div>
+            </div>
         </div>
+    </main>
 </body>
 
 </html>
