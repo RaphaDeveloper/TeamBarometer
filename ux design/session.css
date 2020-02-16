@@ -118,6 +118,6 @@ header h1 {
 	background-color:#99E1DE;
 }
 
-ul li:not(.current-question) :hover {
+ul li:not(.current-question):hover {
 	background-color: white;
 }
