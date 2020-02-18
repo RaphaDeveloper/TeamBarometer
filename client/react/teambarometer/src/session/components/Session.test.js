@@ -98,7 +98,7 @@ describe('when the session is loaded', () => {
       const session = shallow(<Session />);
       session.instance().userIsTheFacilitator = () => false;
 
-      expect(session.contains(<div className="play"></div>)).toBe(false);
+      expect(session.find('.play').length).toBe(0);
     });
   });
 
