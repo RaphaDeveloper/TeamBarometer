@@ -4,19 +4,15 @@ import './SessionQuestions.css';
 import playImage from '../assets/play-button.png';
 
 export default class SessionQuestions extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     renderQuestions() {
         return (
             this.props.questions.map(question =>
                 <li key={question.description} className={question.isCurrent ? 'current-question' : ''}>
                     <div className="question d-flex">
                         <div className="mr-auto">{question.description}</div>
-                        <div className="cont-red"></div>
-                        <div className="cont-yellow"></div>
-                        <div className="cont-green"></div>
+                        <div className="cont-red">{question.redCount}</div>
+                        <div className="cont-yellow">{question.yellowCount}</div>
+                        <div className="cont-green">{question.greenCount}</div>
                         {question.isCurrent && this.props.userIsTheFacilitator() &&
                             <div className="play">
                                 <img src={playImage} alt=""></img>
