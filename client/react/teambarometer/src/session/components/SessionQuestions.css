@@ -17,7 +17,7 @@
 	 padding: 10px;
  }
 
- .cont-red {	
+ .count-red {	
 	color: white;
 	text-align: center;
 	border: 3px solid #707070;
@@ -27,7 +27,7 @@
 	margin-right: 5px;
 }
 
-.cont-yellow {	
+.count-yellow {	
 	color: white;
 	text-align: center;
 	border: 3px solid #707070;
@@ -37,7 +37,7 @@
 	margin-right: 5px;
 }
 
-.cont-green {	
+.count-green {	
 	color: white;
 	text-align: center;
 	border: 3px solid #707070;
