@@ -59,7 +59,7 @@ describe('when the session is loaded', () => {
     expect(session.find('li .question .cont-green').length).toBe(3);
   });
 
-  it('the counters should has the count for the answered questions', () => {
+  it('the counters should has the amount of each answer for the answered questions', () => {
     const session = mount(<Session />);
 
     expect(session.find('li:first-child .question .cont-red').text()).toBe('4');
