@@ -54,29 +54,29 @@ describe('when the session is loaded', () => {
   it('each question should has red, yellow and green counters', () => {
     const session = mount(<Session />);
 
-    expect(session.find('li .question .cont-red').length).toBe(3);
-    expect(session.find('li .question .cont-yellow').length).toBe(3);
-    expect(session.find('li .question .cont-green').length).toBe(3);
+    expect(session.find('li .question .count-red').length).toBe(3);
+    expect(session.find('li .question .count-yellow').length).toBe(3);
+    expect(session.find('li .question .count-green').length).toBe(3);
   });
 
   it('the counters should has the amount of each answer for the answered questions', () => {
     const session = mount(<Session />);
 
-    expect(session.find('li:first-child .question .cont-red').text()).toBe('4');
-    expect(session.find('li:first-child .question .cont-yellow').text()).toBe('2');
-    expect(session.find('li:first-child .question .cont-green').text()).toBe('4');
+    expect(session.find('li:first-child .question .count-red').text()).toBe('4');
+    expect(session.find('li:first-child .question .count-yellow').text()).toBe('2');
+    expect(session.find('li:first-child .question .count-green').text()).toBe('4');
   });
 
   it('the counters should be empty for the not answered questions', () => {
     const session = mount(<Session />);
 
-    expect(session.find('li .question .cont-red').at(1).text()).toBe('');
-    expect(session.find('li .question .cont-yellow').at(1).text()).toBe('');
-    expect(session.find('li .question .cont-green').at(1).text()).toBe('');
+    expect(session.find('li .question .count-red').at(1).text()).toBe('');
+    expect(session.find('li .question .count-yellow').at(1).text()).toBe('');
+    expect(session.find('li .question .count-green').at(1).text()).toBe('');
 
-    expect(session.find('li .question .cont-red').at(2).text()).toBe('');
-    expect(session.find('li .question .cont-yellow').at(2).text()).toBe('');
-    expect(session.find('li .question .cont-green').at(2).text()).toBe('');
+    expect(session.find('li .question .count-red').at(2).text()).toBe('');
+    expect(session.find('li .question .count-yellow').at(2).text()).toBe('');
+    expect(session.find('li .question .count-green').at(2).text()).toBe('');
   });
 
   describe('and the user is the facilitator', () => {

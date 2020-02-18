@@ -10,9 +10,9 @@ export default class SessionQuestions extends Component {
                 <li key={question.description} className={question.isCurrent ? 'current-question' : ''}>
                     <div className="question d-flex">
                         <div className="mr-auto">{question.description}</div>
-                        <div className="cont-red">{question.amountOfAnswerRed}</div>
-                        <div className="cont-yellow">{question.amountOfAnswerYellow}</div>
-                        <div className="cont-green">{question.amountOfAnswerGreen}</div>
+                        <div className="count-red">{question.amountOfAnswerRed}</div>
+                        <div className="count-yellow">{question.amountOfAnswerYellow}</div>
+                        <div className="count-green">{question.amountOfAnswerGreen}</div>
                         {question.isCurrent && this.props.userIsTheFacilitator() &&
                             <div className="play">
                                 <img src={playImage} alt=""></img>
