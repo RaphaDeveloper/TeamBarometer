@@ -5,10 +5,18 @@ import Session from './Session';
 import InMemorySessionRepository from '../repositories/InMemorySessionRepository';
 
 describe('when the session is loaded', () => {
-  it('the questions should be loaded', () => {
+  it('the questions should also be loaded', () => {
     const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
 
     expect(session.find('li div.question.d-flex').length).toBe(3);
+  });
+
+  it('should exist a current question', () => {
+    const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
+
+    const currentQuestion = session.find('li.current-question');
+
+    expect(currentQuestion.find('.question').text()).toBe('Confiança');
   });
 
   it('each question should has a description', () => {
@@ -19,20 +27,12 @@ describe('when the session is loaded', () => {
     expect(getByText(/Autonomia/i)).toBeInTheDocument();
   });
 
-  it('the counters should be loaded for each question', () => {
+  it('each question should has red, yellow and green counters', () => {
     const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
 
     expect(session.find('li div.question div.cont-red').length).toBe(3);
     expect(session.find('li div.question div.cont-yellow').length).toBe(3);
     expect(session.find('li div.question div.cont-green').length).toBe(3);
-  });
-
-  it('the current question should be highlighted', () => {
-    const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
-
-    const currentQuestion = session.find('li.current-question');
-
-    expect(currentQuestion.find('.question').text()).toBe('Confiança');
   });
 
   describe('and the user is the facilitator', () => {
@@ -45,12 +45,12 @@ describe('when the session is loaded', () => {
     it('the play button should not be rendered for the not current question', () => {
       const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
 
-      expect(session.find('li:not(.current-question) .current-question .play img').length).toBe(0);
+      expect(session.find('li:not(.current-question) .question .play img').length).toBe(0);
     });
   });
 
   describe('and the user is not the facilitator', () => {
-    it('the play button should not be rendered for the not current question', () => {
+    it('the play button should not be rendered', () => {
       const session = shallow(<Session sessionRepository={new InMemorySessionRepository()} />);
       session.instance().userIsTheFacilitator = () => false;
 
