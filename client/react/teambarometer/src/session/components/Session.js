@@ -4,11 +4,12 @@ import React, { Component } from 'react';
 import './Session.css';
 import SessionQuestions from './SessionQuestions';
 import SessionAnswers from './SessionAnswers';
+import SessionRepository from '../repositories/SessionRepository';
 
 export default class Session extends Component {
     constructor(props) {
         super(props);
-        this.sessionRepository = props.sessionRepository;
+        this.sessionRepository = new SessionRepository();
         this.state = {
             session: { questions: [] }
         };

@@ -2,17 +2,41 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { shallow, mount } from 'enzyme';
 import Session from './Session';
-import InMemorySessionRepository from '../repositories/InMemorySessionRepository';
+import SessionRepository from '../repositories/SessionRepository';
+import Question from '../models/Question';
+import SessionModel from '../models/SessionModel';
+
+jest.mock('../repositories/SessionRepository');
+
+function configureSessionRepository() {
+  SessionRepository.mockImplementation(() => {
+    return {
+      getSession: () => {
+        const questions = [
+          new Question('Confiança', true),
+          new Question('Feedback'),
+          new Question('Autonomia'),
+        ];
+
+        return new SessionModel(questions);
+      }
+    };
+  });
+}
 
 describe('when the session is loaded', () => {
+  beforeAll(() => {
+    configureSessionRepository();
+  });
+
   it('the questions should also be loaded', () => {
-    const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
+    const session = mount(<Session />);
 
     expect(session.find('li div.question.d-flex').length).toBe(3);
   });
 
   it('should exist a current question', () => {
-    const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
+    const session = mount(<Session />);
 
     const currentQuestion = session.find('li.current-question');
 
@@ -20,7 +44,7 @@ describe('when the session is loaded', () => {
   });
 
   it('each question should has a description', () => {
-    const { getByText } = render(<Session sessionRepository={new InMemorySessionRepository()} />);
+    const { getByText } = render(<Session />);
 
     expect(getByText(/Confiança/i)).toBeInTheDocument();
     expect(getByText(/Feedback/i)).toBeInTheDocument();
@@ -28,7 +52,7 @@ describe('when the session is loaded', () => {
   });
 
   it('each question should has red, yellow and green counters', () => {
-    const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
+    const session = mount(<Session />);
 
     expect(session.find('li div.question div.cont-red').length).toBe(3);
     expect(session.find('li div.question div.cont-yellow').length).toBe(3);
@@ -37,13 +61,13 @@ describe('when the session is loaded', () => {
 
   describe('and the user is the facilitator', () => {
     it('the play button should be rendered for the current question', () => {
-      const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
+      const session = mount(<Session />);
 
       expect(session.find('.current-question .play img').length).toBe(1);
     });
 
     it('the play button should not be rendered for the not current question', () => {
-      const session = mount(<Session sessionRepository={new InMemorySessionRepository()} />);
+      const session = mount(<Session />);
 
       expect(session.find('li:not(.current-question) .question .play img').length).toBe(0);
     });
@@ -51,7 +75,7 @@ describe('when the session is loaded', () => {
 
   describe('and the user is not the facilitator', () => {
     it('the play button should not be rendered', () => {
-      const session = shallow(<Session sessionRepository={new InMemorySessionRepository()} />);
+      const session = shallow(<Session />);
       session.instance().userIsTheFacilitator = () => false;
 
       expect(session.contains(<div className="play"></div>)).toBe(false);
