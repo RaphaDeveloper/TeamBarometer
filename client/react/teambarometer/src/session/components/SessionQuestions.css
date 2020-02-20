@@ -15,6 +15,7 @@
 
  .question {
 	 padding: 10px;
+	 cursor: pointer;
  }
 
  .count-red {	
@@ -44,6 +45,9 @@
 	width: 50px;
 	height: 40px;
 	background-color: #38A134;
+}
+
+.play {
 	margin-right: 15px;
 }
 
@@ -63,6 +67,10 @@
 	background-color:#99E1DE;
 }
 
-ul li:not(.current-question):hover {
+ul li:not(.current-question):not(.selected):hover {
 	background-color: white;
+}
+
+.selected {
+	background-color: pink;
 }

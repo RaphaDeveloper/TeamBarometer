@@ -64,9 +64,19 @@ describe('when the session is loaded', () => {
   it('each question should has a description', () => {
     const { getByText } = render(<Session />);
 
-    expect(getByText(/Confiança/i)).toBeInTheDocument();
-    // expect(getByText(/Feedback/i)).toBeInTheDocument();
-    expect(getByText(/Autonomia/i)).toBeInTheDocument();
+    expect(getByText('Confiança')).toBeInTheDocument();
+    expect(getByText('Feedback')).toBeInTheDocument();
+    expect(getByText('Autonomia')).toBeInTheDocument();
+  });
+
+  it('should be possible to select a question', () => {
+    const session = mount(<Session />);
+
+    const firstQuestion = session.find('.questions li').at(0);
+    
+    firstQuestion.prop('onClick')();
+
+    expect(firstQuestion.hasClass('selected')).toBe(true);
   });
 
   it('each question should has red, yellow and green counters', () => {
