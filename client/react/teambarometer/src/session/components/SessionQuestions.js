@@ -14,9 +14,9 @@ export default class SessionQuestions extends Component {
     renderQuestions() {
         return (
             this.props.questions.map(question =>
-                <li onClick={() => { this.setState({ selectedQuestion: question }); }} key={question.description} className={this.getClassNameOfTheQuestion(question)}>
+                <li onClick={() => this.selectQuestion(question) } key={question.description} className={this.getClassNameOfTheQuestion(question)}>
                     <div className="question d-flex">
-                        <div className="mr-auto">{question.description}</div>
+                        <div className="question-description mr-auto">{question.description}</div>
                         {question.isCurrent &&
                             <div className="play">
                                 <img src={playImage} alt=""></img>
@@ -29,6 +29,10 @@ export default class SessionQuestions extends Component {
                 </li>
             )
         );
+    }
+    
+    selectQuestion(question) {
+        this.setState({ selectedQuestion: question });
     }
 
     getClassNameOfTheQuestion(question) {
