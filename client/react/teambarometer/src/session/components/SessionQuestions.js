@@ -13,7 +13,7 @@ export default class SessionQuestions extends Component {
                         <div className="count-red">{question.amountOfAnswerRed}</div>
                         <div className="count-yellow">{question.amountOfAnswerYellow}</div>
                         <div className="count-green">{question.amountOfAnswerGreen}</div>
-                        {question.isCurrent && this.props.userIsTheFacilitator() &&
+                        {question.isCurrent &&
                             <div className="play">
                                 <img src={playImage} alt=""></img>
                             </div>
