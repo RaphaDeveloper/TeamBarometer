@@ -69,9 +69,15 @@ describe('when the session is loaded', () => {
     
     firstQuestion = firstQuestion.simulate('click') && session.find('.questions li').at(0);
 
-    //firstQuestion = session.find('.questions li').at(0);
-
     expect(firstQuestion.hasClass('selected')).toBe(true);
+  });
+
+  it('should not change the style of the current question when select it', () => {
+    let currentQuestion = session.find('.questions .current-question');
+    
+    currentQuestion = currentQuestion.simulate('click') && session.find('.questions .current-question');
+
+    expect(currentQuestion.hasClass('selected')).toBe(false);
   });
 
   it('each question should has red, yellow and green counters', () => {

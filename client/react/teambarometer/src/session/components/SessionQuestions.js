@@ -11,6 +11,16 @@ export default class SessionQuestions extends Component {
         }
     }
 
+    render() {
+        return (
+            <div className="questions col-sm-6">
+                <ul>
+                    {this.renderQuestions()}
+                </ul>
+            </div>
+        );
+    }
+
     renderQuestions() {
         return (
             this.props.questions.map(question =>
@@ -30,28 +40,26 @@ export default class SessionQuestions extends Component {
             )
         );
     }
-    
+
     selectQuestion(question) {
         this.setState({ selectedQuestion: question });
     }
 
     getClassNameOfTheQuestion(question) {
-        let className = question.isCurrent ? 'current-question' : '';
+        let className = '';
 
-        if (this.state.selectedQuestion && this.state.selectedQuestion.description === question.description) {
-            className += ' selected';
+        if (this.questionIsSelected(question)) {
+            className = 'selected';
+        }
+
+        if (question.isCurrent) {
+            className = 'current-question';
         }
 
         return className;
     }
 
-    render() {
-        return (
-            <div className="questions col-sm-6">
-                <ul>
-                    {this.renderQuestions()}
-                </ul>
-            </div>
-        );
+    questionIsSelected(question) {
+        return this.state.selectedQuestion && this.state.selectedQuestion.description === question.description
     }
 }
