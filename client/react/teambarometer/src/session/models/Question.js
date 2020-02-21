@@ -8,4 +8,8 @@ export default class Question {
         this.redAnswer = redAnswer;
         this.greenAnswer = greenAnswer;
     }
+
+    isEqualTo(question) {
+        return this.description === question.description;
+    }
 }

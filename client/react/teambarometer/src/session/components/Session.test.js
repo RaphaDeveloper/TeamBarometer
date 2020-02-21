@@ -72,6 +72,16 @@ describe('when the session is loaded', () => {
     expect(firstQuestion.hasClass('selected')).toBe(true);
   });
 
+  it('should update the answers of the selected question', () => {
+    let firstQuestion = session.find('.questions li').at(0);
+    
+    firstQuestion.simulate('click');
+
+    expect(session.find('.answers .red').text()).toBe('Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.');
+    expect(session.find('.answers .yellow').text()).toBe('');
+    expect(session.find('.answers .green').text()).toBe('Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.');
+  });
+
   it('should not change the style of the current question when select it', () => {
     let currentQuestion = session.find('.questions .current-question');
     

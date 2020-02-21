@@ -6,9 +6,6 @@ import playImage from '../assets/play-button.png';
 export default class SessionQuestions extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selectedQuestion: null
-        }
     }
 
     render() {
@@ -42,13 +39,13 @@ export default class SessionQuestions extends Component {
     }
 
     selectQuestion(question) {
-        this.setState({ selectedQuestion: question });
+        this.props.onSelectQuestion(question);
     }
 
     getClassNameOfTheQuestion(question) {
         let className = '';
 
-        if (this.questionIsSelected(question)) {
+        if (this.props.selectedQuestion.isEqualTo(question)) {
             className = 'selected';
         }
 
@@ -57,9 +54,5 @@ export default class SessionQuestions extends Component {
         }
 
         return className;
-    }
-
-    questionIsSelected(question) {
-        return this.state.selectedQuestion && this.state.selectedQuestion.description === question.description
     }
 }
