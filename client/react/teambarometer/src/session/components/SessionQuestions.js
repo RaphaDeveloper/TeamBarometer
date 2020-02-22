@@ -25,9 +25,7 @@ export default class SessionQuestions extends Component {
                     <div className="question d-flex">
                         <div className="question-description mr-auto">{question.description}</div>
                         {question.isCurrent &&
-                            <div className="play">
-                                <img src={playImage} alt=""></img>
-                            </div>
+                            <input className="play" type="image" src={playImage} alt="Play"/>
                         }
                         <div className="count-red">{question.amountOfAnswerRed}</div>
                         <div className="count-yellow">{question.amountOfAnswerYellow}</div>

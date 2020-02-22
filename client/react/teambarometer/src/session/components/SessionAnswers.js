@@ -6,13 +6,13 @@ export default class SessionAnswers extends Component {
     render() {
         return (
             <div className="answers col-sm">
-                <div className="red">
+                <button className="btn-block red">
                     {this.props.question && this.props.question.redAnswer}
-                </div>
-                <div className="yellow"></div>
-                <div className="green">
+                </button>
+                <button className="btn-block yellow"></button>
+                <button className="btn-block green">
                     {this.props.question && this.props.question.greenAnswer}
-                </div>
+                </button>
             </div>
         );
     }

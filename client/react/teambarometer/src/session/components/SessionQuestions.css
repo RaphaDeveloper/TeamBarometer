@@ -48,19 +48,12 @@
 }
 
 .play {
-	margin-right: 15px;
-}
-
-.play :hover {
-	cursor: pointer;	
-}
-
-.play img {
 	width: 50px;
 	height: 40px;
 	margin-left: auto;
-  	margin-right: auto;
-  	display: block;
+  	margin-right: 15px;
+	display: block;
+	outline: none;
 }
 
 .current-question {

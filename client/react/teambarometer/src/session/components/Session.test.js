@@ -114,11 +114,11 @@ describe('when the session is loaded', () => {
 
   describe('and the user is the facilitator', () => {
     it('the play button should be rendered for the current question', () => {
-      expect(session.find('.current-question .play img').length).toBe(1);
+      expect(session.find('.current-question .play').length).toBe(1);
     });
 
     it('the play button should not be rendered for the not current question', () => {
-      expect(session.find('li:not(.current-question) .question .play img').length).toBe(0);
+      expect(session.find('li:not(.current-question) .question .play').length).toBe(0);
     });
   });
 
