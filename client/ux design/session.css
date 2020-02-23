@@ -1,6 +1,6 @@
 main {
 	background-color: #D6D5D5;
-	border: 3px solid #707070;
+	border: 3px solid #707070;	
 }
 
 header {
@@ -16,7 +16,7 @@ header {
 
 header h1 {
 	font-weight: bold;
-	text-transform: uppercase;
+	text-transform: uppercase;	
 }
 
 .questions {

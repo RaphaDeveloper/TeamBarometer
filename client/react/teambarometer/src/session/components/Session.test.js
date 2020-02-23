@@ -1,43 +1,36 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import Session from './Session';
-import SessionRepository from '../repositories/SessionRepository';
 import Question from '../models/Question';
 import SessionModel from '../models/SessionModel';
 
-jest.mock('../repositories/SessionRepository');
-
 describe('when the session is loaded', () => {
-  function configureSessionRepository() {
-    SessionRepository.mockImplementation(() => {
-      return {
-        getSession: () => {
-          const questions = [
-            new Question('Confiança',
-              'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
-              'Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.',
-              false, 4, 2, 4),
-  
-            new Question('Feedback',
-              'Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.',
-              'Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.',
-              true),
-  
-            new Question('Autonomia', false),
-          ];
-  
-          return new SessionModel(questions);
-        }
-      };
-    });
+  function getSession() {
+    const questions = [
+      new Question('Confiança',
+        'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
+        'Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.',
+        false, 4, 2, 4),
+
+      new Question('Feedback',
+        'Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.',
+        'Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.',
+        true),
+
+      new Question('Autonomia', false),
+    ];
+
+    return new SessionModel('123-456-789', questions);
   }
 
   let session;
 
-  beforeAll(() => {
-    configureSessionRepository();
+  beforeEach(() => {
+    session = mount(<Session session={getSession()}/>);
+  });
 
-    session = mount(<Session />);
+  afterEach(() => {
+    session.unmount();
   });
 
   it('the questions should also be loaded', () => {
@@ -56,6 +49,14 @@ describe('when the session is loaded', () => {
     expect(answers.find('.red').text()).toBe('Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.');
     expect(answers.find('.yellow').text()).toBe('');
     expect(answers.find('.green').text()).toBe('Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.');
+  });
+
+  it('the answers of the current question should be disabled by default', () => {
+    const answers = session.find('.answers');
+
+    expect(answers.find('.red').is('[disabled]')).toBe(true);
+    expect(answers.find('.yellow').is('[disabled]')).toBe(true);
+    expect(answers.find('.green').is('[disabled]')).toBe(true);
   });
 
   it('each question should has a description', () => {

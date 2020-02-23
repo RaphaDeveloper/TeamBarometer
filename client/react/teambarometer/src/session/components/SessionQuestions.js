@@ -21,11 +21,11 @@ export default class SessionQuestions extends Component {
     renderQuestions() {
         return (
             this.props.questions.map(question =>
-                <li onClick={() => this.selectQuestion(question) } key={question.description} className={this.getClassNameOfTheQuestion(question)}>
+                <li onClick={() => this.props.onSelectQuestion(question)} key={question.description} className={this.getQuestionClassName(question)}>
                     <div className="question d-flex">
                         <div className="question-description mr-auto">{question.description}</div>
                         {question.isCurrent &&
-                            <input className="play" type="image" src={playImage} alt="Play"/>
+                            <input className="play" type="image" src={playImage} alt="Play" />
                         }
                         <div className="count-red">{question.amountOfAnswerRed}</div>
                         <div className="count-yellow">{question.amountOfAnswerYellow}</div>
@@ -36,11 +36,7 @@ export default class SessionQuestions extends Component {
         );
     }
 
-    selectQuestion(question) {
-        this.props.onSelectQuestion(question);
-    }
-
-    getClassNameOfTheQuestion(question) {
+    getQuestionClassName(question) {
         let className = '';
 
         if (this.props.selectedQuestion.isEqualTo(question)) {

@@ -1,5 +1,6 @@
 export default class SessionModel {
-    constructor(questions) {
+    constructor(id, questions) {        
+        this.id = id;
         this.questions = questions || [];
     }
 

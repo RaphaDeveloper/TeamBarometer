@@ -2,7 +2,7 @@ import Question from '../models/Question';
 import SessionModel from '../models/SessionModel';
 
 export default class SessionRepository {
-    getSession() {
+    createSession() {
         const questions = [
             new Question('Confiança',
                 'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
@@ -17,6 +17,6 @@ export default class SessionRepository {
             new Question('Autonomia', false),
         ];
 
-        return new SessionModel(questions);
+        return new SessionModel('123-456-789', questions);
     }
 }
