@@ -101,14 +101,37 @@ describe('when the home is loaded', () => {
         });
     });
 
+    describe('and the user clicks to enter on a session', () => {
+        it('the enter button should be disabled if not informe the session id', () => {
+            let enterSessionLink = home.find('#enterToSession');
+            enterSessionLink.simulate('click');
+
+            let btnEnterSession = home.find('#button-enter-session')
+
+            expect(btnEnterSession.is('[disabled]')).toBe(true);
+        });
+
+        it('session should not be rendered after user inform the session id, close the popover, open the popover and click to enter', () => {
+            home.find('#enterToSession').simulate('click');
+            home.find('#input-session-id').simulate('change', { target: { value: '789-456-123' } });
+            home.find('#enterToSession').simulate('click');
+            home.find('#enterToSession').simulate('click');
+
+            home.find('#button-enter-session').simulate('click');
+
+            expect(home.find('.questions').length).toBe(0);
+            expect(home.find('.answers').length).toBe(0);
+        });
+    });
+
     describe('and the user enter on a session', () => {
         it('the session should be rendered', () => {
             let enterSessionLink = home.find('#enterToSession');
             enterSessionLink.simulate('click');
-            let inputSessionId = home.find('#button-session-id')
+            let inputSessionId = home.find('#input-session-id');
 
             inputSessionId.simulate('change', { target: { value: '789-456-123' } });
-            let btnEnterSession = home.find('#button-enter-session')
+            let btnEnterSession = home.find('#button-enter-session');
             btnEnterSession.simulate('click');
 
             expect(home.find('.questions').length).toBe(1);
@@ -118,7 +141,7 @@ describe('when the home is loaded', () => {
         it('the session id should be rendered', () => {
             let enterSessionLink = home.find('#enterToSession');
             enterSessionLink.simulate('click');
-            let inputSessionId = home.find('#button-session-id')
+            let inputSessionId = home.find('#input-session-id')
 
             inputSessionId.simulate('change', { target: { value: '789-456-123' } });
             let btnEnterSession = home.find('#button-enter-session')

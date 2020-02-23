@@ -29,3 +29,7 @@ header h1 {
 	background-color: #F2F2F2;
     padding: 10px;
 }
+
+[disabled] {
+    cursor: auto;
+}

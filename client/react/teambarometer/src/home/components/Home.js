@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import Session from '../../session/components/Session';
 import './Home.css';
 import SessionRepository from '../../session/repositories/SessionRepository';
-import { Popover, Button, OverlayTrigger } from 'react-bootstrap';
+import { Popover, OverlayTrigger } from 'react-bootstrap';
 
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.sessionRepository = new SessionRepository();
-        this.sessionId = '';
-        this.state = {};
+        this.state = { session: null, sessionId: '' };
     }
 
     render() {
@@ -45,9 +44,9 @@ export default class Home extends Component {
                 <Popover.Title as="h3">Entrar em uma sessão</Popover.Title>
                 <Popover.Content>
                     <div className="input-group mb-3">
-                        <input onChange={this.updateSessionId} type="text" className="form-control" placeholder="Código da Sessão" aria-label="Código da Sessão" id="button-session-id"/>
+                        <input onChange={this.updateSessionId} type="text" className="form-control" placeholder="Código da Sessão" aria-label="Código da Sessão" id="input-session-id" />
                         <div className="input-group-append">
-                            <button onClick={this.enterToTheSession} className="btn btn-outline-secondary" type="button" id="button-enter-session">Entrar</button>
+                            <button onClick={this.enterToTheSession} className="btn btn-outline-secondary" type="button" id="button-enter-session" disabled={!this.state.sessionId}>Entrar</button>
                         </div>
                     </div>
                 </Popover.Content>
@@ -56,11 +55,11 @@ export default class Home extends Component {
     };
 
     updateSessionId = (event) => {
-        this.sessionId = event.target.value;
+        this.setState({ sessionId: event.target.value });
     }
 
     enterToTheSession = () => {
-        const session = this.sessionRepository.enterToTheSession(this.sessionId);
+        const session = this.sessionRepository.enterToTheSession(this.state.sessionId);
 
         this.setState({ session: session });
     }
@@ -82,7 +81,7 @@ export default class Home extends Component {
     renderEnterSessionLink() {
         return (
             <OverlayTrigger trigger="click" placement="bottom" overlay={this.popover()}>
-                <a id="enterToSession" href="javascript:void(0)">Entre</a>
+                <a id="enterToSession" href="javascript:void(0)" onClick={() => this.setState({ sessionId: '' })}>Entre</a>
             </OverlayTrigger>
         );
     }
