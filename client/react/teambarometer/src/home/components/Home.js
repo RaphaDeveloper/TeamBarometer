@@ -38,7 +38,29 @@ export default class Home extends Component {
         );
     }
 
-    popover() {
+    renderHomeContent() {
+        return (
+            <div className="main col-sm">
+                <a id="createSession" onClick={this.createSession} href="javascript:void(0)">Crie</a> uma sessão ou {this.renderEnterSessionLink()} em uma existente.
+            </div>
+        );
+    }
+
+    createSession = () => {
+        const session = this.sessionRepository.createSession();
+
+        this.setState({ session: session });
+    }
+
+    renderEnterSessionLink() {
+        return (
+            <OverlayTrigger trigger="click" placement="bottom" overlay={this.renderPopover()}>
+                <a id="enterToSession" href="javascript:void(0)" onClick={() => this.setState({ sessionId: '' })}>Entre</a>
+            </OverlayTrigger>
+        );
+    }
+
+    renderPopover() {
         return (
             <Popover id="popover-enter-session">
                 <Popover.Title as="h3">Entrar em uma sessão</Popover.Title>
@@ -62,27 +84,5 @@ export default class Home extends Component {
         const session = this.sessionRepository.enterToTheSession(this.state.sessionId);
 
         this.setState({ session: session });
-    }
-
-    renderHomeContent() {
-        return (
-            <div className="main col-sm">
-                <a id="createSession" onClick={this.createSession} href="javascript:void(0)">Crie</a> uma sessão ou {this.renderEnterSessionLink()} em uma existente.
-            </div>
-        );
-    }
-
-    createSession = () => {
-        const session = this.sessionRepository.createSession();
-
-        this.setState({ session: session });
-    }
-
-    renderEnterSessionLink() {
-        return (
-            <OverlayTrigger trigger="click" placement="bottom" overlay={this.popover()}>
-                <a id="enterToSession" href="javascript:void(0)" onClick={() => this.setState({ sessionId: '' })}>Entre</a>
-            </OverlayTrigger>
-        );
     }
 }
