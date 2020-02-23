@@ -5,7 +5,7 @@ import Question from '../models/Question';
 import SessionModel from '../models/SessionModel';
 
 describe('when the session is loaded', () => {
-  function getSession() {
+  function getSession(memberIsTheFacilitator) {
     const questions = [
       new Question('Confiança',
         'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
@@ -20,13 +20,15 @@ describe('when the session is loaded', () => {
       new Question('Autonomia', false),
     ];
 
-    return new SessionModel('123-456-789', questions);
+    return new SessionModel('123-456-789', questions, memberIsTheFacilitator);
   }
 
   let session;
 
   beforeEach(() => {
-    session = mount(<Session session={getSession()}/>);
+    const memberIsTheFacilitator = true;
+
+    session = mount(<Session session={getSession(memberIsTheFacilitator)}/>);
   });
 
   afterEach(() => {
@@ -113,13 +115,23 @@ describe('when the session is loaded', () => {
     expect(session.find('li .question .count-green').at(2).text()).toBe('');
   });
 
-  describe('and the user is the facilitator', () => {
+  it('the play button should not be rendered for the not current question', () => {
+    expect(session.find('li:not(.current-question) .question .play').length).toBe(0);
+  });
+
+  describe('if the member is the facilitator', () => {
     it('the play button should be rendered for the current question', () => {
       expect(session.find('.current-question .play').length).toBe(1);
     });
+  });
 
-    it('the play button should not be rendered for the not current question', () => {
-      expect(session.find('li:not(.current-question) .question .play').length).toBe(0);
+  describe('if the member is not the facilitator', () => {
+    it('the play button should not be rendered for the current question', () => {
+      const memberIsTheFacilitator = false;
+
+      let session = mount(<Session session={getSession(memberIsTheFacilitator)}/>);
+
+      expect(session.find('.current-question .play').length).toBe(0);
     });
   });
 

@@ -3,6 +3,8 @@ import SessionModel from '../models/SessionModel';
 
 export default class SessionRepository {
     createSession() {
+        const memberIsTheFacilitator = true;
+
         const questions = [
             new Question('Confiança',
                 'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
@@ -17,6 +19,6 @@ export default class SessionRepository {
             new Question('Autonomia', false),
         ];
 
-        return new SessionModel('123-456-789', questions);
+        return new SessionModel('123-456-789', questions, memberIsTheFacilitator);
     }
 }

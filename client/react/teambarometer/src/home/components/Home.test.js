@@ -13,6 +13,8 @@ describe('when the home is loaded', () => {
         SessionRepository.mockImplementation(() => {
             return {
                 createSession: () => {
+                    const memberIsTheFacilitator = true;
+
                     const questions = [
                         new Question('Confiança',
                             'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
@@ -27,7 +29,7 @@ describe('when the home is loaded', () => {
                         new Question('Autonomia', false),
                     ];
 
-                    return new SessionModel('123-456-789', questions);
+                    return new SessionModel('123-456-789', questions, memberIsTheFacilitator);
                 }
             };
         });

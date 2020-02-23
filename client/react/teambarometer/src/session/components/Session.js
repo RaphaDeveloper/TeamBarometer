@@ -17,7 +17,7 @@ export default class Session extends Component {
     render() {
         return (
             <React.Fragment>
-                <SessionQuestions questions={this.props.session.questions} selectedQuestion={this.state.selectedQuestion} onSelectQuestion={this.updateSelectedQuestion}/>
+                <SessionQuestions session={this.props.session} selectedQuestion={this.state.selectedQuestion} onSelectQuestion={this.updateSelectedQuestion}/>
                 <SessionAnswers question={this.state.selectedQuestion}/>
             </React.Fragment>
         );

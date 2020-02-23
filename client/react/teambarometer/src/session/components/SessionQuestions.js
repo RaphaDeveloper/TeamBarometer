@@ -20,13 +20,11 @@ export default class SessionQuestions extends Component {
 
     renderQuestions() {
         return (
-            this.props.questions.map(question =>
+            this.props.session.questions.map(question =>
                 <li onClick={() => this.props.onSelectQuestion(question)} key={question.description} className={this.getQuestionClassName(question)}>
                     <div className="question d-flex">
                         <div className="question-description mr-auto">{question.description}</div>
-                        {question.isCurrent &&
-                            <input className="play" type="image" src={playImage} alt="Play" />
-                        }
+                        {this.renderPlayButton(question)}
                         <div className="count-red">{question.amountOfAnswerRed}</div>
                         <div className="count-yellow">{question.amountOfAnswerYellow}</div>
                         <div className="count-green">{question.amountOfAnswerGreen}</div>
@@ -48,5 +46,13 @@ export default class SessionQuestions extends Component {
         }
 
         return className;
+    }
+
+    renderPlayButton(question) {
+        return (
+            question.isCurrent &&
+            this.props.session.memberIsTheFacilitator &&
+            <input className="play" type="image" src={playImage} alt="Play" />
+        );
     }
 }
