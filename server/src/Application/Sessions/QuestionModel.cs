@@ -5,12 +5,12 @@ namespace Application.Sessions
 {
     public class QuestionModel
     {
-        public QuestionModel(Question question, bool isTheCurrent)
+        public QuestionModel(Question question)
         {
             Description = question.Description;
             RedAnswer = question.GetDescriptionOfTheAnswer(Answer.Red);
             GreenAnswer = question.GetDescriptionOfTheAnswer(Answer.Green);
-            IsTheCurrent = isTheCurrent;
+            IsTheCurrent = question.IsTheCurrent;
         }
         
         public string Description { get; private set; }

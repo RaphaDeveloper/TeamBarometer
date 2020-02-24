@@ -46,6 +46,7 @@ namespace Domain.Test.Sessions.UseCases
 			Session session = service.CreateSession(facilitatorId);
 
 			Assert.That(session.Questions.First(), Is.EqualTo(session.CurrentQuestion));
+			Assert.True(session.CurrentQuestion.IsTheCurrent);
 		}
 
 		#endregion
@@ -77,7 +78,7 @@ namespace Domain.Test.Sessions.UseCases
 			Guid secondTeamMemberId = Guid.NewGuid();
 			SessionService service = CreateService();
 			Session session = service.CreateSession(facilitatorId);
-			Question currentQuestion = session.CurrentQuestion;
+			Question priorCurrentQuestion = session.CurrentQuestion;
 			service.AddTeamMemberInTheSession(firstTeamMemberId, session.Id);
 			service.AddTeamMemberInTheSession(secondTeamMemberId, session.Id);
 			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
@@ -87,7 +88,9 @@ namespace Domain.Test.Sessions.UseCases
 			service.AnswerTheSessionCurrentQuestion(secondTeamMemberId, Answer.Green, session.Id);
 
 
-			Assert.That(currentQuestion.NextQuestion, Is.EqualTo(session.CurrentQuestion));
+			Assert.That(priorCurrentQuestion.NextQuestion, Is.EqualTo(session.CurrentQuestion));
+			Assert.True(session.CurrentQuestion.IsTheCurrent);
+			Assert.False(priorCurrentQuestion.IsTheCurrent);
 		}
 
 		[Test]

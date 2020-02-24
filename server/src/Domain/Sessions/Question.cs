@@ -20,6 +20,7 @@ namespace Domain.Sessions
 		private List<Guid> IdOfTeamMembersWhoAnswered { get; set; } = new List<Guid>();
 		public Question NextQuestion { get; internal set; }
 		public bool IsUpForAnswer { get; private set; }
+		public bool IsTheCurrent { get; internal set; }
 
 		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
 		{

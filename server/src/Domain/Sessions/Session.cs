@@ -16,9 +16,63 @@ namespace Domain.Sessions
 		public Guid Id { get; } = Guid.NewGuid();
 		public IEnumerable<Question> Questions => QuestionsById.Values;
 		private Dictionary<Guid, Question> QuestionsById { get; set; } = new Dictionary<Guid, Question>();
-		public Question CurrentQuestion { get; private set; }
+		
+		private Question currentQuestion;
+		public Question CurrentQuestion 
+		{
+			get { return this.currentQuestion; }
+			private set 
+			{
+				if (this.currentQuestion != null)
+				{
+					this.currentQuestion.IsTheCurrent = false;
+				}
+
+				this.currentQuestion = value;
+
+				this.currentQuestion.IsTheCurrent = true;
+			}
+		}
+		
 		private List<Guid> TeamMembers { get; set; } = new List<Guid>();
 		public Guid FacilitatorId { get; }
+
+		private void ConstructQuestionsOfThisSession(IEnumerable<QuestionTemplate> questions)
+		{
+			IndexTheQuestionsById(questions);
+
+			DefineTheCurrentQuestion();
+
+			LinkTheQuestions();
+		}
+
+		private void IndexTheQuestionsById(IEnumerable<QuestionTemplate> questions)
+		{
+			foreach (QuestionTemplate question in questions)
+			{
+				QuestionsById.Add(question.Id, new Question(question));
+			}
+		}
+
+		private void DefineTheCurrentQuestion()
+		{
+			CurrentQuestion = Questions.First();
+		}
+
+		private void LinkTheQuestions()
+		{
+			Question priorQuestion = null;
+
+			foreach (Question question in Questions)
+			{
+				if (priorQuestion != null)
+				{
+					priorQuestion.NextQuestion = question;
+				}
+
+				priorQuestion = question;
+			}
+		}
 
 		internal void AnswerTheCurrentQuestion(Guid teamMemberId, Answer answer)
 		{
@@ -58,43 +112,6 @@ namespace Domain.Sessions
 		public bool TeamMemberIsParticipating(Guid teamMemberId)
 		{
 			return TeamMembers.Contains(teamMemberId);
-		}
-
-		private void ConstructQuestionsOfThisSession(IEnumerable<QuestionTemplate> questions)
-		{
-			IndexTheQuestionsById(questions);
-
-			DefineTheCurrentQuestion();
-
-			LinkTheQuestions();
-		}
-
-		private void IndexTheQuestionsById(IEnumerable<QuestionTemplate> questions)
-		{
-			foreach (QuestionTemplate question in questions)
-			{
-				QuestionsById.Add(question.Id, new Question(question));
-			}
-		}
-
-		private void DefineTheCurrentQuestion()
-		{
-			CurrentQuestion = Questions.First();
-		}
-
-		private void LinkTheQuestions()
-		{
-			Question priorQuestion = null;
-
-			foreach (Question question in Questions)
-			{
-				if (priorQuestion != null)
-				{
-					priorQuestion.NextQuestion = question;
-				}
-
-				priorQuestion = question;
-			}
 		}
 	}
 }
