@@ -10,6 +10,8 @@ namespace Domain.Test.Sessions.UseCases
 {
 	public class SessionServiceShould
 	{
+		#region Create Session
+
 		[Test]
 		public void CreateSession()
 		{
@@ -53,6 +55,11 @@ namespace Domain.Test.Sessions.UseCases
 			Assert.That(session.QuestionsById.Values.First(), Is.EqualTo(session.CurrentQuestion));
 		}
 
+		#endregion
+
+
+		#region Answer The Current Question
+
 		[Test]
 		public void AnswerTheSessionQuestion()
 		{
@@ -61,14 +68,14 @@ namespace Domain.Test.Sessions.UseCases
 			Question firstQuestion = session.QuestionsById.Values.ElementAt(0);
 			Question secondQuestion = session.QuestionsById.Values.ElementAt(1);
 			Guid teamMemberId = Guid.NewGuid();
-			service.AddTeamMemberToTheSession(teamMemberId, session.Id);
+			service.AddTeamMemberInTheSession(teamMemberId, session.Id);
 
 
-			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Red, session.Id);
+			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.AnswerTheSessionCurrentQuestion(teamMemberId, Answer.Red, session.Id);
 
-			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Green, session.Id);
+			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.AnswerTheSessionCurrentQuestion(teamMemberId, Answer.Green, session.Id);
 
 
 			Assert.That(firstQuestion.GetCountOfTheAnswer(Answer.Red), Is.EqualTo(1));
@@ -83,13 +90,13 @@ namespace Domain.Test.Sessions.UseCases
 			Question secondQuestion = session.QuestionsById.Values.ElementAt(1);
 			Guid firstTeamMemberId = Guid.NewGuid();
 			Guid secondTeamMemberId = Guid.NewGuid();
-			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
-			service.AddTeamMemberToTheSession(secondTeamMemberId, session.Id);
+			service.AddTeamMemberInTheSession(firstTeamMemberId, session.Id);
+			service.AddTeamMemberInTheSession(secondTeamMemberId, session.Id);
 
 
-			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
+			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.AnswerTheSessionCurrentQuestion(firstTeamMemberId, Answer.Green, session.Id);
+			service.AnswerTheSessionCurrentQuestion(secondTeamMemberId, Answer.Green, session.Id);
 
 
 			Assert.That(secondQuestion, Is.EqualTo(session.CurrentQuestion));
@@ -103,13 +110,13 @@ namespace Domain.Test.Sessions.UseCases
 			Question firstQuestion = session.QuestionsById.Values.ElementAt(0);
 			Guid firstTeamMemberId = Guid.NewGuid();
 			Guid secondTeamMemberId = Guid.NewGuid();
-			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
-			service.AddTeamMemberToTheSession(secondTeamMemberId, session.Id);
+			service.AddTeamMemberInTheSession(firstTeamMemberId, session.Id);
+			service.AddTeamMemberInTheSession(secondTeamMemberId, session.Id);
 
 
-			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
+			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.AnswerTheSessionCurrentQuestion(firstTeamMemberId, Answer.Green, session.Id);
+			service.AnswerTheSessionCurrentQuestion(secondTeamMemberId, Answer.Green, session.Id);
 
 
 			Assert.False(firstQuestion.IsUpForAnswer);
@@ -123,14 +130,14 @@ namespace Domain.Test.Sessions.UseCases
 			Question firstQuestion = session.QuestionsById.Values.First();
 			Guid firstTeamMemberId = Guid.NewGuid();
 			Guid secondTeamMemberId = Guid.NewGuid();
-			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
-			service.AddTeamMemberToTheSession(secondTeamMemberId, session.Id);
+			service.AddTeamMemberInTheSession(firstTeamMemberId, session.Id);
+			service.AddTeamMemberInTheSession(secondTeamMemberId, session.Id);
 
 
-			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
+			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.AnswerTheSessionCurrentQuestion(firstTeamMemberId, Answer.Green, session.Id);
+			service.AnswerTheSessionCurrentQuestion(secondTeamMemberId, Answer.Green, session.Id);
+			service.AnswerTheSessionCurrentQuestion(secondTeamMemberId, Answer.Green, session.Id);
 
 
 			Assert.That(firstQuestion.GetCountOfTheAnswer(Answer.Green), Is.EqualTo(2));
@@ -145,8 +152,8 @@ namespace Domain.Test.Sessions.UseCases
 			Guid teamMemberId = Guid.NewGuid();
 
 
-			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
-			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Red, session.Id);
+			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.AnswerTheSessionCurrentQuestion(teamMemberId, Answer.Red, session.Id);
 
 
 			Assert.False(firstQuestion.HasAnyAnswer());
@@ -159,39 +166,49 @@ namespace Domain.Test.Sessions.UseCases
 			Session session = service.CreateSession();
 			Question firstQuestion = session.QuestionsById.Values.ElementAt(0);
 			Guid firstTeamMemberId = Guid.NewGuid();
-			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
+			service.AddTeamMemberInTheSession(firstTeamMemberId, session.Id);
 
 
-			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
+			service.AnswerTheSessionCurrentQuestion(firstTeamMemberId, Answer.Green, session.Id);
 
 
 			Assert.False(firstQuestion.HasAnyAnswer());
 		}
 
+		#endregion
+
+
+		#region EnterInTheSession
+
 		[Test]
-		public void AddTeamMemberToTheSession()
+		public void EnterInTheSession()
 		{
 			SessionService sessionService = CreateService();
 			Session session = sessionService.CreateSession();
 			Guid teamMemberId = Guid.NewGuid();
 
-			sessionService.AddTeamMemberToTheSession(teamMemberId, session.Id);
+			sessionService.AddTeamMemberInTheSession(teamMemberId, session.Id);
 
 			Assert.True(session.TeamMemberIsParticipating(teamMemberId));
 		}
 
 		[Test]
-		public void DoesNotAddTheSameTeamMemberToTheSession()
+		public void DoesNotEnterInTheSessionIfTheTeamMemberIsAlreadyInTheSession()
 		{
 			SessionService sessionService = CreateService();
 			Session session = sessionService.CreateSession();
 			Guid teamMemberId = Guid.NewGuid();
 
-			sessionService.AddTeamMemberToTheSession(teamMemberId, session.Id);
+			sessionService.AddTeamMemberInTheSession(teamMemberId, session.Id);
 
-			Assert.That(() => sessionService.AddTeamMemberToTheSession(teamMemberId, session.Id),
+			Assert.That(() => sessionService.AddTeamMemberInTheSession(teamMemberId, session.Id),
 				Throws.Exception.With.Message.EqualTo("Team member is already participating of this session."));
 		}
+
+		#endregion
+
+
+		#region EnableAnswers
 
 		[Test]
 		public void EnableAnswersOfTheCurrentQuestionOfTheSession()
@@ -200,11 +217,14 @@ namespace Domain.Test.Sessions.UseCases
 			Session session = service.CreateSession();
 
 
-			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
+			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
 
 
 			Assert.True(session.CurrentQuestion.IsUpForAnswer);
 		}
+
+		#endregion
+
 
 		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
 		{

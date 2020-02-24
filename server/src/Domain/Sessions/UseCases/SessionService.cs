@@ -27,21 +27,21 @@ namespace Domain.Sessions.UseCases
 			return session;
 		}
 
-		public void AddTeamMemberToTheSession(Guid teamMemberId, Guid sessionId)
+		public void AddTeamMemberInTheSession(Guid teamMemberId, Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
 			session.AddTeamMember(teamMemberId);
 		}
 
-		public void EnableAnswersOfTheCurrentQuestionOfTheSession(Guid sessionId)
+		public void EnableAnswersOfTheSessionCurrentQuestion(Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
 			session.EnableAnswersOfTheCurrentQuestion();
 		}
 
-		public void AnswerTheCurrentQuestionOfTheSession(Guid teamMemberId, Answer answer, Guid sessionId)
+		public void AnswerTheSessionCurrentQuestion(Guid teamMemberId, Answer answer, Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
