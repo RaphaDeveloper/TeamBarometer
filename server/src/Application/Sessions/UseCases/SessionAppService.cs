@@ -18,12 +18,7 @@ namespace Application.Sessions.UseCases
 		{
 			Session session = SessionService.CreateSession(facilitatorId);
 
-			SessionModel sessionModel = new SessionModel
-			{
-				Questions = session.Questions.Select(question => new QuestionModel(question))
-			};
-
-			return sessionModel;
+			return new SessionModel(session);
 		}
 	}
 }

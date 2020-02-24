@@ -1,11 +1,16 @@
-﻿using System;
+﻿using Domain.Sessions;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Application.Sessions
 {
 	public class SessionModel
 	{
-		public IEnumerable<QuestionModel> Questions { get; set; }
+		public SessionModel(Session session)
+		{
+			Questions = session.Questions.Select(question => new QuestionModel(question));
+		}
+
+		public IEnumerable<QuestionModel> Questions { get; private set; }
 	}
 }
