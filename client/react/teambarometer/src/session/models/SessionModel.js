@@ -6,6 +6,6 @@ export default class SessionModel {
     }
 
     getCurrentQuestion() {
-        return this.questions.find(q => q.isCurrent);
+        return this.questions.find(q => q.isTheCurrent);
     }
 }

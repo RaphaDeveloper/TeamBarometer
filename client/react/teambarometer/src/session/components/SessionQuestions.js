@@ -25,9 +25,9 @@ export default class SessionQuestions extends Component {
                     <div className="question d-flex">
                         <div className="question-description mr-auto">{question.description}</div>
                         {this.renderPlayButton(question)}
-                        <div className="count-red">{question.amountOfAnswerRed}</div>
-                        <div className="count-yellow">{question.amountOfAnswerYellow}</div>
-                        <div className="count-green">{question.amountOfAnswerGreen}</div>
+                        <div className="count-red">{question.amountOfRedAnswers}</div>
+                        <div className="count-yellow">{question.amountOfYellowAnswers}</div>
+                        <div className="count-green">{question.amountOfGreenAnswers}</div>
                     </div>
                 </li>
             )
@@ -41,7 +41,7 @@ export default class SessionQuestions extends Component {
             className = 'selected';
         }
 
-        if (question.isCurrent) {
+        if (question.isTheCurrent) {
             className = 'current-question';
         }
 
@@ -50,7 +50,7 @@ export default class SessionQuestions extends Component {
 
     renderPlayButton(question) {
         return (
-            question.isCurrent &&
+            question.isTheCurrent &&
             this.props.session.memberIsTheFacilitator &&
             <input className="play" type="image" src={playImage} alt="Play" />
         );

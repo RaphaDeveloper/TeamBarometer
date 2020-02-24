@@ -14,8 +14,8 @@ namespace Application.Test
 	public class SessionAppServiceShould
 	{
 		private Guid facilitatorId = Guid.NewGuid();
-		SessionService sessionService;
-		IEnumerable<QuestionTemplate> questionTemplates;
+		private SessionService sessionService;
+		private IEnumerable<QuestionTemplate> questionTemplates;
 
 		[SetUp]
 		public void Setup()
@@ -59,6 +59,23 @@ namespace Application.Test
 				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Red), questionModel.RedAnswer);
 				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Green), questionModel.GreenAnswer);
 			}
+		}
+
+		[Test]
+		public void CreateSessionWithQuestionsAndEachQuestionShouldNotHasAnyAmountOfAnswers()
+		{
+			SessionAppService sessionAppService = new SessionAppService(sessionService);
+
+			SessionModel session = sessionAppService.CreateSession(facilitatorId);
+
+			AssertThatTheQuestionsHasNotHasAnyAmountOfAnswer(session);
+		}
+
+		private void AssertThatTheQuestionsHasNotHasAnyAmountOfAnswer(SessionModel session)
+		{
+			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfRedAnswers));
+			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfYellowAnswers));
+			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfGreenAnswers));
 		}
 
 		[Test]

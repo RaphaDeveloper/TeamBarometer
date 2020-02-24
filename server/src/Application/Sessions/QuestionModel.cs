@@ -16,6 +16,9 @@ namespace Application.Sessions
         public string Description { get; private set; }
         public string RedAnswer { get; private set; }
         public string GreenAnswer { get; private set; }
-        public bool IsTheCurrent { get; set; }
+        public bool IsTheCurrent { get; private set; }
+        public int AmountOfRedAnswers { get; private set; }
+        public int AmountOfYellowAnswers { get; private set; }
+        public int AmountOfGreenAnswers { get; private set; }
     }
 }

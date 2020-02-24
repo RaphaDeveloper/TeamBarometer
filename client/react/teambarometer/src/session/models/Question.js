@@ -1,12 +1,12 @@
 export default class Question {
-    constructor(description, redAnswer, greenAnswer, isCurrent, amountOfAnswerRed, amountOfAnswerYellow, amountOfAnswerGreen) {
+    constructor(description, redAnswer, greenAnswer, isTheCurrent, amountOfRedAnswers, amountOfYellowAnswers, amountOfGreenAnswers) {
         this.description = description;
         this.redAnswer = redAnswer;
         this.greenAnswer = greenAnswer;
-        this.isCurrent = isCurrent;
-        this.amountOfAnswerRed = amountOfAnswerRed;
-        this.amountOfAnswerYellow = amountOfAnswerYellow;
-        this.amountOfAnswerGreen = amountOfAnswerGreen;
+        this.isTheCurrent = isTheCurrent;
+        this.amountOfRedAnswers = amountOfRedAnswers;
+        this.amountOfYellowAnswers = amountOfYellowAnswers;
+        this.amountOfGreenAnswers = amountOfGreenAnswers;
     }
 
     isEqualTo(question) {
