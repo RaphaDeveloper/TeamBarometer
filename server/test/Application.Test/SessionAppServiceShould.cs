@@ -1,24 +1,33 @@
 ﻿using Application.Sessions;
 using Application.Sessions.UseCases;
 using Domain.Questions;
-using Domain.Sessions.Repositories;
+using Domain.Sessions;
 using Domain.Sessions.UseCases;
+using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Application.Test
 {
 	public class SessionAppServiceShould
 	{
+		private Guid facilitatorId = Guid.NewGuid();
+		private Mock<ISessionService> sessionServiceMock = new Mock<ISessionService>();
+
+		[SetUp]
+		public void Setup()
+		{
+			Session session = new Session(facilitatorId, GetQuestionTemplates());
+
+			sessionServiceMock.Setup(s => s.CreateSession(facilitatorId)).Returns(session);
+		}
+
 		[Test]
 		public void CreateSession() 
 		{
-			Guid facilitatorId = Guid.NewGuid();
-			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
-			InMemoryQuestionTemplateRepository questionRepository = new InMemoryQuestionTemplateRepository();
-			SessionService sessionService = new SessionService(sessionRepository, questionRepository);
-			SessionAppService sessionAppService = new SessionAppService(sessionService);
+			SessionAppService sessionAppService = new SessionAppService(sessionServiceMock.Object);
 
 			SessionModel session = sessionAppService.CreateSession(facilitatorId);
 
@@ -28,15 +37,20 @@ namespace Application.Test
 		[Test]
 		public void CreateSessionWithQuestions()
 		{
-			Guid facilitatorId = Guid.NewGuid();
-			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
-			InMemoryQuestionTemplateRepository questionRepository = new InMemoryQuestionTemplateRepository();
-			SessionService sessionService = new SessionService(sessionRepository, questionRepository);
-			SessionAppService sessionAppService = new SessionAppService(sessionService);
+			SessionAppService sessionAppService = new SessionAppService(sessionServiceMock.Object);
 
 			SessionModel session = sessionAppService.CreateSession(facilitatorId);
 
-			Assert.AreEqual(questionRepository.GetAll().Count(), session.Questions.Count());
+			Assert.AreEqual(GetQuestionTemplates().Count(), session.Questions.Count());
+		}
+
+		private IEnumerable<QuestionTemplate> GetQuestionTemplates()
+		{
+			return new List<QuestionTemplate>
+			{
+				new QuestionTemplate(),
+				new QuestionTemplate()
+			}.AsEnumerable();
 		}
 	}
 }

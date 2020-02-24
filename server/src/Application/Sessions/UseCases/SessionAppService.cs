@@ -7,12 +7,12 @@ namespace Application.Sessions.UseCases
 {
 	public class SessionAppService
 	{
-		public SessionAppService(SessionService sessionService)
+		public SessionAppService(ISessionService sessionService)
 		{
 			SessionService = sessionService;
 		}
 
-		public SessionService SessionService { get; }
+		public ISessionService SessionService { get; }
 
 		public SessionModel CreateSession(Guid facilitatorId)
 		{

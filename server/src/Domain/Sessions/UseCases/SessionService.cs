@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Domain.Sessions.UseCases
 {
-	public class SessionService
+	public class SessionService : ISessionService
 	{
 		private InMemorySessionRepository SessionRepository { get; }
 		private InMemoryQuestionTemplateRepository QuestionRepository { get; }
