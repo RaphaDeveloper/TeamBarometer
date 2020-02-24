@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Application.Test
+namespace Application.Test.Sessions.UseCases
 {
 	public class SessionAppServiceShould
 	{
@@ -29,23 +29,16 @@ namespace Application.Test
 		}
 
 		[Test]
-		public void CreateSession() 
+		public void CreateSession()
 		{
 			SessionAppService sessionAppService = new SessionAppService(sessionService);
 
 			SessionModel session = sessionAppService.CreateSession(facilitatorId);
 
-			Assert.NotNull(session);
-		}
-
-		[Test]
-		public void CreateSessionWithQuestionsAndEachQuestionShouldHasTheSameDataOfTheTemplate()
-		{
-			SessionAppService sessionAppService = new SessionAppService(sessionService);
-
-			SessionModel session = sessionAppService.CreateSession(facilitatorId);
-
+			Assert.That(session.Id, Is.Not.EqualTo(Guid.Empty));
+			Assert.IsTrue(session.Questions.First().IsTheCurrent);
 			AssertThatTheQuestionsHasTheSameDataOfTheTemplate(session);
+			AssertThatTheQuestionsHasNotHasAnyAmountOfAnswer(session);
 		}
 
 		private void AssertThatTheQuestionsHasTheSameDataOfTheTemplate(SessionModel session)
@@ -61,31 +54,11 @@ namespace Application.Test
 			}
 		}
 
-		[Test]
-		public void CreateSessionWithQuestionsAndEachQuestionShouldNotHasAnyAmountOfAnswers()
-		{
-			SessionAppService sessionAppService = new SessionAppService(sessionService);
-
-			SessionModel session = sessionAppService.CreateSession(facilitatorId);
-
-			AssertThatTheQuestionsHasNotHasAnyAmountOfAnswer(session);
-		}
-
 		private void AssertThatTheQuestionsHasNotHasAnyAmountOfAnswer(SessionModel session)
 		{
 			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfRedAnswers));
 			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfYellowAnswers));
 			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfGreenAnswers));
-		}
-
-		[Test]
-		public void CreateSessionWithTheFirstQuestionBeingTheCurrent()
-		{
-			SessionAppService sessionAppService = new SessionAppService(sessionService);
-
-			SessionModel session = sessionAppService.CreateSession(facilitatorId);
-
-			Assert.IsTrue(session.Questions.First().IsTheCurrent);
 		}
 	}
 }
