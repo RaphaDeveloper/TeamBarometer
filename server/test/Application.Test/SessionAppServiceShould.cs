@@ -60,5 +60,15 @@ namespace Application.Test
 				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Green), questionModel.GreenAnswer);
 			}
 		}
+
+		[Test]
+		public void CreateSessionWithTheFirstQuestionBeingTheCurrent()
+		{
+			SessionAppService sessionAppService = new SessionAppService(sessionService);
+
+			SessionModel session = sessionAppService.CreateSession(facilitatorId);
+
+			Assert.IsTrue(session.Questions.First().IsTheCurrent);
+		}
 	}
 }
