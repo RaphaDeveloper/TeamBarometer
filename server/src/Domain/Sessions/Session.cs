@@ -79,14 +79,14 @@ namespace Domain.Sessions
 
 		private void DefineTheCurrentQuestion()
 		{
-			CurrentQuestion = QuestionsById.Values.First();
+			CurrentQuestion = Questions.First();
 		}
 
 		private void LinkTheQuestions()
 		{
 			Question priorQuestion = null;
 
-			foreach (Question question in QuestionsById.Values)
+			foreach (Question question in Questions)
 			{
 				if (priorQuestion != null)
 				{
