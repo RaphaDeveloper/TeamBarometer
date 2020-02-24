@@ -7,14 +7,14 @@ namespace Domain.Sessions
 {
 	public class Question
 	{
-		private readonly QuestionTemplate question;
-
-		public Question(QuestionTemplate question)
+		public Question(QuestionTemplate questionTemplate)
 		{
-			this.question = question;
+			QuestionTemplate = questionTemplate;
 		}
 
-		public Guid Id => question.Id;
+		public QuestionTemplate QuestionTemplate { get; }
+		public Guid Id => QuestionTemplate.Id;
+		public string Description => QuestionTemplate.Description;
 		private List<Answer> Answers { get; set; } = new List<Answer>();
 		private List<Guid> IdOfTheTeamMembersWhoAnswered { get; set; } = new List<Guid>();
 		public Question NextQuestion { get; internal set; }

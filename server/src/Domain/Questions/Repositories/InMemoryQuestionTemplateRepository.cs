@@ -9,14 +9,9 @@ namespace Domain.Questions
 		{
 			return new List<QuestionTemplate>
 			{
-				CreateQuestion(),
-				CreateQuestion()
+				new QuestionTemplate("Confiança"),
+				new QuestionTemplate("Feedback")
 			}.AsEnumerable();
-		}
-
-		private QuestionTemplate CreateQuestion()
-		{
-			return new QuestionTemplate();
 		}
 	}
 }

@@ -67,8 +67,8 @@ namespace Application.Test
 		{
 			return new List<QuestionTemplate>
 			{
-				new QuestionTemplate(),
-				new QuestionTemplate()
+				new QuestionTemplate("Confiança"),
+				new QuestionTemplate("Feedback")
 			}.AsEnumerable();
 		}
 	}

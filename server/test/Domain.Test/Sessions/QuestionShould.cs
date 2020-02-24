@@ -9,11 +9,31 @@ namespace Domain.Test.Sessions
 		[Test]
 		public void BeCreatedFromQuestionTemplate()
 		{
-			QuestionTemplate questionTemplate = new QuestionTemplate();
+			QuestionTemplate questionTemplate = new QuestionTemplate("Feedback");
+
+			Question question = new Question(questionTemplate);
+
+			Assert.NotNull(question);
+		}
+
+		[Test]
+		public void HasTheSameIdOfTheTemplate()
+		{
+			QuestionTemplate questionTemplate = new QuestionTemplate("Feedback");
 
 			Question question = new Question(questionTemplate);
 
 			Assert.That(question.Id, Is.EqualTo(questionTemplate.Id));
+		}
+
+		[Test]
+		public void HasTheSameDescriptionOfTheTemplate()
+		{
+			QuestionTemplate questionTemplate = new QuestionTemplate("Feedback");
+
+			Question question = new Question(questionTemplate);
+
+			Assert.That(question.Description, Is.EqualTo(questionTemplate.Description));
 		}
 	}
 }
