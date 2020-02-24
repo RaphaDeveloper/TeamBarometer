@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Application.Sessions
 {
-	public class SessionModel
-	{
-		public IEnumerable<QuestionModel> Questions { get; set; }
-	}
+    public class QuestionModel
+    {
+    }
 }
