@@ -1,9 +1,12 @@
+﻿using Domain.Questions;
+using Domain.Sessions;
+using Domain.Sessions.Repositories;
+using Domain.Sessions.UseCases;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace Domain.Test
+namespace Domain.Test.Sessions.UseCases
 {
 	public class SessionServiceShould
 	{
@@ -55,29 +58,29 @@ namespace Domain.Test
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
-			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.ElementAt(0);
-			QuestionOfTheSession secondQuestion = session.QuestionsById.Values.ElementAt(1);
+			Question firstQuestion = session.QuestionsById.Values.ElementAt(0);
+			Question secondQuestion = session.QuestionsById.Values.ElementAt(1);
 			Guid teamMemberId = Guid.NewGuid();
 			service.AddTeamMemberToTheSession(teamMemberId, session.Id);
 
 
 			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Red, session.Id);
-			
+
 			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Green, session.Id);
-			
-			
+
+
 			Assert.That(firstQuestion.GetCountOfTheAnswer(Answer.Red), Is.EqualTo(1));
 			Assert.That(secondQuestion.GetCountOfTheAnswer(Answer.Green), Is.EqualTo(1));
 		}
-		
+
 		[Test]
 		public void ChangeTheCurrentQuestionWhenAllTeamMemberAnswerTheQuestion()
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
-			QuestionOfTheSession secondQuestion = session.QuestionsById.Values.ElementAt(1);
+			Question secondQuestion = session.QuestionsById.Values.ElementAt(1);
 			Guid firstTeamMemberId = Guid.NewGuid();
 			Guid secondTeamMemberId = Guid.NewGuid();
 			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
@@ -97,7 +100,7 @@ namespace Domain.Test
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
-			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.ElementAt(0);
+			Question firstQuestion = session.QuestionsById.Values.ElementAt(0);
 			Guid firstTeamMemberId = Guid.NewGuid();
 			Guid secondTeamMemberId = Guid.NewGuid();
 			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
@@ -117,7 +120,7 @@ namespace Domain.Test
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
-			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.First();
+			Question firstQuestion = session.QuestionsById.Values.First();
 			Guid firstTeamMemberId = Guid.NewGuid();
 			Guid secondTeamMemberId = Guid.NewGuid();
 			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
@@ -138,7 +141,7 @@ namespace Domain.Test
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
-			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.First();
+			Question firstQuestion = session.QuestionsById.Values.First();
 			Guid teamMemberId = Guid.NewGuid();
 
 
@@ -154,7 +157,7 @@ namespace Domain.Test
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
-			QuestionOfTheSession firstQuestion = session.QuestionsById.Values.ElementAt(0);
+			Question firstQuestion = session.QuestionsById.Values.ElementAt(0);
 			Guid firstTeamMemberId = Guid.NewGuid();
 			service.AddTeamMemberToTheSession(firstTeamMemberId, session.Id);
 
@@ -186,7 +189,7 @@ namespace Domain.Test
 
 			sessionService.AddTeamMemberToTheSession(teamMemberId, session.Id);
 
-			Assert.That(() => sessionService.AddTeamMemberToTheSession(teamMemberId, session.Id), 
+			Assert.That(() => sessionService.AddTeamMemberToTheSession(teamMemberId, session.Id),
 				Throws.Exception.With.Message.EqualTo("Team member is already participating of this session."));
 		}
 
@@ -196,7 +199,7 @@ namespace Domain.Test
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
 
-			
+
 			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 
 
@@ -207,66 +210,9 @@ namespace Domain.Test
 		{
 			sessionRepository ??= new InMemorySessionRepository();
 
-			InMemoryQuestionRepository questionRepository = new InMemoryQuestionRepository();
+			InMemoryQuestionTemplateRepository questionRepository = new InMemoryQuestionTemplateRepository();
 
 			return new SessionService(sessionRepository, questionRepository);
 		}
 	}
-
-	public class SessionShould
-	{
-		[Test]
-		public void HasId()
-		{
-			Session session = CreateSession();
-
-			Assert.That(session.Id, Is.Not.Null);
-		}
-
-		[Test]
-		public void HasUniqueId()
-		{
-			Session firstSession = CreateSession();
-			Session secondSession = CreateSession();
-			Session thirdSession = CreateSession();
-
-			Assert.That(firstSession.Id, Is.Not.EqualTo(secondSession.Id));
-			Assert.That(secondSession.Id, Is.Not.EqualTo(thirdSession.Id));
-		}
-
-		[Test]
-		public void HasReadOnlyId()
-		{
-			Session session = CreateSession();
-
-			bool idIsReadOnly = !session.GetType().GetProperty(nameof(session.Id)).CanWrite;
-
-			Assert.True(idIsReadOnly, "Session id is not read only");
-		}
-
-		private Session CreateSession()
-		{
-			List<Question> questions = new List<Question>
-			{
-				new Question(),
-				new Question()
-			};
-
-			return new Session(questions);
-		}
-	}
-
-	public class QuestionOfTheSessionShould
-	{
-		[Test]
-		public void BeCreatedFromQuestion()
-		{
-			Question question = new Question();
-
-			QuestionOfTheSession questionOfTheSession = new QuestionOfTheSession(question);
-
-			Assert.That(questionOfTheSession.Id, Is.EqualTo(question.Id));
-		}
-	}
-
 }
