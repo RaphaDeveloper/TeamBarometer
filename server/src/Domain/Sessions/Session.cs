@@ -9,8 +9,8 @@ namespace Domain.Sessions
 	{
 		public Session(Guid facilitatorId, IEnumerable<QuestionTemplate> questions)
 		{
-			ConstructQuestionsOfThisSession(questions);
 			FacilitatorId = facilitatorId;
+			ConstructQuestionsOfThisSession(questions);
 		}
 
 		public Guid Id { get; } = Guid.NewGuid();
