@@ -20,7 +20,7 @@ namespace Application.Sessions.UseCases
 
 			SessionModel sessionModel = new SessionModel
 			{
-				Questions = session.Questions.Select(q => new QuestionModel())
+				Questions = session.Questions.Select(question => new QuestionModel(question))
 			};
 
 			return sessionModel;

@@ -15,11 +15,14 @@ namespace Application.Test
 	{
 		private Guid facilitatorId = Guid.NewGuid();
 		private Mock<ISessionService> sessionServiceMock = new Mock<ISessionService>();
+		IEnumerable<QuestionTemplate> questionTemplates;
 
 		[SetUp]
 		public void Setup()
 		{
-			Session session = new Session(facilitatorId, GetQuestionTemplates());
+			questionTemplates = GetQuestionTemplates();
+
+			Session session = new Session(facilitatorId, questionTemplates);
 
 			sessionServiceMock.Setup(s => s.CreateSession(facilitatorId)).Returns(session);
 		}
@@ -42,6 +45,22 @@ namespace Application.Test
 			SessionModel session = sessionAppService.CreateSession(facilitatorId);
 
 			Assert.AreEqual(GetQuestionTemplates().Count(), session.Questions.Count());
+		}
+
+		[Test]
+		public void CreateSessionWithQuestionsAndEachQuestionShouldHasId()
+		{
+			SessionAppService sessionAppService = new SessionAppService(sessionServiceMock.Object);
+
+			SessionModel session = sessionAppService.CreateSession(facilitatorId);
+
+			for (int i = 0; i < session.Questions.Count(); i++)
+			{
+				QuestionModel questionModel = session.Questions.ElementAt(i);
+				QuestionTemplate questionTemplate = questionTemplates.ElementAt(i);
+
+				Assert.AreEqual(questionTemplate.Id, questionModel.Id);
+			}
 		}
 
 		private IEnumerable<QuestionTemplate> GetQuestionTemplates()
