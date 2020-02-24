@@ -15,8 +15,9 @@ namespace Domain.Sessions
 		public QuestionTemplate QuestionTemplate { get; }
 		public Guid Id => QuestionTemplate.Id;
 		public string Description => QuestionTemplate.Description;
+
 		private List<Answer> Answers { get; set; } = new List<Answer>();
-		private List<Guid> IdOfTheTeamMembersWhoAnswered { get; set; } = new List<Guid>();
+		private List<Guid> IdOfTeamMembersWhoAnswered { get; set; } = new List<Guid>();
 		public Question NextQuestion { get; internal set; }
 		public bool IsUpForAnswer { get; private set; }
 
@@ -26,13 +27,13 @@ namespace Domain.Sessions
 			{
 				Answers.Add(answer);
 
-				IdOfTheTeamMembersWhoAnswered.Add(teamMemberId);
+				IdOfTeamMembersWhoAnswered.Add(teamMemberId);
 			}
 		}
 
 		private bool TeamMemberHasAlreadyAnswered(Guid teamMemberId)
 		{
-			return IdOfTheTeamMembersWhoAnswered.Contains(teamMemberId);
+			return IdOfTeamMembersWhoAnswered.Contains(teamMemberId);
 		}
 
 		public bool HasAnyAnswer()
@@ -58,6 +59,11 @@ namespace Domain.Sessions
 		internal void DisableAnswers()
 		{
 			IsUpForAnswer = false;
+		}
+
+		public string GetDescriptionOfTheAnswer(Answer answer)
+		{
+			return QuestionTemplate.GetDescriptionOfTheAnswer(answer);
 		}
 	}
 }

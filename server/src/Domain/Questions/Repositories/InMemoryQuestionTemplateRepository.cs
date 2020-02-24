@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Sessions;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Domain.Questions
@@ -9,8 +10,8 @@ namespace Domain.Questions
 		{
 			return new List<QuestionTemplate>
 			{
-				new QuestionTemplate("Confiança"),
-				new QuestionTemplate("Feedback")
+				new QuestionTemplate("Confiança", null),
+				new QuestionTemplate("Feedback", null)
 			}.AsEnumerable();
 		}
 	}

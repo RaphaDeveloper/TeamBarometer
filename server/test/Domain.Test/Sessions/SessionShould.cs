@@ -43,8 +43,8 @@ namespace Domain.Test.Sessions
 
 			List<QuestionTemplate> questionsTemplate = new List<QuestionTemplate>
 			{
-				new QuestionTemplate("Confiança"),
-				new QuestionTemplate("Feedback")
+				new QuestionTemplate("Confiança", null),
+				new QuestionTemplate("Feedback", null)
 			};
 
 			return new Session(facilitatorId, questionsTemplate);
