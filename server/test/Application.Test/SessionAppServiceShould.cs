@@ -2,8 +2,8 @@
 using Application.Sessions.UseCases;
 using Domain.Questions;
 using Domain.Sessions;
+using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
-using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,23 +14,24 @@ namespace Application.Test
 	public class SessionAppServiceShould
 	{
 		private Guid facilitatorId = Guid.NewGuid();
-		private Mock<ISessionService> sessionServiceMock = new Mock<ISessionService>();
+		SessionService sessionService;
 		IEnumerable<QuestionTemplate> questionTemplates;
 
 		[SetUp]
 		public void Setup()
 		{
-			questionTemplates = GetQuestionTemplates();
+			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
+			InMemoryQuestionTemplateRepository questionTemplateRepository = new InMemoryQuestionTemplateRepository();
 
-			Session session = new Session(facilitatorId, questionTemplates);
+			sessionService = new SessionService(sessionRepository, questionTemplateRepository);
 
-			sessionServiceMock.Setup(s => s.CreateSession(facilitatorId)).Returns(session);
+			questionTemplates = questionTemplateRepository.GetAll();
 		}
 
 		[Test]
 		public void CreateSession() 
 		{
-			SessionAppService sessionAppService = new SessionAppService(sessionServiceMock.Object);
+			SessionAppService sessionAppService = new SessionAppService(sessionService);
 
 			SessionModel session = sessionAppService.CreateSession(facilitatorId);
 
@@ -38,19 +39,9 @@ namespace Application.Test
 		}
 
 		[Test]
-		public void CreateSessionWithQuestions()
-		{
-			SessionAppService sessionAppService = new SessionAppService(sessionServiceMock.Object);
-
-			SessionModel session = sessionAppService.CreateSession(facilitatorId);
-
-			Assert.AreEqual(GetQuestionTemplates().Count(), session.Questions.Count());
-		}
-
-		[Test]
 		public void CreateSessionWithQuestionsAndEachQuestionShouldHasTheSameDataOfTheTemplate()
 		{
-			SessionAppService sessionAppService = new SessionAppService(sessionServiceMock.Object);
+			SessionAppService sessionAppService = new SessionAppService(sessionService);
 
 			SessionModel session = sessionAppService.CreateSession(facilitatorId);
 
@@ -64,25 +55,10 @@ namespace Application.Test
 				QuestionModel questionModel = session.Questions.ElementAt(i);
 				QuestionTemplate questionTemplate = questionTemplates.ElementAt(i);
 
-				Assert.AreEqual(questionTemplate.Id, questionModel.Id);
 				Assert.AreEqual(questionTemplate.Description, questionModel.Description);
 				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Red), questionModel.RedAnswer);
 				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Green), questionModel.GreenAnswer);
 			}
-		}
-
-		private IEnumerable<QuestionTemplate> GetQuestionTemplates()
-		{
-			Dictionary<Answer, string> descriptionByAnswer = new Dictionary<Answer, string>
-			{
-				{ Answer.Red, "Não damos feedback" },
-				{ Answer.Green, "Damos feedback" }
-			};
-
-			return new List<QuestionTemplate>
-			{
-				new QuestionTemplate("Feedback", descriptionByAnswer)
-			}.AsEnumerable();
 		}
 	}
 }

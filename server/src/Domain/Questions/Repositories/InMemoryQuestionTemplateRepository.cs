@@ -8,10 +8,22 @@ namespace Domain.Questions
 	{
 		public IEnumerable<QuestionTemplate> GetAll()
 		{
+			Dictionary<Answer, string> descriptionByAnswerConfianca = new Dictionary<Answer, string>
+			{
+				{ Answer.Red, "Não somos confiantes" },
+				{ Answer.Green, "Somos confiantes" }
+			};
+
+			Dictionary<Answer, string> descriptionByAnswerFeedback = new Dictionary<Answer, string>
+			{
+				{ Answer.Red, "Não damos feedback" },
+				{ Answer.Green, "Damos feedback" }
+			};
+
 			return new List<QuestionTemplate>
 			{
-				new QuestionTemplate("Confiança", null),
-				new QuestionTemplate("Feedback", null)
+				new QuestionTemplate("Confiança", descriptionByAnswerConfianca),
+				new QuestionTemplate("Feedback", descriptionByAnswerFeedback)
 			}.AsEnumerable();
 		}
 	}

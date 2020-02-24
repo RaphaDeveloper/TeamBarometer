@@ -5,20 +5,20 @@ using System.Collections.Generic;
 
 namespace Domain.Sessions.UseCases
 {
-	public class SessionService : ISessionService
+	public class SessionService
 	{
 		private InMemorySessionRepository SessionRepository { get; }
-		private InMemoryQuestionTemplateRepository QuestionRepository { get; }
+		private InMemoryQuestionTemplateRepository QuestionTemplateRepository { get; }
 
-		public SessionService(InMemorySessionRepository sessionRepository, InMemoryQuestionTemplateRepository questionRepository)
+		public SessionService(InMemorySessionRepository sessionRepository, InMemoryQuestionTemplateRepository questionTemplateRepository)
 		{
 			SessionRepository = sessionRepository;
-			QuestionRepository = questionRepository;
+			QuestionTemplateRepository = questionTemplateRepository;
 		}
 
 		public Session CreateSession(Guid facilitatorId)
 		{
-			IEnumerable<QuestionTemplate> questions = QuestionRepository.GetAll();
+			IEnumerable<QuestionTemplate> questions = QuestionTemplateRepository.GetAll();
 
 			Session session = new Session(facilitatorId, questions);
 
