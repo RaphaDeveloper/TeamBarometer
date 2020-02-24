@@ -48,27 +48,40 @@ namespace Application.Test
 		}
 
 		[Test]
-		public void CreateSessionWithQuestionsAndEachQuestionShouldHasId()
+		public void CreateSessionWithQuestionsAndEachQuestionShouldHasTheSameDataOfTheTemplate()
 		{
 			SessionAppService sessionAppService = new SessionAppService(sessionServiceMock.Object);
 
 			SessionModel session = sessionAppService.CreateSession(facilitatorId);
 
+			AssertThatTheQuestionsHasTheSameDataOfTheTemplate(session);
+		}
+
+		private void AssertThatTheQuestionsHasTheSameDataOfTheTemplate(SessionModel session)
+		{
 			for (int i = 0; i < session.Questions.Count(); i++)
 			{
 				QuestionModel questionModel = session.Questions.ElementAt(i);
 				QuestionTemplate questionTemplate = questionTemplates.ElementAt(i);
 
 				Assert.AreEqual(questionTemplate.Id, questionModel.Id);
+				Assert.AreEqual(questionTemplate.Description, questionModel.Description);
+				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Red), questionModel.RedAnswer);
+				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Green), questionModel.GreenAnswer);
 			}
 		}
 
 		private IEnumerable<QuestionTemplate> GetQuestionTemplates()
 		{
+			Dictionary<Answer, string> descriptionByAnswer = new Dictionary<Answer, string>
+			{
+				{ Answer.Red, "Não damos feedback" },
+				{ Answer.Green, "Damos feedback" }
+			};
+
 			return new List<QuestionTemplate>
 			{
-				new QuestionTemplate("Confiança", null),
-				new QuestionTemplate("Feedback", null)
+				new QuestionTemplate("Feedback", descriptionByAnswer)
 			}.AsEnumerable();
 		}
 	}
