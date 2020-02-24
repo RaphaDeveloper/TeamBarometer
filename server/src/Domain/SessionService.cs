@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 
 namespace Domain
@@ -41,11 +40,11 @@ namespace Domain
 			session.AddTeamMember(teamMemberId);
 		}
 
-		public void StartVotingOfTheCurrentQuestionOfTheSession(Guid sessionId)
+		public void EnableAnswersOfTheCurrentQuestionOfTheSession(Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
-			session.StartVotingOfTheCurrentQuestion();
+			session.EnableAnswersOfTheCurrentQuestion();
 		}
 	}
 
@@ -63,13 +62,13 @@ namespace Domain
 
 		internal void AnswerTheCurrentQuestion(Guid teamMemberId, Answer answer)
 		{
-			if (TeamMemberIsParticipating(teamMemberId) && CurrentQuestion.IsUpForVote)
+			if (TeamMemberIsParticipating(teamMemberId) && CurrentQuestion.IsUpForAnswer)
 			{
 				CurrentQuestion.ContabilizeTheAnswer(teamMemberId, answer);
 
-				if (CurrentQuestion.AllTeamMembersVoted(TeamMembers))
+				if (CurrentQuestion.AllTeamMembersAnswered(TeamMembers))
 				{
-					CurrentQuestion.StopVoting();
+					CurrentQuestion.DisableAnswers();
 
 					ChangeTheCurrentQuestion();
 				}
@@ -91,9 +90,9 @@ namespace Domain
 			TeamMembers.Add(teamMemberId);
 		}
 
-		internal void StartVotingOfTheCurrentQuestion()
+		internal void EnableAnswersOfTheCurrentQuestion()
 		{
-			CurrentQuestion.StartVoting();
+			CurrentQuestion.EnableAnswers();
 		}
 
 		public bool TeamMemberIsParticipating(Guid teamMemberId)
@@ -155,23 +154,23 @@ namespace Domain
 
 		public Guid Id => question.Id;
 		private List<Answer> Answers { get; set; } = new List<Answer>();
-		private List<Guid> IdOfTheTeamMembersWhoVoted { get; set; } = new List<Guid>();
+		private List<Guid> IdOfTheTeamMembersWhoAnswered { get; set; } = new List<Guid>();
 		public QuestionOfTheSession NextQuestion { get; internal set; }
-		public bool IsUpForVote { get; private set; }
+		public bool IsUpForAnswer { get; private set; }
 
 		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
 		{
-			if (!TeamMemberHasAlreadyVoted(teamMemberId))
+			if (!TeamMemberHasAlreadyAnswered(teamMemberId))
 			{
 				Answers.Add(answer);
 
-				IdOfTheTeamMembersWhoVoted.Add(teamMemberId);
+				IdOfTheTeamMembersWhoAnswered.Add(teamMemberId);
 			}
 		}
 
-		private bool TeamMemberHasAlreadyVoted(Guid teamMemberId)
+		private bool TeamMemberHasAlreadyAnswered(Guid teamMemberId)
 		{
-			return IdOfTheTeamMembersWhoVoted.Contains(teamMemberId);
+			return IdOfTheTeamMembersWhoAnswered.Contains(teamMemberId);
 		}
 
 		public bool HasAnyAnswer()
@@ -184,19 +183,19 @@ namespace Domain
 			return Answers.Count(a => a == answer);
 		}
 
-		internal bool AllTeamMembersVoted(List<Guid> teamMembersId)
+		internal bool AllTeamMembersAnswered(List<Guid> teamMembersId)
 		{
 			return Answers.Count == teamMembersId.Count;
 		}
 
-		internal void StartVoting()
+		internal void EnableAnswers()
 		{
-			IsUpForVote = true;
+			IsUpForAnswer = true;
 		}
 
-		internal void StopVoting()
+		internal void DisableAnswers()
 		{
-			IsUpForVote = false;
+			IsUpForAnswer = false;
 		}
 	}
 

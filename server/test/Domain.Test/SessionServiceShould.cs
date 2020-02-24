@@ -61,10 +61,10 @@ namespace Domain.Test
 			service.AddTeamMemberToTheSession(teamMemberId, session.Id);
 
 
-			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
+			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Red, session.Id);
 			
-			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
+			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Green, session.Id);
 			
 			
@@ -84,7 +84,7 @@ namespace Domain.Test
 			service.AddTeamMemberToTheSession(secondTeamMemberId, session.Id);
 
 
-			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
+			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
 
@@ -93,7 +93,7 @@ namespace Domain.Test
 		}
 
 		[Test]
-		public void StopVotingOfTheQuestionWhenAllTeamMemberAnswerIt()
+		public void DisableAnswersOfTheQuestionWhenAllTeamMemberAnswerIt()
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
@@ -104,12 +104,12 @@ namespace Domain.Test
 			service.AddTeamMemberToTheSession(secondTeamMemberId, session.Id);
 
 
-			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
+			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
 
 
-			Assert.False(firstQuestion.IsUpForVote);
+			Assert.False(firstQuestion.IsUpForAnswer);
 		}
 
 		[Test]
@@ -124,7 +124,7 @@ namespace Domain.Test
 			service.AddTeamMemberToTheSession(secondTeamMemberId, session.Id);
 
 
-			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
+			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(firstTeamMemberId, Answer.Green, session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(secondTeamMemberId, Answer.Green, session.Id);
@@ -142,7 +142,7 @@ namespace Domain.Test
 			Guid teamMemberId = Guid.NewGuid();
 
 
-			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
+			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 			service.AnswerTheCurrentQuestionOfTheSession(teamMemberId, Answer.Red, session.Id);
 
 
@@ -150,7 +150,7 @@ namespace Domain.Test
 		}
 
 		[Test]
-		public void NotAnswerTheSessionQuestionWhenTheQuestionsIsNotUpForVote()
+		public void NotAnswerTheSessionQuestionWhenTheQuestionsIsNotUpForAnswer()
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
@@ -191,16 +191,16 @@ namespace Domain.Test
 		}
 
 		[Test]
-		public void StartTheVoting()
+		public void EnableAnswersOfTheCurrentQuestionOfTheSession()
 		{
 			SessionService service = CreateService();
 			Session session = service.CreateSession();
 
 			
-			service.StartVotingOfTheCurrentQuestionOfTheSession(session.Id);
+			service.EnableAnswersOfTheCurrentQuestionOfTheSession(session.Id);
 
 
-			Assert.True(session.CurrentQuestion.IsUpForVote);
+			Assert.True(session.CurrentQuestion.IsUpForAnswer);
 		}
 
 		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
