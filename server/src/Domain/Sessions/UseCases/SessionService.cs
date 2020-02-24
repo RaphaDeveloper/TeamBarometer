@@ -16,11 +16,11 @@ namespace Domain.Sessions.UseCases
 			QuestionRepository = questionRepository;
 		}
 
-		public Session CreateSession()
+		public Session CreateSession(Guid facilitatorId)
 		{
 			IEnumerable<QuestionTemplate> questions = QuestionRepository.GetAll();
 
-			Session session = new Session(questions);
+			Session session = new Session(facilitatorId, questions);
 
 			SessionRepository.Insert(session);
 

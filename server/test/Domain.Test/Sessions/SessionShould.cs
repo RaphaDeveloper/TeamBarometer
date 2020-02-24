@@ -1,6 +1,7 @@
 ﻿using Domain.Questions;
 using Domain.Sessions;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace Domain.Test.Sessions
@@ -38,13 +39,15 @@ namespace Domain.Test.Sessions
 
 		private Session CreateSession()
 		{
+			Guid facilitatorId = Guid.NewGuid();
+
 			List<QuestionTemplate> questionsTemplate = new List<QuestionTemplate>
 			{
 				new QuestionTemplate(),
 				new QuestionTemplate()
 			};
 
-			return new Session(questionsTemplate);
+			return new Session(facilitatorId, questionsTemplate);
 		}
 	}
 }

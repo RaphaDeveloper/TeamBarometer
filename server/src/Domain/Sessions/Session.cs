@@ -7,15 +7,18 @@ namespace Domain.Sessions
 {
 	public class Session
 	{
-		public Session(IEnumerable<QuestionTemplate> questions)
+		public Session(Guid facilitatorId, IEnumerable<QuestionTemplate> questions)
 		{
 			ConstructQuestionsOfThisSession(questions);
+			FacilitatorId = facilitatorId;
 		}
 
 		public Guid Id { get; } = Guid.NewGuid();
-		public Dictionary<Guid, Question> QuestionsById { get; set; } = new Dictionary<Guid, Question>();
+		public IEnumerable<Question> Questions => QuestionsById.Values;
+		private Dictionary<Guid, Question> QuestionsById { get; set; } = new Dictionary<Guid, Question>();
 		public Question CurrentQuestion { get; private set; }
 		private List<Guid> TeamMembers { get; set; } = new List<Guid>();
+		public Guid FacilitatorId { get; }
 
 		internal void AnswerTheCurrentQuestion(Guid teamMemberId, Answer answer)
 		{
