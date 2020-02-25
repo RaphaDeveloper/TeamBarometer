@@ -13,7 +13,7 @@ describe('when the home is loaded', () => {
         SessionRepository.mockImplementation(() => {
             return {
                 createSession: () => {
-                    const memberIsTheFacilitator = true;
+                    const teamMemberIsTheFacilitator = true;
 
                     const questions = [
                         new Question('Confiança',
@@ -29,11 +29,11 @@ describe('when the home is loaded', () => {
                         new Question('Autonomia', false),
                     ];
 
-                    return new SessionModel('123-456-789', questions, memberIsTheFacilitator);
+                    return new SessionModel('123-456-789', questions, teamMemberIsTheFacilitator);
                 },
 
                 enterToTheSession: (sessionId) => {
-                    const memberIsTheFacilitator = false;
+                    const teamMemberIsTheFacilitator = false;
 
                     const questions = [
                         new Question('Confiança',
@@ -49,7 +49,7 @@ describe('when the home is loaded', () => {
                         new Question('Autonomia', false),
                     ];
 
-                    return new SessionModel(sessionId, questions, memberIsTheFacilitator);
+                    return new SessionModel(sessionId, questions, teamMemberIsTheFacilitator);
                 }
             };
         });

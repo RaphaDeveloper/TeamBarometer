@@ -19,13 +19,37 @@ namespace Application.Test.Sessions
 		}
 
 		[Test]
-		public void HasTheSameIdAsTheSession()
+		public void CreateItselfFromSession()
 		{
-			Session session = new Session(facilitatorId: Guid.NewGuid(), questionTemplates);
+			Guid teamMemberId = Guid.NewGuid();
+			Session session = new Session(teamMemberId, questionTemplates);
 
-			SessionModel sessionModel = new SessionModel(session);
+			SessionModel sessionModel = new SessionModel(session, teamMemberId);
 
 			Assert.AreEqual(session.Id, sessionModel.Id);
+		}
+
+		[Test]
+		public void HasTeamMemberAsFacilitatorWhenTheTeamMemberIsEqualsTheFacilitator()
+		{
+			Guid teamMemberId = Guid.NewGuid();
+			Session session = new Session(teamMemberId, questionTemplates);
+
+			SessionModel sessionModel = new SessionModel(session, teamMemberId);
+
+			Assert.IsTrue(sessionModel.TeamMemberIsTheFacilitator);
+		}
+
+		[Test]
+		public void HasNotTeamMemberAsFacilitatorWhenTheTeamMemberIsNotEqualsTheFacilitator()
+		{
+			Guid facilitatorId = Guid.NewGuid();
+			Guid teamMemberId = Guid.NewGuid();
+			Session session = new Session(facilitatorId, questionTemplates);
+
+			SessionModel sessionModel = new SessionModel(session, teamMemberId);
+
+			Assert.IsFalse(sessionModel.TeamMemberIsTheFacilitator);
 		}
 	}
 }

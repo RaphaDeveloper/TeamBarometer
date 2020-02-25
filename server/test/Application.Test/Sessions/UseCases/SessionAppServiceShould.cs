@@ -33,12 +33,13 @@ namespace Application.Test.Sessions.UseCases
 		{
 			SessionAppService sessionAppService = new SessionAppService(sessionService);
 
-			SessionModel session = sessionAppService.CreateSession(facilitatorId);
+			SessionModel sessionModel = sessionAppService.CreateSession(facilitatorId);
 
-			Assert.That(session.Id, Is.Not.EqualTo(Guid.Empty));
-			Assert.IsTrue(session.Questions.First().IsTheCurrent);
-			AssertThatTheQuestionsHasTheSameDataOfTheTemplate(session);
-			AssertThatTheQuestionsHasNotHasAnyAmountOfAnswer(session);
+			Assert.That(sessionModel.Id, Is.Not.EqualTo(Guid.Empty));
+			Assert.IsTrue(sessionModel.Questions.First().IsTheCurrent);
+			Assert.IsTrue(sessionModel.TeamMemberIsTheFacilitator);
+			AssertThatTheQuestionsHasTheSameDataOfTheTemplate(sessionModel);
+			AssertThatTheQuestionsHasNotHasAnyAmountOfAnswer(sessionModel);
 		}
 
 		private void AssertThatTheQuestionsHasTheSameDataOfTheTemplate(SessionModel session)

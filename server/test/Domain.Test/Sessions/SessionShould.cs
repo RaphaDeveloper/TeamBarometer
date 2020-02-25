@@ -8,6 +8,8 @@ namespace Domain.Test.Sessions
 {
 	public class SessionShould
 	{
+		Guid facilitatorId = Guid.NewGuid();
+
 		[Test]
 		public void HasId()
 		{
@@ -39,8 +41,6 @@ namespace Domain.Test.Sessions
 
 		private Session CreateSession()
 		{
-			Guid facilitatorId = Guid.NewGuid();
-
 			List<QuestionTemplate> questionsTemplate = new List<QuestionTemplate>
 			{
 				new QuestionTemplate("Confiança", null),

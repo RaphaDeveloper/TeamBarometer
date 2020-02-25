@@ -23,7 +23,7 @@ namespace Domain.Test.Sessions.UseCases
 			Session session = service.CreateSession(facilitatorId);
 
 			Assert.That(session, Is.Not.Null);
-			Assert.That(session.FacilitatorId, Is.EqualTo(facilitatorId));
+			Assert.IsTrue(session.TeamMemberIsTheFacilitator(facilitatorId));
 			Assert.That(session.Questions, Is.Not.Null.And.Not.Empty);
 		}
 

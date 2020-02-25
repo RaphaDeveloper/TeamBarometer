@@ -1,5 +1,4 @@
 ﻿using Domain.Sessions;
-using System;
 
 namespace Application.Sessions
 {

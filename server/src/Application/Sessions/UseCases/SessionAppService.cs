@@ -1,7 +1,6 @@
 ﻿using Domain.Sessions;
 using Domain.Sessions.UseCases;
 using System;
-using System.Linq;
 
 namespace Application.Sessions.UseCases
 {
@@ -18,7 +17,7 @@ namespace Application.Sessions.UseCases
 		{
 			Session session = SessionService.CreateSession(facilitatorId);
 
-			return new SessionModel(session);
+			return new SessionModel(session, facilitatorId);
 		}
 	}
 }

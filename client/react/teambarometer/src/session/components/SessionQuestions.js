@@ -51,7 +51,7 @@ export default class SessionQuestions extends Component {
     renderPlayButton(question) {
         return (
             question.isTheCurrent &&
-            this.props.session.memberIsTheFacilitator &&
+            this.props.session.teamMemberIsTheFacilitator &&
             <input className="play" type="image" src={playImage} alt="Play" />
         );
     }

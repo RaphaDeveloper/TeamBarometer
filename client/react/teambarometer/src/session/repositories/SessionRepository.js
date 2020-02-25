@@ -11,7 +11,7 @@ export default class SessionRepository {
     }
 }
 
-function getSessionModel(sessionId, memberIsTheFacilitator) {
+function getSessionModel(sessionId, teamMemberIsTheFacilitator) {
     const questions = [
         new Question('Confiança',
             'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
@@ -26,5 +26,5 @@ function getSessionModel(sessionId, memberIsTheFacilitator) {
         new Question('Autonomia', false),
     ];
 
-    return new SessionModel(sessionId, questions, memberIsTheFacilitator);
+    return new SessionModel(sessionId, questions, teamMemberIsTheFacilitator);
 }

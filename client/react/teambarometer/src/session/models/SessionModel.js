@@ -1,8 +1,8 @@
 export default class SessionModel {
-    constructor(id, questions, memberIsTheFacilitator) {        
+    constructor(id, questions, teamMemberIsTheFacilitator) {        
         this.id = id;
         this.questions = questions || [];
-        this.memberIsTheFacilitator = memberIsTheFacilitator;
+        this.teamMemberIsTheFacilitator = teamMemberIsTheFacilitator;
     }
 
     getCurrentQuestion() {

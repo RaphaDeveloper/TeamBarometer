@@ -15,7 +15,10 @@ namespace Domain.Sessions
 
 		public Guid Id { get; } = Guid.NewGuid();
 		public IEnumerable<Question> Questions => QuestionsById.Values;
+
 		private Dictionary<Guid, Question> QuestionsById { get; set; } = new Dictionary<Guid, Question>();
+		private List<Guid> TeamMembers { get; set; } = new List<Guid>();
+		private Guid FacilitatorId { get; }
 		
 		private Question currentQuestion;
 		public Question CurrentQuestion 
@@ -33,9 +36,6 @@ namespace Domain.Sessions
 				this.currentQuestion.IsTheCurrent = true;
 			}
 		}
-		
-		private List<Guid> TeamMembers { get; set; } = new List<Guid>();
-		public Guid FacilitatorId { get; }
 
 		private void ConstructQuestionsOfThisSession(IEnumerable<QuestionTemplate> questions)
 		{
@@ -112,6 +112,11 @@ namespace Domain.Sessions
 		public bool TeamMemberIsParticipating(Guid teamMemberId)
 		{
 			return TeamMembers.Contains(teamMemberId);
+		}
+
+		public bool TeamMemberIsTheFacilitator(Guid teamMemberId)
+		{
+			return FacilitatorId == teamMemberId;
 		}
 	}
 }

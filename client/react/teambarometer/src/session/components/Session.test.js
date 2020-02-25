@@ -5,7 +5,7 @@ import Question from '../models/Question';
 import SessionModel from '../models/SessionModel';
 
 describe('when the session is loaded', () => {
-  function getSession(memberIsTheFacilitator) {
+  function getSession(teamMemberIsTheFacilitator) {
     const questions = [
       new Question('Confiança',
         'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
@@ -20,15 +20,15 @@ describe('when the session is loaded', () => {
       new Question('Autonomia', false),
     ];
 
-    return new SessionModel('123-456-789', questions, memberIsTheFacilitator);
+    return new SessionModel('123-456-789', questions, teamMemberIsTheFacilitator);
   }
 
   let session;
 
   beforeEach(() => {
-    const memberIsTheFacilitator = true;
+    const teamMemberIsTheFacilitator = true;
 
-    session = mount(<Session session={getSession(memberIsTheFacilitator)}/>);
+    session = mount(<Session session={getSession(teamMemberIsTheFacilitator)}/>);
   });
 
   afterEach(() => {
@@ -127,9 +127,9 @@ describe('when the session is loaded', () => {
 
   describe('if the member is not the facilitator', () => {
     it('the play button should not be rendered for the current question', () => {
-      const memberIsTheFacilitator = false;
+      const teamMemberIsTheFacilitator = false;
 
-      let session = mount(<Session session={getSession(memberIsTheFacilitator)}/>);
+      let session = mount(<Session session={getSession(teamMemberIsTheFacilitator)}/>);
 
       expect(session.find('.current-question .play').length).toBe(0);
     });
