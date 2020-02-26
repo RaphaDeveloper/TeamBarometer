@@ -1,7 +1,7 @@
-﻿using BoDi;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
 namespace API.Specs.Session.Steps
@@ -25,13 +25,13 @@ namespace API.Specs.Session.Steps
         }
 
         [When(@"I request the creation")]
-        public async void WhenIRequestTheCreation()
+        public async Task WhenIRequestTheCreation()
         {
-            string uri = "http://localhost/teambarometer";
+            string uri = "http://localhost:58824/api";
             
             string endpoint = uri + context.Endpoint;
 
-            context.HttpResponse = await httpClient.GetAsync(endpoint);
+            context.HttpResponse = await httpClient.PostAsync(endpoint, null);
         }
 
         [Then(@"Session should be created successfully")]
