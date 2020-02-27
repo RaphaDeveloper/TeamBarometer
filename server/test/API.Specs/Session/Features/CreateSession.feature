@@ -3,8 +3,12 @@
 	As a team member
 	I want to create a session to run a team barometer cerimony
 
-@mytag
 Scenario: Create session successfully
-	Given I am creating a session
+	Given I am a user
 	When I request the creation
-	Then Session should be created successfully
+	Then The session should be created successfully
+
+Scenario: I am the facilitator
+	Given I am a user
+	When I request the creation
+	Then I should be the facilitator

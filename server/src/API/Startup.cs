@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Sessions.UseCases;
+using Domain.Questions;
+using Domain.Sessions.Repositories;
+using Domain.Sessions.UseCases;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +29,11 @@ namespace API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+
+			services.AddScoped<SessionAppService>();
+			services.AddScoped<SessionService>();
+			services.AddScoped<InMemorySessionRepository>();
+			services.AddScoped<InMemoryQuestionTemplateRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

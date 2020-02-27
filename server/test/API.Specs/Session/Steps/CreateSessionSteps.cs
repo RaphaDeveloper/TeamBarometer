@@ -1,49 +1,70 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
+using System;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
 namespace API.Specs.Session.Steps
 {
-    [Binding]
-    public class CreateSessionSteps
-    {
-        private readonly Context context;
-        private readonly HttpClient httpClient;
+	[Binding]
+	public class CreateSessionSteps
+	{
+		private readonly Context context;
+		private readonly HttpClient httpClient;
 
-        public CreateSessionSteps(Context context)
-        {
-            this.context = context;
-            this.httpClient = new HttpClient();
-        }
+		public CreateSessionSteps(Context context)
+		{
+			this.context = context;
+			this.httpClient = new HttpClient();
+		}
 
-        [Given(@"I am creating a session")]
-        public void GivenIAmCreatingASession()
-        {
-            context.Endpoint = "/sessions";
-        }
+		[Given(@"I am a user")]
+		public void GivenIAmCreatingASession()
+		{
+			context.UserId = Guid.NewGuid().ToString();
+		}
 
-        [When(@"I request the creation")]
-        public async Task WhenIRequestTheCreation()
-        {
-            string uri = "http://localhost:58824/api";
-            
-            string endpoint = uri + context.Endpoint;
+		[When(@"I request the creation")]
+		public async Task WhenIRequestTheCreation()
+		{
+			string endpoint = "http://localhost:58824/api/sessions";
 
-            context.HttpResponse = await httpClient.PostAsync(endpoint, null);
-        }
+			string data = JsonConvert.SerializeObject(context.UserId);
 
-        [Then(@"Session should be created successfully")]
-        public void ThenSessionShouldBeCreatedSuccessfully()
-        {
-            Assert.That(context.HttpResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-        }
-    }
+			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
-    public class Context
-    {
-        public string Endpoint { get; set; }
-        public HttpResponseMessage HttpResponse { get; set; }
-    }
+			context.HttpResponse = await httpClient.PostAsync(endpoint, content);
+		}
+
+		[Then(@"The session should be created successfully")]
+		public void ThenTheSessionShouldBeCreatedSuccessfully()
+		{
+			Assert.That(context.HttpResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+		}
+
+		[Then(@"I should be the facilitator")]
+		public async Task ThenIShouldBeTheFacilitator()
+		{
+			string content = await context.HttpResponse.Content.ReadAsStringAsync();
+
+			Session session = JsonConvert.DeserializeObject<Session>(content);
+
+			Assert.True(session.teamMemberIsTheFacilitator);
+		}
+
+	}
+
+	public class Context
+	{
+		public string UserId { get; set; }
+		public HttpResponseMessage HttpResponse { get; set; }
+	}
+
+	public class Session
+	{
+		public bool teamMemberIsTheFacilitator;
+	}
 }
