@@ -46,8 +46,8 @@ export default class Home extends Component {
         );
     }
 
-    createSession = () => {
-        const session = this.sessionRepository.createSession();
+    createSession = async () => {
+        const session = await this.sessionRepository.createSession();
 
         this.setState({ session: session });
     }
