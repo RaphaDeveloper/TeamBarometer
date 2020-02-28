@@ -55,6 +55,17 @@ namespace API.Specs.Session.Steps
 			Assert.True(session.teamMemberIsTheFacilitator);
 		}
 
+		[Then(@"The created session should has an Id")]
+		public async Task ThenTheCreatedSessionShouldHasAnId()
+		{
+			string content = await context.HttpResponse.Content.ReadAsStringAsync();
+
+			Session session = JsonConvert.DeserializeObject<Session>(content);
+
+			Assert.That(session.id, Is.Not.EqualTo(Guid.Empty));
+		}
+
+
 	}
 
 	public class Context
@@ -65,6 +76,7 @@ namespace API.Specs.Session.Steps
 
 	public class Session
 	{
+		public Guid id;
 		public bool teamMemberIsTheFacilitator;
 	}
 }

@@ -12,3 +12,8 @@ Scenario: I am the facilitator
 	Given I am a user
 	When I request the creation
 	Then I should be the facilitator
+
+Scenario: Session should has an Id
+	Given I am a user
+	When I request the creation
+	Then The created session should has an Id
