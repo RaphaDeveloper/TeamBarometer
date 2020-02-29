@@ -80,8 +80,8 @@ export default class Home extends Component {
         this.setState({ sessionId: event.target.value });
     }
 
-    enterToTheSession = () => {
-        const session = this.sessionRepository.enterToTheSession(this.state.sessionId);
+    enterToTheSession = async () => {
+        const session = await this.sessionRepository.enterToTheSession(this.state.sessionId);
 
         this.setState({ session: session });
     }

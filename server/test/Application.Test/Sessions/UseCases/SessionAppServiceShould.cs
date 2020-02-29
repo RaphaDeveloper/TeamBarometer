@@ -39,8 +39,8 @@ namespace Application.Test.Sessions.UseCases
 			Assert.IsTrue(sessionModel.Questions.First().IsTheCurrent);
 			Assert.IsTrue(sessionModel.TeamMemberIsTheFacilitator);
 			AssertThatTheQuestionsHasTheSameDataOfTheTemplate(sessionModel);
-			AssertThatTheQuestionsHasNotHasAnyAmountOfAnswer(sessionModel);
-		}
+			AssertThatTheQuestionsHasNotAnyAmountOfAnswer(sessionModel);
+		}		
 
 		private void AssertThatTheQuestionsHasTheSameDataOfTheTemplate(SessionModel session)
 		{
@@ -49,17 +49,45 @@ namespace Application.Test.Sessions.UseCases
 				QuestionModel questionModel = session.Questions.ElementAt(i);
 				QuestionTemplate questionTemplate = questionTemplates.ElementAt(i);
 
+				Assert.That(questionModel.Id, Is.Not.EqualTo(Guid.Empty));
 				Assert.AreEqual(questionTemplate.Description, questionModel.Description);
 				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Red), questionModel.RedAnswer);
 				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Green), questionModel.GreenAnswer);
 			}
 		}
 
-		private void AssertThatTheQuestionsHasNotHasAnyAmountOfAnswer(SessionModel session)
+		private void AssertThatTheQuestionsHasNotAnyAmountOfAnswer(SessionModel session)
 		{
 			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfRedAnswers));
 			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfYellowAnswers));
 			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfGreenAnswers));
+		}
+
+		[Test]
+		public void JoinTheSession()
+		{
+			Guid userId = Guid.NewGuid();
+			SessionAppService sessionAppService = new SessionAppService(sessionService);
+
+			SessionModel createdSession = sessionAppService.CreateSession(facilitatorId);
+			SessionModel joinedSession = sessionAppService.JoinTheSession(createdSession.Id, userId);
+
+			Assert.That(joinedSession, Is.EqualTo(createdSession));
+			Assert.IsFalse(joinedSession.TeamMemberIsTheFacilitator);
+			AssertThatTheQuestionsOfTheJoinedSessionIsEqualToTheQuestionsOfTheCreatedSession(joinedSession, createdSession);
+		}
+
+		private void AssertThatTheQuestionsOfTheJoinedSessionIsEqualToTheQuestionsOfTheCreatedSession(SessionModel joinedSession, SessionModel createdSession)
+		{
+			Assert.That(joinedSession.Questions.Count(), Is.EqualTo(createdSession.Questions.Count()));
+
+			for (int i = 0; i < joinedSession.Questions.Count(); i++)
+			{
+				QuestionModel questionOfTheJoinedSession = joinedSession.Questions.ElementAt(i);
+				QuestionModel questionOfTheCreatedSession = createdSession.Questions.ElementAt(i);
+
+				Assert.That(questionOfTheJoinedSession, Is.EqualTo(questionOfTheCreatedSession));
+			}
 		}
 	}
 }

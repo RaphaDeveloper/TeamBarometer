@@ -17,5 +17,17 @@ namespace Application.Sessions
 		public Guid Id { get; set; }
 		public IEnumerable<QuestionModel> Questions { get; private set; }
 		public bool TeamMemberIsTheFacilitator { get; set; }
+
+		public override bool Equals(object obj)
+		{
+			SessionModel session = obj as SessionModel;
+
+			return this.Id == session?.Id;
+		}
+
+		public override int GetHashCode()
+		{
+			return Id.GetHashCode();
+		}
 	}
 }

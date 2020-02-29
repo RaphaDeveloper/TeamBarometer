@@ -61,7 +61,7 @@ namespace Domain.Test.Sessions.UseCases
 			SessionService service = CreateService();
 			Session session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
-			service.AddTeamMemberInTheSession(teamMemberId, session.Id);
+			service.JoinTheSession(session.Id, teamMemberId);
 			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
 
 
@@ -79,8 +79,8 @@ namespace Domain.Test.Sessions.UseCases
 			SessionService service = CreateService();
 			Session session = service.CreateSession(facilitatorId);
 			Question priorCurrentQuestion = session.CurrentQuestion;
-			service.AddTeamMemberInTheSession(firstTeamMemberId, session.Id);
-			service.AddTeamMemberInTheSession(secondTeamMemberId, session.Id);
+			service.JoinTheSession(session.Id, firstTeamMemberId);
+			service.JoinTheSession(session.Id, secondTeamMemberId);
 			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
 
 
@@ -101,8 +101,8 @@ namespace Domain.Test.Sessions.UseCases
 			SessionService service = CreateService();
 			Session session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
-			service.AddTeamMemberInTheSession(firstTeamMemberId, session.Id);
-			service.AddTeamMemberInTheSession(secondTeamMemberId, session.Id);
+			service.JoinTheSession(session.Id, firstTeamMemberId);
+			service.JoinTheSession(session.Id, secondTeamMemberId);
 			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
 
 
@@ -120,7 +120,7 @@ namespace Domain.Test.Sessions.UseCases
 			SessionService service = CreateService();
 			Session session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
-			service.AddTeamMemberInTheSession(teamMemberId, session.Id);
+			service.JoinTheSession(session.Id, teamMemberId);
 			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
 
 
@@ -154,7 +154,7 @@ namespace Domain.Test.Sessions.UseCases
 			SessionService service = CreateService();
 			Session session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
-			service.AddTeamMemberInTheSession(firstTeamMemberId, session.Id);
+			service.JoinTheSession(session.Id, firstTeamMemberId);
 
 
 			service.AnswerTheSessionCurrentQuestion(firstTeamMemberId, Answer.Green, session.Id);
@@ -166,30 +166,30 @@ namespace Domain.Test.Sessions.UseCases
 		#endregion
 
 
-		#region EnterInTheSession
+		#region JoinTheSession
 
 		[Test]
-		public void EnterInTheSession()
+		public void JoinTheSession()
 		{
 			SessionService sessionService = CreateService();
 			Session session = sessionService.CreateSession(facilitatorId);
 			Guid teamMemberId = Guid.NewGuid();
 
-			sessionService.AddTeamMemberInTheSession(teamMemberId, session.Id);
+			sessionService.JoinTheSession(session.Id, teamMemberId);
 
 			Assert.True(session.TeamMemberIsParticipating(teamMemberId));
 		}
 
 		[Test]
-		public void DoesNotEnterInTheSessionIfTheTeamMemberIsAlreadyInTheSession()
+		public void DoesNotJoinTheSessionIfTheTeamMemberIsAlreadyInTheSession()
 		{
 			SessionService sessionService = CreateService();
 			Session session = sessionService.CreateSession(facilitatorId);
 			Guid teamMemberId = Guid.NewGuid();
 
-			sessionService.AddTeamMemberInTheSession(teamMemberId, session.Id);
+			sessionService.JoinTheSession(session.Id, teamMemberId);
 
-			Assert.That(() => sessionService.AddTeamMemberInTheSession(teamMemberId, session.Id),
+			Assert.That(() => sessionService.JoinTheSession(session.Id, teamMemberId),
 				Throws.Exception.With.Message.EqualTo("Team member is already participating of this session."));
 		}
 

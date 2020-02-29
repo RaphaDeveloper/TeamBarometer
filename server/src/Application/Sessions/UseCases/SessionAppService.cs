@@ -19,5 +19,12 @@ namespace Application.Sessions.UseCases
 
 			return new SessionModel(session, facilitatorId);
 		}
+
+		public SessionModel JoinTheSession(Guid sessionId, Guid userId)
+		{
+			Session session = SessionService.JoinTheSession(sessionId, userId);
+
+			return new SessionModel(session, userId);
+		}
 	}
 }

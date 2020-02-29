@@ -1,5 +1,6 @@
 export default class Question {
-    constructor({description, redAnswer, greenAnswer, isTheCurrent, amountOfRedAnswers, amountOfYellowAnswers, amountOfGreenAnswers}) {
+    constructor({id, description, redAnswer, greenAnswer, isTheCurrent, amountOfRedAnswers, amountOfYellowAnswers, amountOfGreenAnswers}) {
+        this.id = id;
         this.description = description;
         this.redAnswer = redAnswer;
         this.greenAnswer = greenAnswer;

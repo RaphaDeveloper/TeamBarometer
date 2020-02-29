@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using API.Specs.Session.Support;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
@@ -30,7 +30,7 @@ namespace API.Specs.Session.Steps
 		[When(@"I request the creation")]
 		public async Task WhenIRequestTheCreation()
 		{
-			string endpoint = $"http://localhost:58824/api/sessions/user/{context.UserId}";
+			string endpoint = $"http://localhost:58824/api/sessions/createsession/user/{context.UserId}";
 
 			context.HttpResponse = await httpClient.PostAsync(endpoint, null);
 		}
@@ -46,7 +46,7 @@ namespace API.Specs.Session.Steps
 		{
 			string content = await context.HttpResponse.Content.ReadAsStringAsync();
 
-			Session session = JsonConvert.DeserializeObject<Session>(content);
+			SessionModel session = JsonConvert.DeserializeObject<SessionModel>(content);
 
 			Assert.True(session.teamMemberIsTheFacilitator);
 		}
@@ -56,23 +56,9 @@ namespace API.Specs.Session.Steps
 		{
 			string content = await context.HttpResponse.Content.ReadAsStringAsync();
 
-			Session session = JsonConvert.DeserializeObject<Session>(content);
+			SessionModel session = JsonConvert.DeserializeObject<SessionModel>(content);
 
 			Assert.That(session.id, Is.Not.EqualTo(Guid.Empty));
 		}
-
-
-	}
-
-	public class Context
-	{
-		public string UserId { get; set; }
-		public HttpResponseMessage HttpResponse { get; set; }
-	}
-
-	public class Session
-	{
-		public Guid id;
-		public bool teamMemberIsTheFacilitator;
 	}
 }

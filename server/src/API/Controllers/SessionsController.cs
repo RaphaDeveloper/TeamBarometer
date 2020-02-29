@@ -5,7 +5,7 @@ using System;
 
 namespace API.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/[controller]/[action]")]
 	[ApiController]
 	public class SessionsController : ControllerBase
 	{
@@ -17,11 +17,19 @@ namespace API.Controllers
 		}
 
 		[HttpPost("user/{userId}")]
-		public IActionResult Post(Guid userId)
+		public IActionResult CreateSession(Guid userId)
 		{
 			SessionModel session = sessionAppService.CreateSession(userId);
 
 			return Created("", session);
+		}
+
+		[HttpPut("{sessionId}/user/{userId}/")]
+		public IActionResult JoinTheSession(Guid sessionId, Guid userId)
+		{
+			SessionModel session = sessionAppService.JoinTheSession(sessionId, userId);
+
+			return Ok(session);
 		}
 	}
 }

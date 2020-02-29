@@ -6,7 +6,7 @@ namespace Domain.Sessions.Repositories
 {
 	public class InMemorySessionRepository
 	{
-		private readonly List<Session> sessions = new List<Session>();
+		private static readonly List<Session> sessions = new List<Session>();
 
 		public Session GetById(Guid sessionId)
 		{

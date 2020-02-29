@@ -27,11 +27,13 @@ namespace Domain.Sessions.UseCases
 			return session;
 		}
 
-		public void AddTeamMemberInTheSession(Guid teamMemberId, Guid sessionId)
+		public Session JoinTheSession(Guid sessionId, Guid userId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
-			session.AddTeamMember(teamMemberId);
+			session.AddTeamMember(userId);
+
+			return session;
 		}
 
 		public void EnableAnswersOfTheSessionCurrentQuestion(Guid sessionId)
