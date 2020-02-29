@@ -3,17 +3,7 @@ import SessionModel from '../models/SessionModel';
 
 export default class SessionRepository {
     async createSession() {
-        const headers = new Headers({
-            "Content-Type": "application/json"
-        });
-
-        const init = { 
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify('91E4AFD5-A3AF-40C1-8C54-A5829063BBCA') 
-        };
-
-        const response = await fetch('http://localhost:58824/api/sessions', init);
+        const response = await fetch(`http://localhost:58824/api/sessions/user/91E4AFD5-A3AF-40C1-8C54-A5829063BBCA`, { method: 'POST' });
 
         const session = await response.json();
 

@@ -16,8 +16,8 @@ namespace API.Controllers
 			this.sessionAppService = sessionAppService;
 		}
 
-		[HttpPost]
-		public IActionResult Post([FromBody]Guid userId)
+		[HttpPost("user/{userId}")]
+		public IActionResult Post(Guid userId)
 		{
 			SessionModel session = sessionAppService.CreateSession(userId);
 

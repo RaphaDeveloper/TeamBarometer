@@ -30,13 +30,9 @@ namespace API.Specs.Session.Steps
 		[When(@"I request the creation")]
 		public async Task WhenIRequestTheCreation()
 		{
-			string endpoint = "http://localhost:58824/api/sessions";
+			string endpoint = $"http://localhost:58824/api/sessions/user/{context.UserId}";
 
-			string data = JsonConvert.SerializeObject(context.UserId);
-
-			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
-			context.HttpResponse = await httpClient.PostAsync(endpoint, content);
+			context.HttpResponse = await httpClient.PostAsync(endpoint, null);
 		}
 
 		[Then(@"The session should be created successfully")]
