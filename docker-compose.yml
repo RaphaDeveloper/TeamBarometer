@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  teambarometer-api:
+    container_name: teambarometer-api
+    image: raphadeveloper/teambarometer-api
+    ports:
+      - "5554:80"
+    networks:
+      - teambarometer-network
+
+networks: 
+  teambarometer-network:
+    driver: bridge
