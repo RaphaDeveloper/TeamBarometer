@@ -9,6 +9,16 @@ services:
     networks:
       - teambarometer-network
 
+  teambarometer-ui:
+    container_name: teambarometer-ui
+    image: teambarometer-ui
+    depends_on:
+      - teambarometer-api
+    ports:
+      - "5555:80"
+    networks:
+      - teambarometer-network
+
 networks: 
   teambarometer-network:
     driver: bridge
