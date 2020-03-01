@@ -11,7 +11,7 @@ services:
 
   teambarometer-ui:
     container_name: teambarometer-ui
-    image: teambarometer-ui
+    image: raphadeveloper/teambarometer-ui
     depends_on:
       - teambarometer-api
     ports:
