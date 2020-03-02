@@ -1,8 +1,8 @@
 FROM node as build
 WORKDIR /usr/src/app
-COPY package.json yarn.lock ./
+COPY teambarometer/package.json teambarometer/yarn.lock ./
 RUN yarn
-COPY . ./
+COPY teambarometer/ ./
 RUN yarn build
 
 FROM nginx:alpine
