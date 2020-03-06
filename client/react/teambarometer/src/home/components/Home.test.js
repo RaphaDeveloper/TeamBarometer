@@ -13,15 +13,15 @@ describe('when the home is loaded', () => {
         SessionRepository.mockImplementation(() => {
             return {
                 createSession: () => {
-                    const teamMemberIsTheFacilitator = true;
+                    const userIsTheFacilitator = true;
 
                     const questions = [
-                        new Question('Confiança',
+                        new Question(1, 'Confiança',
                             'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
                             'Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.',
                             false, 4, 2, 4),
 
-                        new Question('Feedback',
+                        new Question(2, 'Feedback',
                             'Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.',
                             'Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.',
                             true),
@@ -29,11 +29,11 @@ describe('when the home is loaded', () => {
                         new Question('Autonomia', false),
                     ];
 
-                    return new SessionModel('123-456-789', questions, teamMemberIsTheFacilitator);
+                    return new SessionModel('123-456-789', questions, userIsTheFacilitator);
                 },
 
                 enterToTheSession: (sessionId) => {
-                    const teamMemberIsTheFacilitator = false;
+                    const userIsTheFacilitator = false;
 
                     const questions = [
                         new Question('Confiança',
@@ -49,7 +49,7 @@ describe('when the home is loaded', () => {
                         new Question('Autonomia', false),
                     ];
 
-                    return new SessionModel(sessionId, questions, teamMemberIsTheFacilitator);
+                    return new SessionModel(sessionId, questions, userIsTheFacilitator);
                 }
             };
         });

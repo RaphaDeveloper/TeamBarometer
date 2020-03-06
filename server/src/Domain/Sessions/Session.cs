@@ -17,7 +17,7 @@ namespace Domain.Sessions
 		public IEnumerable<Question> Questions => QuestionsById.Values;
 
 		private Dictionary<Guid, Question> QuestionsById { get; set; } = new Dictionary<Guid, Question>();
-		private List<Guid> TeamMembers { get; set; } = new List<Guid>();
+		private List<Guid> Participants { get; set; } = new List<Guid>();
 		private Guid FacilitatorId { get; }
 		
 		private Question currentQuestion;
@@ -36,6 +36,8 @@ namespace Domain.Sessions
 				this.currentQuestion.IsTheCurrent = true;
 			}
 		}
+
+		public int NumberOfParticipants => Participants.Count;
 
 		private void ConstructQuestionsOfThisSession(IEnumerable<QuestionTemplate> questions)
 		{
@@ -74,13 +76,13 @@ namespace Domain.Sessions
 			}
 		}
 
-		internal void AnswerTheCurrentQuestion(Guid teamMemberId, Answer answer)
+		internal void AnswerTheCurrentQuestion(Guid userId, Answer answer)
 		{
-			if (TeamMemberIsParticipating(teamMemberId) && CurrentQuestion.IsUpForAnswer)
+			if (UserIsParticipating(userId) && CurrentQuestion.IsUpForAnswer)
 			{
-				CurrentQuestion.ContabilizeTheAnswer(teamMemberId, answer);
+				CurrentQuestion.ContabilizeTheAnswer(userId, answer);
 
-				if (CurrentQuestion.AllTeamMembersAnswered(TeamMembers))
+				if (CurrentQuestion.AllUsersHasAnswered(Participants))
 				{
 					CurrentQuestion.DisableAnswers();
 
@@ -94,14 +96,12 @@ namespace Domain.Sessions
 			CurrentQuestion = CurrentQuestion.NextQuestion;
 		}
 
-		internal void AddTeamMember(Guid teamMemberId)
+		internal void AddParticipant(Guid userId)
 		{
-			if (TeamMemberIsParticipating(teamMemberId))
+			if (!UserIsParticipating(userId))
 			{
-				throw new Exception("Team member is already participating of this session.");
+				Participants.Add(userId);
 			}
-
-			TeamMembers.Add(teamMemberId);
 		}
 
 		internal void EnableAnswersOfTheCurrentQuestion()
@@ -109,14 +109,14 @@ namespace Domain.Sessions
 			CurrentQuestion.EnableAnswers();
 		}
 
-		public bool TeamMemberIsParticipating(Guid teamMemberId)
+		public bool UserIsParticipating(Guid userId)
 		{
-			return TeamMembers.Contains(teamMemberId);
+			return Participants.Contains(userId);
 		}
 
-		public bool TeamMemberIsTheFacilitator(Guid teamMemberId)
+		public bool UserIsTheFacilitator(Guid userId)
 		{
-			return FacilitatorId == teamMemberId;
+			return FacilitatorId == userId;
 		}
 	}
 }

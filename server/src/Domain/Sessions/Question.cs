@@ -17,24 +17,24 @@ namespace Domain.Sessions
 		public string Description => QuestionTemplate.Description;
 
 		private List<Answer> Answers { get; set; } = new List<Answer>();
-		private List<Guid> IdOfTeamMembersWhoAnswered { get; set; } = new List<Guid>();
+		private List<Guid> UsersWhoAnswered { get; set; } = new List<Guid>();
 		public Question NextQuestion { get; internal set; }
 		public bool IsUpForAnswer { get; private set; }
 		public bool IsTheCurrent { get; internal set; }
 
-		internal void ContabilizeTheAnswer(Guid teamMemberId, Answer answer)
+		internal void ContabilizeTheAnswer(Guid userId, Answer answer)
 		{
-			if (!TeamMemberHasAlreadyAnswered(teamMemberId))
+			if (!UserHasAlreadyAnswered(userId))
 			{
 				Answers.Add(answer);
 
-				IdOfTeamMembersWhoAnswered.Add(teamMemberId);
+				UsersWhoAnswered.Add(userId);
 			}
 		}
 
-		private bool TeamMemberHasAlreadyAnswered(Guid teamMemberId)
+		private bool UserHasAlreadyAnswered(Guid userId)
 		{
-			return IdOfTeamMembersWhoAnswered.Contains(teamMemberId);
+			return UsersWhoAnswered.Contains(userId);
 		}
 
 		public bool HasAnyAnswer()
@@ -47,9 +47,9 @@ namespace Domain.Sessions
 			return Answers.Count(a => a == answer);
 		}
 
-		internal bool AllTeamMembersAnswered(List<Guid> teamMembersId)
+		internal bool AllUsersHasAnswered(List<Guid> userIds)
 		{
-			return Answers.Count == teamMembersId.Count;
+			return Answers.Count == userIds.Count;
 		}
 
 		internal void EnableAnswers()

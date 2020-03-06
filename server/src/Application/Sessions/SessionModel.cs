@@ -7,16 +7,16 @@ namespace Application.Sessions
 {
 	public class SessionModel
 	{
-		public SessionModel(Session session, Guid teamMemberId)
+		public SessionModel(Session session, Guid userId)
 		{
 			Id = session.Id;
 			Questions = session.Questions.Select(question => new QuestionModel(question));
-			TeamMemberIsTheFacilitator = session.TeamMemberIsTheFacilitator(teamMemberId);
+			UserIsTheFacilitator = session.UserIsTheFacilitator(userId);
 		}
 
 		public Guid Id { get; set; }
 		public IEnumerable<QuestionModel> Questions { get; private set; }
-		public bool TeamMemberIsTheFacilitator { get; set; }
+		public bool UserIsTheFacilitator { get; set; }
 
 		public override bool Equals(object obj)
 		{

@@ -5,30 +5,30 @@ import Question from '../models/Question';
 import SessionModel from '../models/SessionModel';
 
 describe('when the session is loaded', () => {
-  function getSession(teamMemberIsTheFacilitator) {
+  function getSession(userIsTheFacilitator) {
     const questions = [
-      new Question('Confiança',
+      new Question(1, 'Confiança',
         'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
         'Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.',
         false, 4, 2, 4),
 
-      new Question('Feedback',
+      new Question(2, 'Feedback',
         'Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.',
         'Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.',
         true),
 
-      new Question('Autonomia', false),
+      new Question(3, 'Autonomia', false),
     ];
 
-    return new SessionModel('123-456-789', questions, teamMemberIsTheFacilitator);
+    return new SessionModel('123-456-789', questions, userIsTheFacilitator);
   }
 
   let session;
 
   beforeEach(() => {
-    const teamMemberIsTheFacilitator = true;
+    const userIsTheFacilitator = true;
 
-    session = mount(<Session session={getSession(teamMemberIsTheFacilitator)}/>);
+    session = mount(<Session session={getSession(userIsTheFacilitator)}/>);
   });
 
   afterEach(() => {
@@ -119,17 +119,17 @@ describe('when the session is loaded', () => {
     expect(session.find('li:not(.current-question) .question .play').length).toBe(0);
   });
 
-  describe('if the member is the facilitator', () => {
+  describe('if the user is the facilitator', () => {
     it('the play button should be rendered for the current question', () => {
       expect(session.find('.current-question .play').length).toBe(1);
     });
   });
 
-  describe('if the member is not the facilitator', () => {
+  describe('if the user is not the facilitator', () => {
     it('the play button should not be rendered for the current question', () => {
-      const teamMemberIsTheFacilitator = false;
+      const userIsTheFacilitator = false;
 
-      let session = mount(<Session session={getSession(teamMemberIsTheFacilitator)}/>);
+      let session = mount(<Session session={getSession(userIsTheFacilitator)}/>);
 
       expect(session.find('.current-question .play').length).toBe(0);
     });

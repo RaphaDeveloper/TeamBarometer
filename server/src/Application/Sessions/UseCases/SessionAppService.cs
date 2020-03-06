@@ -13,11 +13,11 @@ namespace Application.Sessions.UseCases
 
 		public SessionService SessionService { get; }
 
-		public SessionModel CreateSession(Guid facilitatorId)
+		public SessionModel CreateSession(Guid userId)
 		{
-			Session session = SessionService.CreateSession(facilitatorId);
+			Session session = SessionService.CreateSession(userId);
 
-			return new SessionModel(session, facilitatorId);
+			return new SessionModel(session, userId);
 		}
 
 		public SessionModel JoinTheSession(Guid sessionId, Guid userId)

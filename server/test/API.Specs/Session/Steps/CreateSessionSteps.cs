@@ -48,7 +48,7 @@ namespace API.Specs.Session.Steps
 
 			SessionModel session = JsonConvert.DeserializeObject<SessionModel>(content);
 
-			Assert.True(session.teamMemberIsTheFacilitator);
+			Assert.True(session.userIsTheFacilitator);
 		}
 
 		[Then(@"The created session should has an Id")]

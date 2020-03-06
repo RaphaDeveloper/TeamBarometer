@@ -1,6 +1,6 @@
 ﻿Feature: CreateSession
 	In order to create a session
-	As a team member
+	As a user
 	I want to create a session to run a team barometer cerimony
 
 Scenario: Create session successfully

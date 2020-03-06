@@ -1,6 +1,6 @@
 ﻿Feature: JoinTheSession
 	In order to join the session
-	As a team member
+	As a user
 	I want to participate to a team barometer cerimony
 
 Scenario: Join the session successfully

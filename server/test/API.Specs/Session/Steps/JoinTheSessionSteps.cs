@@ -58,7 +58,7 @@ namespace API.Specs.Session.Steps
 
             SessionModel session = JsonConvert.DeserializeObject<SessionModel>(content);
 
-            Assert.False(session.teamMemberIsTheFacilitator);
+            Assert.False(session.userIsTheFacilitator);
         }
 
     }

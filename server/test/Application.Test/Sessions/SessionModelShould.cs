@@ -21,35 +21,35 @@ namespace Application.Test.Sessions
 		[Test]
 		public void CreateItselfFromSession()
 		{
-			Guid teamMemberId = Guid.NewGuid();
-			Session session = new Session(teamMemberId, questionTemplates);
+			Guid userId = Guid.NewGuid();
+			Session session = new Session(userId, questionTemplates);
 
-			SessionModel sessionModel = new SessionModel(session, teamMemberId);
+			SessionModel sessionModel = new SessionModel(session, userId);
 
 			Assert.AreEqual(session.Id, sessionModel.Id);
 		}
 
 		[Test]
-		public void HasTeamMemberAsFacilitatorWhenTheTeamMemberIsEqualsTheFacilitator()
+		public void HasUserAsFacilitatorWhenTheUserIsEqualsTheFacilitator()
 		{
-			Guid teamMemberId = Guid.NewGuid();
-			Session session = new Session(teamMemberId, questionTemplates);
+			Guid userId = Guid.NewGuid();
+			Session session = new Session(userId, questionTemplates);
 
-			SessionModel sessionModel = new SessionModel(session, teamMemberId);
+			SessionModel sessionModel = new SessionModel(session, userId);
 
-			Assert.IsTrue(sessionModel.TeamMemberIsTheFacilitator);
+			Assert.IsTrue(sessionModel.UserIsTheFacilitator);
 		}
 
 		[Test]
-		public void HasNotTeamMemberAsFacilitatorWhenTheTeamMemberIsNotEqualsTheFacilitator()
+		public void HasNotUserAsFacilitatorWhenTheUserIsNotEqualsTheFacilitator()
 		{
 			Guid facilitatorId = Guid.NewGuid();
-			Guid teamMemberId = Guid.NewGuid();
+			Guid userId = Guid.NewGuid();
 			Session session = new Session(facilitatorId, questionTemplates);
 
-			SessionModel sessionModel = new SessionModel(session, teamMemberId);
+			SessionModel sessionModel = new SessionModel(session, userId);
 
-			Assert.IsFalse(sessionModel.TeamMemberIsTheFacilitator);
+			Assert.IsFalse(sessionModel.UserIsTheFacilitator);
 		}
 	}
 }

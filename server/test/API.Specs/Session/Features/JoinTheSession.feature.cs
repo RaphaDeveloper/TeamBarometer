@@ -35,8 +35,8 @@ namespace API.Specs.Session.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "JoinTheSession", "\tIn order to join the session\r\n\tAs a team member\r\n\tI want to participate to a tea" +
-                    "m barometer cerimony", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "JoinTheSession", "\tIn order to join the session\r\n\tAs a user\r\n\tI want to participate to a team barom" +
+                    "eter cerimony", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         

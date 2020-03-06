@@ -37,7 +37,7 @@ namespace Application.Test.Sessions.UseCases
 
 			Assert.That(sessionModel.Id, Is.Not.EqualTo(Guid.Empty));
 			Assert.IsTrue(sessionModel.Questions.First().IsTheCurrent);
-			Assert.IsTrue(sessionModel.TeamMemberIsTheFacilitator);
+			Assert.IsTrue(sessionModel.UserIsTheFacilitator);
 			AssertThatTheQuestionsHasTheSameDataOfTheTemplate(sessionModel);
 			AssertThatTheQuestionsHasNotAnyAmountOfAnswer(sessionModel);
 		}		
@@ -73,7 +73,7 @@ namespace Application.Test.Sessions.UseCases
 			SessionModel joinedSession = sessionAppService.JoinTheSession(createdSession.Id, userId);
 
 			Assert.That(joinedSession, Is.EqualTo(createdSession));
-			Assert.IsFalse(joinedSession.TeamMemberIsTheFacilitator);
+			Assert.IsFalse(joinedSession.UserIsTheFacilitator);
 			AssertThatTheQuestionsOfTheJoinedSessionIsEqualToTheQuestionsOfTheCreatedSession(joinedSession, createdSession);
 		}
 

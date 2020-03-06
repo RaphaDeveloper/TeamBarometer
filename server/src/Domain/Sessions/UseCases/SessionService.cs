@@ -16,11 +16,11 @@ namespace Domain.Sessions.UseCases
 			QuestionTemplateRepository = questionTemplateRepository;
 		}
 
-		public Session CreateSession(Guid facilitatorId)
+		public Session CreateSession(Guid userId)
 		{
 			IEnumerable<QuestionTemplate> questions = QuestionTemplateRepository.GetAll();
 
-			Session session = new Session(facilitatorId, questions);
+			Session session = new Session(userId, questions);
 
 			SessionRepository.Insert(session);
 
@@ -31,7 +31,7 @@ namespace Domain.Sessions.UseCases
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
-			session.AddTeamMember(userId);
+			session.AddParticipant(userId);
 
 			return session;
 		}
@@ -43,11 +43,11 @@ namespace Domain.Sessions.UseCases
 			session.EnableAnswersOfTheCurrentQuestion();
 		}
 
-		public void AnswerTheSessionCurrentQuestion(Guid teamMemberId, Answer answer, Guid sessionId)
+		public void AnswerTheSessionCurrentQuestion(Guid userId, Answer answer, Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
-			session.AnswerTheCurrentQuestion(teamMemberId, answer);
+			session.AnswerTheCurrentQuestion(userId, answer);
 		}
 	}
 }
