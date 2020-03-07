@@ -1,4 +1,6 @@
 ﻿using Domain.Questions;
+using Domain.Sessions.Events;
+using DomainEventManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,6 +109,8 @@ namespace Domain.Sessions
 		internal void EnableAnswersOfTheCurrentQuestion()
 		{
 			CurrentQuestion.EnableAnswers();
+
+			DomainEvent.Dispatch(new WhenTheQuestionIsEnabled(this));
 		}
 
 		public bool UserIsParticipating(Guid userId)
