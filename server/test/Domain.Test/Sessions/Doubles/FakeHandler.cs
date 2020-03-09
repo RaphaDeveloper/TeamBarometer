@@ -3,7 +3,7 @@ using DomainEventManager;
 using System;
 using System.Collections.Generic;
 
-namespace API.Handlers
+namespace Domain.Test.Sessions.Doubles
 {
 	public class FakeHandler : Handler<WhenTheQuestionIsEnabled>
 	{

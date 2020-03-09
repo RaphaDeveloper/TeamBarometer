@@ -3,55 +3,12 @@ using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
 using NUnit.Framework;
 using System;
-using System.Linq;
 
 namespace Domain.Test.Sessions.UseCases
 {
-	public class SessionServiceShould
+	public class AnswerTheSessionCurrentQuestionShould
 	{
 		private Guid facilitatorId = Guid.NewGuid();
-
-
-		#region Create Session
-
-		[Test]
-		public void CreateSessionWithFacilitatorAndQuestions()
-		{
-			SessionService service = CreateService();
-
-			Session session = service.CreateSession(facilitatorId);
-
-			Assert.That(session, Is.Not.Null);
-			Assert.IsTrue(session.UserIsTheFacilitator(facilitatorId));
-			Assert.That(session.Questions, Is.Not.Null.And.Not.Empty);
-		}
-
-		[Test]
-		public void PersistTheCreatedSession()
-		{
-			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
-			SessionService service = CreateService(sessionRepository);
-
-			Session session = service.CreateSession(facilitatorId);
-
-			Assert.That(session, Is.EqualTo(sessionRepository.GetById(session.Id)));
-		}
-
-		[Test]
-		public void CreateTheSessionWithTheFirstQuestionBeingTheCurrent()
-		{
-			SessionService service = CreateService();
-
-			Session session = service.CreateSession(facilitatorId);
-
-			Assert.That(session.Questions.First(), Is.EqualTo(session.CurrentQuestion));
-			Assert.True(session.CurrentQuestion.IsTheCurrent);
-		}
-
-		#endregion
-
-
-		#region Answer The Current Question
 
 		[Test]
 		public void AnswerTheSessionQuestion()
@@ -162,74 +119,9 @@ namespace Domain.Test.Sessions.UseCases
 			Assert.False(currentQuestion.HasAnyAnswer());
 		}
 
-		#endregion
-
-
-		#region JoinTheSession
-
-		[Test]
-		public void JoinTheSession()
+		private SessionService CreateService()
 		{
-			SessionService sessionService = CreateService();
-			Session session = sessionService.CreateSession(facilitatorId);
-			Guid userId = Guid.NewGuid();
-
-			sessionService.JoinTheSession(session.Id, userId);
-
-			Assert.True(session.UserIsParticipating(userId));
-		}
-
-		[Test]
-		public void NotJoinTheSessionIfTheUserIsAlreadyInTheSession()
-		{
-			SessionService sessionService = CreateService();
-			Session session = sessionService.CreateSession(facilitatorId);
-			Guid userId = Guid.NewGuid();
-
-			sessionService.JoinTheSession(session.Id, userId);
-			sessionService.JoinTheSession(session.Id, userId);
-
-			Assert.That(session.NumberOfParticipants, Is.EqualTo(1));
-		}
-
-		#endregion
-
-
-		#region EnableAnswers
-
-		[Test]
-		public void EnableAnswersOfTheCurrentQuestionOfTheSessionWhenTheUserIsTheFacilitator()
-		{
-			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
-
-
-			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
-
-
-			Assert.True(session.CurrentQuestion.IsUpForAnswer);
-		}
-
-		[Test]
-		public void NotEnableAnswersOfTheCurrentQuestionOfTheSessionWhenTheUserIsNotTheFacilitator()
-		{
-			Guid userId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
-
-
-			service.EnableAnswersOfTheCurrentQuestion(session.Id, userId);
-
-
-			Assert.False(session.CurrentQuestion.IsUpForAnswer);
-		}
-
-		#endregion
-
-
-		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
-		{
-			sessionRepository ??= new InMemorySessionRepository();
+			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
 
 			InMemoryTemplateQuestionRepository questionRepository = new InMemoryTemplateQuestionRepository();
 
