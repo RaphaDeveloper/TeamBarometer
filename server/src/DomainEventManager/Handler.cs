@@ -1,7 +1,6 @@
 ﻿namespace DomainEventManager
 {
 	public abstract class Handler<TEvent> : IHandler
-		where TEvent : IEvent
 	{
 		public abstract void Handle(TEvent domainEvent);
 

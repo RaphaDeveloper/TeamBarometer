@@ -22,7 +22,7 @@ namespace DomainEventManager
 			handlers.Add(new THandler());
 		}
 
-		public static void Dispatch(IEvent domainEvent)
+		public static void Dispatch(object domainEvent)
 		{
 			if (HandlersByEvent.TryGetValue(domainEvent.GetType(), out List<IHandler> handlers))
 			{

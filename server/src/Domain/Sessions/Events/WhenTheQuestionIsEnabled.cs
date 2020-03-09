@@ -1,8 +1,6 @@
-﻿using DomainEventManager;
-
-namespace Domain.Sessions.Events
+﻿namespace Domain.Sessions.Events
 {
-	public class WhenTheQuestionIsEnabled : IEvent
+	public class WhenTheQuestionIsEnabled
 	{
 		public WhenTheQuestionIsEnabled(Session session)
 		{
