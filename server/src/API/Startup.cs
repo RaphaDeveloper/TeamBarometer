@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Handlers;
 using Application.Sessions.UseCases;
-using Domain.Questions;
 using Domain.Sessions.Events;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
@@ -36,7 +35,7 @@ namespace API
 			services.AddScoped<SessionAppService>();
 			services.AddScoped<SessionService>();
 			services.AddScoped<InMemorySessionRepository>();
-			services.AddScoped<InMemoryQuestionTemplateRepository>();
+			services.AddScoped<InMemoryTemplateQuestionRepository>();
 
 			DomainEvent.Bind<WhenTheQuestionIsEnabled, FakeHandler>();
 

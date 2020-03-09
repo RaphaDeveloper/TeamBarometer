@@ -1,5 +1,4 @@
-﻿using Domain.Questions;
-using Domain.Sessions;
+﻿using Domain.Sessions;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
 using NUnit.Framework;
@@ -218,7 +217,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			sessionRepository ??= new InMemorySessionRepository();
 
-			InMemoryQuestionTemplateRepository questionRepository = new InMemoryQuestionTemplateRepository();
+			InMemoryTemplateQuestionRepository questionRepository = new InMemoryTemplateQuestionRepository();
 
 			return new SessionService(sessionRepository, questionRepository);
 		}

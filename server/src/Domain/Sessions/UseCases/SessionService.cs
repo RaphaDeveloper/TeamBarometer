@@ -1,5 +1,4 @@
-﻿using Domain.Questions;
-using Domain.Sessions.Repositories;
+﻿using Domain.Sessions.Repositories;
 using System;
 using System.Collections.Generic;
 
@@ -8,9 +7,9 @@ namespace Domain.Sessions.UseCases
 	public class SessionService
 	{
 		private InMemorySessionRepository SessionRepository { get; }
-		private InMemoryQuestionTemplateRepository QuestionTemplateRepository { get; }
+		private InMemoryTemplateQuestionRepository QuestionTemplateRepository { get; }
 
-		public SessionService(InMemorySessionRepository sessionRepository, InMemoryQuestionTemplateRepository questionTemplateRepository)
+		public SessionService(InMemorySessionRepository sessionRepository, InMemoryTemplateQuestionRepository questionTemplateRepository)
 		{
 			SessionRepository = sessionRepository;
 			QuestionTemplateRepository = questionTemplateRepository;
@@ -18,7 +17,7 @@ namespace Domain.Sessions.UseCases
 
 		public Session CreateSession(Guid userId)
 		{
-			IEnumerable<QuestionTemplate> questions = QuestionTemplateRepository.GetAll();
+			IEnumerable<TemplateQuestion> questions = QuestionTemplateRepository.GetAll();
 
 			Session session = new Session(userId, questions);
 

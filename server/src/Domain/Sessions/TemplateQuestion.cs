@@ -1,12 +1,11 @@
-﻿using Domain.Sessions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Domain.Questions
+namespace Domain.Sessions
 {
-	public class QuestionTemplate
+	public class TemplateQuestion
 	{
-		public QuestionTemplate(string description, Dictionary<Answer, string> descriptionByAnswer)
+		public TemplateQuestion(string description, Dictionary<Answer, string> descriptionByAnswer)
 		{
 			Description = description;
 			DescriptionByAnswer = descriptionByAnswer;

@@ -1,5 +1,4 @@
-﻿using Domain.Questions;
-using Domain.Sessions;
+﻿using Domain.Sessions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -41,10 +40,10 @@ namespace Domain.Test.Sessions
 
 		private Session CreateSession()
 		{
-			List<QuestionTemplate> questionsTemplate = new List<QuestionTemplate>
+			List<TemplateQuestion> questionsTemplate = new List<TemplateQuestion>
 			{
-				new QuestionTemplate("Confiança", null),
-				new QuestionTemplate("Feedback", null)
+				new TemplateQuestion("Confiança", null),
+				new TemplateQuestion("Feedback", null)
 			};
 
 			return new Session(facilitatorId, questionsTemplate);

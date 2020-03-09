@@ -1,6 +1,6 @@
 ﻿using Application.Sessions;
-using Domain.Questions;
 using Domain.Sessions;
+using Domain.Sessions.Repositories;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,8 +9,8 @@ namespace Application.Test.Sessions
 {
 	public class SessionModelShould
 	{
-		private InMemoryQuestionTemplateRepository questionTemplateRepository = new InMemoryQuestionTemplateRepository();
-		private IEnumerable<QuestionTemplate> questionTemplates;
+		private InMemoryTemplateQuestionRepository questionTemplateRepository = new InMemoryTemplateQuestionRepository();
+		private IEnumerable<TemplateQuestion> questionTemplates;
 
 		[SetUp]
 		public void Setup()

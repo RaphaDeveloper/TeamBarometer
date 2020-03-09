@@ -1,6 +1,5 @@
 ﻿using Application.Sessions;
 using Application.Sessions.UseCases;
-using Domain.Questions;
 using Domain.Sessions;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
@@ -15,13 +14,13 @@ namespace Application.Test.Sessions.UseCases
 	{
 		private Guid facilitatorId = Guid.NewGuid();
 		private SessionService sessionService;
-		private IEnumerable<QuestionTemplate> questionTemplates;
+		private IEnumerable<TemplateQuestion> questionTemplates;
 
 		[SetUp]
 		public void Setup()
 		{
 			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
-			InMemoryQuestionTemplateRepository questionTemplateRepository = new InMemoryQuestionTemplateRepository();
+			InMemoryTemplateQuestionRepository questionTemplateRepository = new InMemoryTemplateQuestionRepository();
 
 			sessionService = new SessionService(sessionRepository, questionTemplateRepository);
 
@@ -47,7 +46,7 @@ namespace Application.Test.Sessions.UseCases
 			for (int i = 0; i < session.Questions.Count(); i++)
 			{
 				QuestionModel questionModel = session.Questions.ElementAt(i);
-				QuestionTemplate questionTemplate = questionTemplates.ElementAt(i);
+				TemplateQuestion questionTemplate = questionTemplates.ElementAt(i);
 
 				Assert.That(questionModel.Id, Is.Not.EqualTo(Guid.Empty));
 				Assert.AreEqual(questionTemplate.Description, questionModel.Description);

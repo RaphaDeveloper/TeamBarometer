@@ -1,5 +1,4 @@
-﻿using Domain.Questions;
-using Domain.Sessions.Events;
+﻿using Domain.Sessions.Events;
 using DomainEventManager;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ namespace Domain.Sessions
 {
 	public class Session
 	{
-		public Session(Guid facilitatorId, IEnumerable<QuestionTemplate> questions)
+		public Session(Guid facilitatorId, IEnumerable<TemplateQuestion> questions)
 		{
 			FacilitatorId = facilitatorId;
 			ConstructQuestionsOfThisSession(questions);
@@ -41,7 +40,7 @@ namespace Domain.Sessions
 
 		public int NumberOfParticipants => Participants.Count;
 
-		private void ConstructQuestionsOfThisSession(IEnumerable<QuestionTemplate> questions)
+		private void ConstructQuestionsOfThisSession(IEnumerable<TemplateQuestion> questions)
 		{
 			IndexTheQuestionsById(questions);
 
@@ -50,9 +49,9 @@ namespace Domain.Sessions
 			LinkTheQuestions();
 		}
 
-		private void IndexTheQuestionsById(IEnumerable<QuestionTemplate> questions)
+		private void IndexTheQuestionsById(IEnumerable<TemplateQuestion> questions)
 		{
-			foreach (QuestionTemplate question in questions)
+			foreach (TemplateQuestion question in questions)
 			{
 				QuestionsById.Add(question.Id, new Question(question));
 			}

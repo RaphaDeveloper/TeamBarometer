@@ -1,5 +1,4 @@
-﻿using Domain.Questions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,14 +6,14 @@ namespace Domain.Sessions
 {
 	public class Question
 	{
-		public Question(QuestionTemplate questionTemplate)
+		public Question(TemplateQuestion templateQuestion)
 		{
-			QuestionTemplate = questionTemplate;
+			TemplateQuestion = templateQuestion;
 		}
 
-		public QuestionTemplate QuestionTemplate { get; }
-		public Guid Id => QuestionTemplate.Id;
-		public string Description => QuestionTemplate.Description;
+		public TemplateQuestion TemplateQuestion { get; }
+		public Guid Id => TemplateQuestion.Id;
+		public string Description => TemplateQuestion.Description;
 
 		private List<Answer> Answers { get; set; } = new List<Answer>();
 		private List<Guid> UsersWhoAnswered { get; set; } = new List<Guid>();
@@ -64,7 +63,7 @@ namespace Domain.Sessions
 
 		public string GetDescriptionOfTheAnswer(Answer answer)
 		{
-			return QuestionTemplate.GetDescriptionOfTheAnswer(answer);
+			return TemplateQuestion.GetDescriptionOfTheAnswer(answer);
 		}
 	}
 }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Domain.Questions
+namespace Domain.Sessions.Repositories
 {
-	public class InMemoryQuestionTemplateRepository
+	public class InMemoryTemplateQuestionRepository
 	{
-		public IEnumerable<QuestionTemplate> GetAll()
+		public IEnumerable<TemplateQuestion> GetAll()
 		{
 			Dictionary<Answer, string> descriptionByAnswerConfianca = new Dictionary<Answer, string>
 			{
@@ -20,10 +20,10 @@ namespace Domain.Questions
 				{ Answer.Green, "Damos feedback" }
 			};
 
-			return new List<QuestionTemplate>
+			return new List<TemplateQuestion>
 			{
-				new QuestionTemplate("Confiança", descriptionByAnswerConfianca),
-				new QuestionTemplate("Feedback", descriptionByAnswerFeedback)
+				new TemplateQuestion("Confiança", descriptionByAnswerConfianca),
+				new TemplateQuestion("Feedback", descriptionByAnswerFeedback)
 			}.AsEnumerable();
 		}
 	}

@@ -1,5 +1,4 @@
-﻿using Domain.Questions;
-using Domain.Sessions;
+﻿using Domain.Sessions;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -10,7 +9,7 @@ namespace Domain.Test.Sessions
 		[Test]
 		public void BeCreatedFromQuestionTemplate()
 		{
-			QuestionTemplate questionTemplate = CreateQuestionTemplate();
+			TemplateQuestion questionTemplate = CreateQuestionTemplate();
 
 			Question question = new Question(questionTemplate);
 
@@ -20,7 +19,7 @@ namespace Domain.Test.Sessions
 		[Test]
 		public void HasTheSameIdOfTheTemplate()
 		{
-			QuestionTemplate questionTemplate = CreateQuestionTemplate();
+			TemplateQuestion questionTemplate = CreateQuestionTemplate();
 
 			Question question = new Question(questionTemplate);
 
@@ -30,7 +29,7 @@ namespace Domain.Test.Sessions
 		[Test]
 		public void HasTheSameDescriptionOfTheTemplate()
 		{
-			QuestionTemplate questionTemplate = CreateQuestionTemplate();
+			TemplateQuestion questionTemplate = CreateQuestionTemplate();
 
 			Question question = new Question(questionTemplate);
 
@@ -40,7 +39,7 @@ namespace Domain.Test.Sessions
 		[Test]
 		public void HasTheSameAnswerDescriptionOfTheTemplate()
 		{
-			QuestionTemplate questionTemplate = CreateQuestionTemplate();
+			TemplateQuestion questionTemplate = CreateQuestionTemplate();
 
 			Question question = new Question(questionTemplate);
 
@@ -49,7 +48,7 @@ namespace Domain.Test.Sessions
 			Assert.That(question.GetDescriptionOfTheAnswer(Answer.Yellow), Is.Null);
 		}
 
-		private QuestionTemplate CreateQuestionTemplate()
+		private TemplateQuestion CreateQuestionTemplate()
 		{
 			Dictionary<Answer, string> descriptionByAnswer = new Dictionary<Answer, string>
 			{
@@ -57,7 +56,7 @@ namespace Domain.Test.Sessions
 				{ Answer.Green, "Damos feedback" }
 			};
 
-			return new QuestionTemplate("Feedback", descriptionByAnswer);
+			return new TemplateQuestion("Feedback", descriptionByAnswer);
 		}
 	}
 }
