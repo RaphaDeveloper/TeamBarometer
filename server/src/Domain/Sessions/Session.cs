@@ -105,11 +105,14 @@ namespace Domain.Sessions
 			}
 		}
 
-		internal void EnableAnswersOfTheCurrentQuestion()
+		internal void EnableAnswersOfTheCurrentQuestion(Guid userId)
 		{
-			CurrentQuestion.EnableAnswers();
+			if (UserIsTheFacilitator(userId))
+			{
+				CurrentQuestion.EnableAnswers();
 
-			DomainEvent.Dispatch(new WhenTheQuestionIsEnabled(this));
+				DomainEvent.Dispatch(new WhenTheQuestionIsEnabled(this));
+			}
 		}
 
 		public bool UserIsParticipating(Guid userId)

@@ -29,7 +29,7 @@ namespace Application.Sessions.UseCases
 
 		public void EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)
 		{
-			SessionService.EnableAnswersOfTheCurrentQuestion(sessionId);
+			SessionService.EnableAnswersOfTheCurrentQuestion(sessionId, userId);
 		}
 	}
 }

@@ -35,11 +35,11 @@ namespace Domain.Sessions.UseCases
 			return session;
 		}
 
-		public void EnableAnswersOfTheCurrentQuestion(Guid sessionId)
+		public void EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
-			session.EnableAnswersOfTheCurrentQuestion();
+			session.EnableAnswersOfTheCurrentQuestion(userId);
 		}
 
 		public void AnswerTheSessionCurrentQuestion(Guid userId, Answer answer, Guid sessionId)
