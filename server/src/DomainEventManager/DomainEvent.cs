@@ -5,7 +5,7 @@ namespace DomainEventManager
 {
 	public class DomainEvent
 	{
-		private static Dictionary<Type, List<IHandler>> HandlersByEvent = new Dictionary<Type, List<IHandler>>();
+		private static Dictionary<Type, List<IHandler>> HandlersByEvent { get; set; } = new Dictionary<Type, List<IHandler>>();
 
 		public static void Bind<TEvent, THandler>() 
 			where THandler : IHandler, new()

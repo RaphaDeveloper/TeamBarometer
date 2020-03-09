@@ -8,6 +8,7 @@ namespace DomainEventManager.Test
 		public void DispatchEventWhenABindExists()
 		{
 			DomainEvent.Bind<TestEvent, FirstTestHandler>();
+			DomainEvent.Bind<Session, FirstTestHandler>();
 
 			DomainEvent.Dispatch(new TestEvent());
 

@@ -36,7 +36,7 @@ namespace Domain.Sessions.UseCases
 			return session;
 		}
 
-		public void EnableAnswersOfTheSessionCurrentQuestion(Guid sessionId)
+		public void EnableAnswersOfTheCurrentQuestion(Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);
 

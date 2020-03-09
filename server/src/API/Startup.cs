@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Handlers;
 using Application.Sessions.UseCases;
 using Domain.Questions;
+using Domain.Sessions.Events;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
+using DomainEventManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +37,8 @@ namespace API
 			services.AddScoped<SessionService>();
 			services.AddScoped<InMemorySessionRepository>();
 			services.AddScoped<InMemoryQuestionTemplateRepository>();
+
+			DomainEvent.Bind<WhenTheQuestionIsEnabled, FakeHandler>();
 
 			services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 			{

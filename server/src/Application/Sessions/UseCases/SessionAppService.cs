@@ -26,5 +26,10 @@ namespace Application.Sessions.UseCases
 
 			return new SessionModel(session, userId);
 		}
+
+		public void EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)
+		{
+			SessionService.EnableAnswersOfTheCurrentQuestion(sessionId);
+		}
 	}
 }

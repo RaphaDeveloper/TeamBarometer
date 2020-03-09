@@ -62,7 +62,7 @@ namespace Domain.Test.Sessions.UseCases
 			Session session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
 			service.JoinTheSession(session.Id, userId);
-			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.EnableAnswersOfTheCurrentQuestion(session.Id);
 
 
 			service.AnswerTheSessionCurrentQuestion(userId, Answer.Red, session.Id);
@@ -81,7 +81,7 @@ namespace Domain.Test.Sessions.UseCases
 			Question priorQuestion = session.CurrentQuestion;
 			service.JoinTheSession(session.Id, firstUserId);
 			service.JoinTheSession(session.Id, secondUserId);
-			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.EnableAnswersOfTheCurrentQuestion(session.Id);
 
 
 			service.AnswerTheSessionCurrentQuestion(firstUserId, Answer.Green, session.Id);
@@ -103,7 +103,7 @@ namespace Domain.Test.Sessions.UseCases
 			Question currentQuestion = session.CurrentQuestion;
 			service.JoinTheSession(session.Id, firstUserId);
 			service.JoinTheSession(session.Id, secondUserId);
-			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.EnableAnswersOfTheCurrentQuestion(session.Id);
 
 
 			service.AnswerTheSessionCurrentQuestion(firstUserId, Answer.Green, session.Id);
@@ -121,7 +121,7 @@ namespace Domain.Test.Sessions.UseCases
 			Session session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
 			service.JoinTheSession(session.Id, userId);
-			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.EnableAnswersOfTheCurrentQuestion(session.Id);
 
 
 			service.AnswerTheSessionCurrentQuestion(userId, Answer.Green, session.Id);
@@ -138,7 +138,7 @@ namespace Domain.Test.Sessions.UseCases
 			SessionService service = CreateService();
 			Session session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
-			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.EnableAnswersOfTheCurrentQuestion(session.Id);
 
 
 			service.AnswerTheSessionCurrentQuestion(userId, Answer.Red, session.Id);
@@ -205,7 +205,7 @@ namespace Domain.Test.Sessions.UseCases
 			Session session = service.CreateSession(facilitatorId);
 
 
-			service.EnableAnswersOfTheSessionCurrentQuestion(session.Id);
+			service.EnableAnswersOfTheCurrentQuestion(session.Id);
 
 
 			Assert.True(session.CurrentQuestion.IsUpForAnswer);

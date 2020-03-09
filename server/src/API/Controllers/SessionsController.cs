@@ -31,5 +31,13 @@ namespace API.Controllers
 
 			return Ok(session);
 		}
+
+		[HttpPut("{sessionId}/user/{userId}/")]
+		public IActionResult EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)
+		{
+			sessionAppService.EnableAnswersOfTheCurrentQuestion(sessionId, userId);
+
+			return Ok();
+		}
 	}
 }
