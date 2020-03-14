@@ -1,6 +1,4 @@
-﻿using Domain.Sessions.Events;
-using DomainEventManager;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -110,8 +108,6 @@ namespace Domain.Sessions
 			if (UserIsTheFacilitator(userId))
 			{
 				CurrentQuestion.EnableAnswers();
-
-				DomainEvent.Dispatch(new WhenTheQuestionIsEnabled(this));
 			}
 		}
 

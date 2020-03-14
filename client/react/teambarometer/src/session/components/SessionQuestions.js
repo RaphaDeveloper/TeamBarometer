@@ -52,7 +52,7 @@ export default class SessionQuestions extends Component {
         return (
             question.isTheCurrent &&
             this.props.session.userIsTheFacilitator &&
-            <input className="play" type="image" src={playImage} alt="Play" />
+            <input className="play" type="image" src={playImage} alt="Play" onClick={this.props.onPlayQuestion} />
         );
     }
 }

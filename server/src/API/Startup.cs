@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using API.Hubs;
 using Application.Sessions.UseCases;
-using Domain.Sessions.Events;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
-using DomainEventManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace API
 {
@@ -30,24 +23,27 @@ namespace API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+			services.AddSignalR();
 
 			services.AddScoped<SessionAppService>();
 			services.AddScoped<SessionService>();
 			services.AddScoped<InMemorySessionRepository>();
 			services.AddScoped<InMemoryTemplateQuestionRepository>();
+			services.AddSingleton<SessionHub>();			
 
-			services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+			services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
 			{
-				builder.AllowAnyOrigin()
+				builder.SetIsOriginAllowed(_ => true)
 					   .AllowAnyMethod()
-					   .AllowAnyHeader();
+					   .AllowAnyHeader()
+					   .AllowCredentials();
 			}));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			app.UseCors("MyPolicy");
+			app.UseCors("CorsPolicy");
 
 			if (env.IsDevelopment())
 			{
@@ -61,6 +57,7 @@ namespace API
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+				endpoints.MapHub<SessionHub>("/sessionHub/{sessionId}");
 			});
 		}
 	}

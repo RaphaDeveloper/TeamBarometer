@@ -12,26 +12,24 @@ namespace Application.Test.Sessions.UseCases
 {
 	public class SessionAppServiceShould
 	{
-		private Guid facilitatorId = Guid.NewGuid();
-		private SessionService sessionService;
+		private Guid facilitatorId = Guid.NewGuid();		
 		private IEnumerable<TemplateQuestion> questionTemplates;
+		private SessionAppService sessionAppService;
 
 		[SetUp]
 		public void Setup()
 		{
 			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
 			InMemoryTemplateQuestionRepository questionTemplateRepository = new InMemoryTemplateQuestionRepository();
-
-			sessionService = new SessionService(sessionRepository, questionTemplateRepository);
-
+			SessionService sessionService = new SessionService(sessionRepository, questionTemplateRepository);
+			
+			sessionAppService = new SessionAppService(sessionService, sessionRepository);
 			questionTemplates = questionTemplateRepository.GetAll();
 		}
 
 		[Test]
 		public void CreateSession()
 		{
-			SessionAppService sessionAppService = new SessionAppService(sessionService);
-
 			SessionModel sessionModel = sessionAppService.CreateSession(facilitatorId);
 
 			Assert.That(sessionModel.Id, Is.Not.EqualTo(Guid.Empty));
@@ -66,8 +64,7 @@ namespace Application.Test.Sessions.UseCases
 		public void JoinTheSession()
 		{
 			Guid userId = Guid.NewGuid();
-			SessionAppService sessionAppService = new SessionAppService(sessionService);
-
+			
 			SessionModel createdSession = sessionAppService.CreateSession(facilitatorId);
 			SessionModel joinedSession = sessionAppService.JoinTheSession(createdSession.Id, userId);
 
