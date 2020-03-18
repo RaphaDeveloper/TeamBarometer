@@ -12,6 +12,7 @@ namespace Application.Sessions
             RedAnswer = question.GetDescriptionOfTheAnswer(Answer.Red);
             GreenAnswer = question.GetDescriptionOfTheAnswer(Answer.Green);
             IsTheCurrent = question.IsTheCurrent;
+            IsUpForAnswer = question.IsUpForAnswer;
         }
 
         public Guid Id { get; set; }
@@ -22,8 +23,9 @@ namespace Application.Sessions
         public int AmountOfRedAnswers { get; private set; }
         public int AmountOfYellowAnswers { get; private set; }
         public int AmountOfGreenAnswers { get; private set; }
+		public bool IsUpForAnswer { get; set; }
 
-        public override bool Equals(object obj)
+		public override bool Equals(object obj)
         {
             QuestionModel question = obj as QuestionModel;
 

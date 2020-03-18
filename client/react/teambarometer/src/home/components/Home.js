@@ -3,13 +3,18 @@ import Session from '../../session/components/Session';
 import './Home.css';
 import SessionRepository from '../../session/repositories/SessionRepository';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
 
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.sessionRepository = new SessionRepository();
-        this.state = { session: null, sessionId: '' };
+        this.state = { session: null, sessionId: '', userId: null };
+    }
+
+    componentDidMount() {
+        this.setState({ userId: uuidv4() });
     }
 
     render() {
@@ -34,7 +39,7 @@ export default class Home extends Component {
 
     renderSession() {
         return (
-            <Session session={this.state.session} />
+            <Session session={this.state.session} userId={this.state.userId} />
         );
     }
 
@@ -47,7 +52,7 @@ export default class Home extends Component {
     }
 
     createSession = async () => {
-        const session = await this.sessionRepository.createSession();
+        const session = await this.sessionRepository.createSession(this.state.userId);
 
         this.setState({ session: session });
     }
@@ -81,7 +86,7 @@ export default class Home extends Component {
     }
 
     enterToTheSession = async () => {
-        const session = await this.sessionRepository.enterToTheSession(this.state.sessionId);
+        const session = await this.sessionRepository.enterToTheSession(this.state.sessionId, this.state.userId);
 
         this.setState({ session: session });
     }

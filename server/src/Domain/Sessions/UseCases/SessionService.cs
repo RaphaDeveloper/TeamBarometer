@@ -42,6 +42,11 @@ namespace Domain.Sessions.UseCases
 			session.EnableAnswersOfTheCurrentQuestion(userId);
 		}
 
+		public Session GetSessionById(Guid sessionId)
+		{
+			return SessionRepository.GetById(sessionId);
+		}
+
 		public void AnswerTheSessionCurrentQuestion(Guid userId, Answer answer, Guid sessionId)
 		{
 			Session session = SessionRepository.GetById(sessionId);

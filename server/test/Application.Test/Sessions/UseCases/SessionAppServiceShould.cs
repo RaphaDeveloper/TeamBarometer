@@ -23,7 +23,7 @@ namespace Application.Test.Sessions.UseCases
 			InMemoryTemplateQuestionRepository questionTemplateRepository = new InMemoryTemplateQuestionRepository();
 			SessionService sessionService = new SessionService(sessionRepository, questionTemplateRepository);
 			
-			sessionAppService = new SessionAppService(sessionService, sessionRepository);
+			sessionAppService = new SessionAppService(sessionService);
 			questionTemplates = questionTemplateRepository.GetAll();
 		}
 
@@ -34,6 +34,7 @@ namespace Application.Test.Sessions.UseCases
 
 			Assert.That(sessionModel.Id, Is.Not.EqualTo(Guid.Empty));
 			Assert.IsTrue(sessionModel.Questions.First().IsTheCurrent);
+			Assert.IsFalse(sessionModel.Questions.First(q => q.IsTheCurrent).IsUpForAnswer);
 			Assert.IsTrue(sessionModel.UserIsTheFacilitator);
 			AssertThatTheQuestionsHasTheSameDataOfTheTemplate(sessionModel);
 			AssertThatTheQuestionsHasNotAnyAmountOfAnswer(sessionModel);
@@ -84,6 +85,23 @@ namespace Application.Test.Sessions.UseCases
 
 				Assert.That(questionOfTheJoinedSession, Is.EqualTo(questionOfTheCreatedSession));
 			}
+		}		
+
+		[Test]
+		public void TurnTheCurrentQuestionUpForAnswerWhenTheUserWhoGetTheSessionIsNotTheFacilitator()
+		{
+			Guid facilitatorId = Guid.NewGuid();
+			SessionModel sessionModel = sessionAppService.CreateSession(facilitatorId);
+			sessionAppService.EnableAnswersOfTheCurrentQuestion(sessionModel.Id, facilitatorId);
+
+			sessionModel = sessionAppService.GetSession(sessionModel.Id, facilitatorId);
+
+			AssertThatTheCurrentQuestionIsUpForAnswer(sessionModel);
+		}
+
+		private void AssertThatTheCurrentQuestionIsUpForAnswer(SessionModel session)
+		{
+			Assert.True(session.Questions.First(q => q.IsTheCurrent).IsUpForAnswer);
 		}
 	}
 }

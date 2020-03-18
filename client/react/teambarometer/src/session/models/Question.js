@@ -1,5 +1,5 @@
 export default class Question {
-    constructor({id, description, redAnswer, greenAnswer, isTheCurrent, amountOfRedAnswers, amountOfYellowAnswers, amountOfGreenAnswers}) {
+    constructor({id, description, redAnswer, greenAnswer, isTheCurrent, isUpForAnswer, amountOfRedAnswers, amountOfYellowAnswers, amountOfGreenAnswers}) {
         this.id = id;
         this.description = description;
         this.redAnswer = redAnswer;
@@ -8,6 +8,7 @@ export default class Question {
         this.amountOfRedAnswers = amountOfRedAnswers;
         this.amountOfYellowAnswers = amountOfYellowAnswers;
         this.amountOfGreenAnswers = amountOfGreenAnswers;
+        this.isUpForAnswer = isUpForAnswer;
     }
 
     isEqualTo(question) {

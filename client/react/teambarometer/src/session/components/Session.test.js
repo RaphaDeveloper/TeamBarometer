@@ -1,6 +1,7 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, render } from 'enzyme';
 import Session from './Session';
+import SessionAnswers from './SessionAnswers';
 import Question from '../models/Question';
 import SessionModel from '../models/SessionModel';
 
@@ -62,12 +63,34 @@ describe('when the session is loaded', () => {
     expect(answers.find('.green').text()).toBe('Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.');
   });
 
-  it('the answers of the current question should be disabled by default', () => {
-    const answers = session.find('.answers');
+  it('the answers of the current question should be disabled if the question is not up for answer', () => {
+    const question = new Question({ isUpForAnswer: false });
+    
+    const answers = mount(<SessionAnswers question={question} userIsTheFacilitator={false}/>);
 
-    expect(answers.find('.red').is('[disabled]')).toBe(true);
-    expect(answers.find('.yellow').is('[disabled]')).toBe(true);
-    expect(answers.find('.green').is('[disabled]')).toBe(true);
+    expect(answers.find('.red[disabled=true]').length).toBe(1);
+    expect(answers.find('.yellow[disabled=true]').length).toBe(1);
+    expect(answers.find('.green[disabled=true]').length).toBe(1);
+  });
+
+  it('the answers of the current question should be disabled if the user is the facilitator', () => {
+    const question = new Question({ isUpForAnswer: true });
+    
+    const answers = mount(<SessionAnswers question={question} userIsTheFacilitator={true}/>);
+
+    expect(answers.find('.red[disabled=true]').length).toBe(1);
+    expect(answers.find('.yellow[disabled=true]').length).toBe(1);
+    expect(answers.find('.green[disabled=true]').length).toBe(1);
+  });
+
+  it('the answers of the current question should not be disabled if the question is up for answer and the user is not the facilitator', () => {
+    const question = new Question({ isUpForAnswer: true });
+    
+    const answers = mount(<SessionAnswers question={question} userIsTheFacilitator={false}/>);
+
+    expect(answers.find('.red[disabled=false]').length).toBe(1);
+    expect(answers.find('.yellow[disabled=false]').length).toBe(1);
+    expect(answers.find('.green[disabled=false]').length).toBe(1);
   });
 
   it('each question should has a description', () => {
