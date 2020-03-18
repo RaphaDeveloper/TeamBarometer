@@ -7,20 +7,29 @@ import SessionModel from '../models/SessionModel';
 describe('when the session is loaded', () => {
   function getSession(userIsTheFacilitator) {
     const questions = [
-      new Question(1, 'Confiança',
-        'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
-        'Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.',
-        false, 4, 2, 4),
+      new Question({
+          id: 1,
+          description: 'Confiança',
+          redAnswer: 'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
+          greenAnswer: 'Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.',
+          isTheCurrent: false,
+          amountOfRedAnswers: 4,
+          amountOfYellowAnswers: 2,
+          amountOfGreenAnswers: 4
+      }),
 
-      new Question(2, 'Feedback',
-        'Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.',
-        'Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.',
-        true),
+      new Question({
+          id: 2,
+          description: 'Feedback',
+          redAnswer: 'Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.',
+          greenAnswer: 'Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.',
+          isTheCurrent: true
+      }),
 
-      new Question(3, 'Autonomia', false),
-    ];
+      new Question({id: 3, description: 'Autonomia', isTheCurrent: false}),
+  ];
 
-    return new SessionModel('123-456-789', questions, userIsTheFacilitator);
+  return new SessionModel({ id: '123-456-789', questions, userIsTheFacilitator });
   }
 
   let session;
