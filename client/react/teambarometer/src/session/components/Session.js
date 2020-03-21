@@ -34,7 +34,7 @@ export default class Session extends Component {
         return (
             <>
                 <SessionQuestions session={this.state.session} selectedQuestion={this.state.selectedQuestion} onSelectQuestion={this.updateSelectedQuestion} onPlayQuestion={this.enableAnswersOfTheCurrentQuestion} />
-                <SessionAnswers question={this.state.selectedQuestion} userIsTheFacilitator={this.state.session.userIsTheFacilitator} />
+                <SessionAnswers question={this.state.selectedQuestion} userIsTheFacilitator={this.state.session.userIsTheFacilitator} onSelectAnswer={this.answerTheCurrentQuestion} />
             </>
         );
     }
@@ -51,5 +51,9 @@ export default class Session extends Component {
         const session =  await this.sessionRepository.getSession(this.state.session.id, this.props.userId);
 
         this.setState({ session, selectedQuestion: session.getCurrentQuestion() });
+    }
+
+    answerTheCurrentQuestion = (answer) => {
+        this.sessionRepository.answerTheCurrentQuestion(this.props.userId, answer, this.state.session.id);
     }
 }

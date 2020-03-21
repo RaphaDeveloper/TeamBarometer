@@ -1,6 +1,7 @@
 ﻿using API.Hubs;
 using Application.Sessions;
 using Application.Sessions.UseCases;
+using Domain.Sessions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -37,6 +38,14 @@ namespace API.Controllers
 		public IActionResult EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)
 		{
 			sessionAppService.EnableAnswersOfTheCurrentQuestion(sessionId, userId);
+
+			return Ok();
+		}
+
+		[HttpPut("AnswerTheCurrentQuestion/{sessionId}/user/{userId}/answer/{answer}")]
+		public IActionResult AnswerTheCurrentQuestion(Guid userId, Answer answer, Guid sessionId)
+		{
+			sessionAppService.AnswerTheCurrentQuestion(userId, answer, sessionId);
 
 			return Ok();
 		}

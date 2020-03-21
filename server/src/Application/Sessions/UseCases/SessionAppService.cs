@@ -39,5 +39,10 @@ namespace Application.Sessions.UseCases
 
 			return new SessionModel(session, userId);
 		}
+
+		public void AnswerTheCurrentQuestion(Guid userId, Answer answer, Guid sessionId)
+		{
+			SessionService.AnswerTheCurrentQuestion(userId, answer, sessionId);
+		}
 	}
 }

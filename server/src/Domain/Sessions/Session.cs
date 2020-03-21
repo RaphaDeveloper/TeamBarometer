@@ -34,7 +34,10 @@ namespace Domain.Sessions
 
 				this.currentQuestion = value;
 
-				this.currentQuestion.IsTheCurrent = true;
+				if (this.currentQuestion != null)
+				{
+					this.currentQuestion.IsTheCurrent = true;
+				}
 			}
 		}
 

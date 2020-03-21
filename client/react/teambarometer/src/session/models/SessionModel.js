@@ -8,6 +8,16 @@ export default class SessionModel {
     }
 
     getCurrentQuestion() {
-        return this.questions.find(q => q.isTheCurrent);
+        let currentQuestion = this.questions.find(q => q.isTheCurrent);
+
+        if (!currentQuestion) {
+            currentQuestion = this.getLastQuestion();
+        }
+
+        return currentQuestion;
+    }
+
+    getLastQuestion() {
+        return this.questions[this.questions.length - 1];
     }
 }

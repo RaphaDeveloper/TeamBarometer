@@ -6,7 +6,7 @@ import Question from '../models/Question';
 import SessionModel from '../models/SessionModel';
 
 describe('when the session is loaded', () => {
-  function getSession(userIsTheFacilitator) {
+  function getSession(userIsTheFacilitator, sessionFinished) {
     const questions = [
       new Question({
           id: 1,
@@ -24,7 +24,7 @@ describe('when the session is loaded', () => {
           description: 'Feedback',
           redAnswer: 'Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.',
           greenAnswer: 'Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.',
-          isTheCurrent: true
+          isTheCurrent: true && !sessionFinished
       }),
 
       new Question({id: 3, description: 'Autonomia', isTheCurrent: false}),
@@ -37,8 +37,9 @@ describe('when the session is loaded', () => {
 
   beforeEach(() => {
     const userIsTheFacilitator = true;
+    const sessionFinished = false;
 
-    session = mount(<Session session={getSession(userIsTheFacilitator)}/>);
+    session = mount(<Session session={getSession(userIsTheFacilitator, sessionFinished)}/>);
   });
 
   afterEach(() => {
@@ -103,6 +104,17 @@ describe('when the session is loaded', () => {
     let firstQuestion = session.find('.questions li').at(0);
     
     firstQuestion = firstQuestion.simulate('click') && session.find('.questions li').at(0);
+
+    expect(firstQuestion.hasClass('selected')).toBe(true);
+  });
+
+  it('selected question should be the last question when the session is finished', () => {
+    const userIsTheFacilitator = false;
+    const sessionFinished = true;
+
+    let session = mount(<Session session={getSession(userIsTheFacilitator, sessionFinished)}/>);
+
+    let firstQuestion = session.find('.questions li').at(2);
 
     expect(firstQuestion.hasClass('selected')).toBe(true);
   });

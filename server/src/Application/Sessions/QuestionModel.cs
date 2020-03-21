@@ -13,6 +13,9 @@ namespace Application.Sessions
             GreenAnswer = question.GetDescriptionOfTheAnswer(Answer.Green);
             IsTheCurrent = question.IsTheCurrent;
             IsUpForAnswer = question.IsUpForAnswer;
+            AmountOfGreenAnswers = question.GetCountOfTheAnswer(Answer.Green);
+            AmountOfYellowAnswers = question.GetCountOfTheAnswer(Answer.Yellow);
+            AmountOfRedAnswers = question.GetCountOfTheAnswer(Answer.Red);
         }
 
         public Guid Id { get; set; }

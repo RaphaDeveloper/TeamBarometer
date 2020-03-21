@@ -39,7 +39,6 @@ namespace Application.Test.Sessions.UseCases
 			AssertThatTheQuestionsHasTheSameDataOfTheTemplate(sessionModel);
 			AssertThatTheQuestionsHasNotAnyAmountOfAnswer(sessionModel);
 		}		
-
 		private void AssertThatTheQuestionsHasTheSameDataOfTheTemplate(SessionModel session)
 		{
 			for (int i = 0; i < session.Questions.Count(); i++)
@@ -53,13 +52,13 @@ namespace Application.Test.Sessions.UseCases
 				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Green), questionModel.GreenAnswer);
 			}
 		}
-
 		private void AssertThatTheQuestionsHasNotAnyAmountOfAnswer(SessionModel session)
 		{
 			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfRedAnswers));
 			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfYellowAnswers));
 			Assert.AreEqual(0, session.Questions.Sum(question => question.AmountOfGreenAnswers));
 		}
+
 
 		[Test]
 		public void JoinTheSession()
@@ -73,7 +72,6 @@ namespace Application.Test.Sessions.UseCases
 			Assert.IsFalse(joinedSession.UserIsTheFacilitator);
 			AssertThatTheQuestionsOfTheJoinedSessionIsEqualToTheQuestionsOfTheCreatedSession(joinedSession, createdSession);
 		}
-
 		private void AssertThatTheQuestionsOfTheJoinedSessionIsEqualToTheQuestionsOfTheCreatedSession(SessionModel joinedSession, SessionModel createdSession)
 		{
 			Assert.That(joinedSession.Questions.Count(), Is.EqualTo(createdSession.Questions.Count()));
@@ -87,6 +85,7 @@ namespace Application.Test.Sessions.UseCases
 			}
 		}		
 
+		
 		[Test]
 		public void TurnTheCurrentQuestionUpForAnswerWhenTheUserWhoGetTheSessionIsNotTheFacilitator()
 		{
@@ -98,10 +97,65 @@ namespace Application.Test.Sessions.UseCases
 
 			AssertThatTheCurrentQuestionIsUpForAnswer(sessionModel);
 		}
-
 		private void AssertThatTheCurrentQuestionIsUpForAnswer(SessionModel session)
 		{
 			Assert.True(session.Questions.First(q => q.IsTheCurrent).IsUpForAnswer);
+		}
+
+
+		[Test]
+		public void ContabilizeTheAnswersWhenUserAnswerTheCurrentQuestion()
+		{
+			Guid greenUser = Guid.NewGuid();
+			Guid yellowUser = Guid.NewGuid();
+			Guid redUser = Guid.NewGuid();
+			Guid facilitatorId = Guid.NewGuid();
+			SessionModel sessionModel = sessionAppService.CreateSession(facilitatorId);
+			sessionAppService.JoinTheSession(sessionModel.Id, greenUser);
+			sessionAppService.JoinTheSession(sessionModel.Id, yellowUser);
+			sessionAppService.JoinTheSession(sessionModel.Id, redUser);
+			sessionAppService.EnableAnswersOfTheCurrentQuestion(sessionModel.Id, facilitatorId);
+
+			sessionAppService.AnswerTheCurrentQuestion(greenUser, Answer.Green, sessionModel.Id);
+			sessionAppService.AnswerTheCurrentQuestion(yellowUser, Answer.Yellow, sessionModel.Id);
+			sessionAppService.AnswerTheCurrentQuestion(redUser, Answer.Red, sessionModel.Id);
+
+			AssertThatTheAnswerWasContabilized(sessionModel);
+		}
+		private void AssertThatTheAnswerWasContabilized(SessionModel session)
+		{
+			SessionModel sessionModel = sessionAppService.GetSession(session.Id, facilitatorId);
+
+			Assert.That(sessionModel.Questions.First().AmountOfGreenAnswers, Is.EqualTo(1));
+			Assert.That(sessionModel.Questions.First().AmountOfYellowAnswers, Is.EqualTo(1));
+			Assert.That(sessionModel.Questions.First().AmountOfRedAnswers, Is.EqualTo(1));
+		}
+
+		[Test]
+		public void UpdateTheCurrentQuestionWhenAllUsersAnswerTheQuestion()
+		{
+			Guid greenUser = Guid.NewGuid();
+			Guid yellowUser = Guid.NewGuid();
+			Guid redUser = Guid.NewGuid();
+			Guid facilitatorId = Guid.NewGuid();
+			SessionModel sessionModel = sessionAppService.CreateSession(facilitatorId);
+			sessionAppService.JoinTheSession(sessionModel.Id, greenUser);
+			sessionAppService.JoinTheSession(sessionModel.Id, yellowUser);
+			sessionAppService.JoinTheSession(sessionModel.Id, redUser);
+			sessionAppService.EnableAnswersOfTheCurrentQuestion(sessionModel.Id, facilitatorId);
+
+			sessionAppService.AnswerTheCurrentQuestion(greenUser, Answer.Green, sessionModel.Id);
+			sessionAppService.AnswerTheCurrentQuestion(yellowUser, Answer.Yellow, sessionModel.Id);
+			sessionAppService.AnswerTheCurrentQuestion(redUser, Answer.Red, sessionModel.Id);
+
+			AssertThatTheCurrentQuestionHasChanged(sessionModel);
+		}
+		private void AssertThatTheCurrentQuestionHasChanged(SessionModel session)
+		{
+			SessionModel sessionModel = sessionAppService.GetSession(session.Id, facilitatorId);
+
+			Assert.False(sessionModel.Questions.ElementAt(0).IsTheCurrent);
+			Assert.True(sessionModel.Questions.ElementAt(1).IsTheCurrent);
 		}
 	}
 }

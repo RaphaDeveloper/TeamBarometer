@@ -28,4 +28,8 @@ export default class SessionRepository {
     enableAnswersOfTheCurrentQuestion(sessionId, userId) {
         fetch(`${process.env.REACT_APP_API_URL}/api/sessions/EnableAnswersOfTheCurrentQuestion/${sessionId}/user/${userId}`, { method: 'PUT' });
     }
+
+    answerTheCurrentQuestion(userId, answer, sessionId) {
+        fetch(`${process.env.REACT_APP_API_URL}/api/sessions/AnswerTheCurrentQuestion/${sessionId}/user/${userId}/answer/${answer}`, { method: 'PUT' });
+    }
 }

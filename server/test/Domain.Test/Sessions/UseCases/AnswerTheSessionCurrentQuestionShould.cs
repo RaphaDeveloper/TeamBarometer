@@ -33,7 +33,7 @@ namespace Domain.Test.Sessions.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
-			service.AnswerTheSessionCurrentQuestion(userId, Answer.Red, session.Id);
+			service.AnswerTheCurrentQuestion(userId, Answer.Red, session.Id);
 
 
 			Assert.That(currentQuestion.GetCountOfTheAnswer(Answer.Red), Is.EqualTo(1));
@@ -52,13 +52,35 @@ namespace Domain.Test.Sessions.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
-			service.AnswerTheSessionCurrentQuestion(firstUserId, Answer.Green, session.Id);
-			service.AnswerTheSessionCurrentQuestion(secondUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, session.Id);
 
 
 			Assert.That(priorQuestion.NextQuestion, Is.EqualTo(session.CurrentQuestion));
 			Assert.True(session.CurrentQuestion.IsTheCurrent);
 			Assert.False(priorQuestion.IsTheCurrent);
+		}
+
+		[Test]
+		public void NotDefineTheCurrentQuestionWhenAllUsersAnswerTheLastQuestion()
+		{
+			Guid firstUserId = Guid.NewGuid();
+			Guid secondUserId = Guid.NewGuid();
+			SessionService service = CreateService();
+			Session session = service.CreateSession(facilitatorId);
+			service.JoinTheSession(session.Id, firstUserId);
+			service.JoinTheSession(session.Id, secondUserId);
+
+			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
+			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, session.Id);
+
+			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
+			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, session.Id);
+
+
+			Assert.IsNull(session.CurrentQuestion);
 		}
 
 		[Test]
@@ -73,8 +95,8 @@ namespace Domain.Test.Sessions.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 			
-			service.AnswerTheSessionCurrentQuestion(firstUserId, Answer.Green, session.Id);
-			service.AnswerTheSessionCurrentQuestion(secondUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, session.Id);
 
 			
 			Assert.True(FakeHandler.SessionWasNotified(session.Id));
@@ -92,7 +114,7 @@ namespace Domain.Test.Sessions.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
-			service.AnswerTheSessionCurrentQuestion(firstUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
 
 
 			Assert.False(FakeHandler.SessionWasNotified(session.Id));
@@ -111,8 +133,8 @@ namespace Domain.Test.Sessions.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
-			service.AnswerTheSessionCurrentQuestion(firstUserId, Answer.Green, session.Id);
-			service.AnswerTheSessionCurrentQuestion(secondUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, session.Id);
 
 
 			Assert.False(currentQuestion.IsUpForAnswer);
@@ -129,8 +151,8 @@ namespace Domain.Test.Sessions.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
-			service.AnswerTheSessionCurrentQuestion(userId, Answer.Green, session.Id);
-			service.AnswerTheSessionCurrentQuestion(userId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(userId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(userId, Answer.Green, session.Id);
 
 
 			Assert.That(currentQuestion.GetCountOfTheAnswer(Answer.Green), Is.EqualTo(1));
@@ -146,7 +168,7 @@ namespace Domain.Test.Sessions.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
-			service.AnswerTheSessionCurrentQuestion(userId, Answer.Red, session.Id);
+			service.AnswerTheCurrentQuestion(userId, Answer.Red, session.Id);
 
 
 			Assert.False(currentQuestion.HasAnyAnswer());
@@ -162,7 +184,7 @@ namespace Domain.Test.Sessions.UseCases
 			service.JoinTheSession(session.Id, firstUserId);
 
 
-			service.AnswerTheSessionCurrentQuestion(firstUserId, Answer.Green, session.Id);
+			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
 
 
 			Assert.False(currentQuestion.HasAnyAnswer());
