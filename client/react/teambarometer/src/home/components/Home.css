@@ -33,3 +33,8 @@ header h1 {
 [disabled] {
     cursor: auto;
 }
+
+.popover {
+    max-width: 430px;
+    width: 430px;
+}
