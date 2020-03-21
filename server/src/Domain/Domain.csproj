@@ -8,4 +8,8 @@
     <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DomainEventManager\DomainEventManager.csproj" />
+  </ItemGroup>
+
 </Project>

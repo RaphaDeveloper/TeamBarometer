@@ -7,22 +7,7 @@ namespace DomainEventManager
 	{
 		private static Dictionary<Type, List<IHandler>> HandlersByEvent { get; set; } = new Dictionary<Type, List<IHandler>>();
 
-		public static void Bind<TEvent, THandler>() 
-			where THandler : IHandler, new()
-		{
-			Type eventType = typeof(TEvent);
-
-			if (!HandlersByEvent.TryGetValue(eventType, out List<IHandler> handlers))
-			{
-				handlers = new List<IHandler>();
-				
-				HandlersByEvent.Add(eventType, handlers);
-			}
-
-			handlers.Add(new THandler());
-		}
-
-		public static void Bind<TEvent, THandler>(IServiceProvider serviceProvider)
+		public static void Bind<TEvent, THandler>(IServiceProvider handlerProvider)
 			where THandler : IHandler
 		{
 			Type eventType = typeof(TEvent);
@@ -34,7 +19,7 @@ namespace DomainEventManager
 				HandlersByEvent.Add(eventType, handlers);
 			}
 
-			handlers.Add((IHandler)serviceProvider.GetService(typeof(THandler)));
+			handlers.Add((IHandler)handlerProvider.GetService(typeof(THandler)));
 		}
 
 		public static void Dispatch(object domainEvent)

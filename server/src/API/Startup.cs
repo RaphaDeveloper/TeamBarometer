@@ -1,7 +1,10 @@
+using API.DomainEventHandlers;
 using API.Hubs;
 using Application.Sessions.UseCases;
+using Domain.Sessions.Events;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
+using DomainEventManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +32,8 @@ namespace API
 			services.AddScoped<SessionService>();
 			services.AddScoped<InMemorySessionRepository>();
 			services.AddScoped<InMemoryTemplateQuestionRepository>();
-			services.AddSingleton<SessionHub>();			
+			services.AddSingleton<SessionHub>();
+			services.AddSingleton<RefreshSession>();
 
 			services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
 			{
@@ -43,6 +47,8 @@ namespace API
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			DomainEvent.Bind<WhenTheQuestionIsEnabled, RefreshSession>(app.ApplicationServices);
+
 			app.UseCors("CorsPolicy");
 
 			if (env.IsDevelopment())

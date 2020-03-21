@@ -1,13 +1,24 @@
+using Moq;
 using NUnit.Framework;
+using System;
 
 namespace DomainEventManager.Test
 {
 	public class DomainEventShould
 	{
+		private readonly Mock<IServiceProvider> serviceProviderMock;
+
+		public DomainEventShould()
+		{
+			serviceProviderMock = new Mock<IServiceProvider>();
+			serviceProviderMock.Setup(s => s.GetService(typeof(FirstTestHandler))).Returns(new FirstTestHandler());
+			serviceProviderMock.Setup(s => s.GetService(typeof(SecondTestHandler))).Returns(new SecondTestHandler());
+		}
+
 		[Test]
 		public void DispatchEventWhenABindExists()
 		{
-			DomainEvent.Bind<TestEvent, FirstTestHandler>();
+			DomainEvent.Bind<TestEvent, FirstTestHandler>(serviceProviderMock.Object);
 
 			DomainEvent.Dispatch(new TestEvent());
 
@@ -17,8 +28,8 @@ namespace DomainEventManager.Test
 		[Test]
 		public void BindMoreThanOneHandlerToTheSameEvent()
 		{
-			DomainEvent.Bind<TestEvent, FirstTestHandler>();
-			DomainEvent.Bind<TestEvent, SecondTestHandler>();
+			DomainEvent.Bind<TestEvent, FirstTestHandler>(serviceProviderMock.Object);
+			DomainEvent.Bind<TestEvent, SecondTestHandler>(serviceProviderMock.Object);
 
 			DomainEvent.Dispatch(new TestEvent());
 

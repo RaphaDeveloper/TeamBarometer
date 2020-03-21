@@ -11,12 +11,10 @@ namespace API.Controllers
 	public class SessionsController : ControllerBase
 	{
 		private readonly SessionAppService sessionAppService;
-		private readonly SessionHub sessionHub;
 
-		public SessionsController(SessionAppService sessionAppService, SessionHub sessionHub)
+		public SessionsController(SessionAppService sessionAppService)
 		{
 			this.sessionAppService = sessionAppService;
-			this.sessionHub = sessionHub;
 		}
 
 		[HttpPost("CreateSession/user/{userId}")]
@@ -39,8 +37,6 @@ namespace API.Controllers
 		public IActionResult EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)
 		{
 			sessionAppService.EnableAnswersOfTheCurrentQuestion(sessionId, userId);
-
-			sessionHub.NotifySession(sessionId);
 
 			return Ok();
 		}
