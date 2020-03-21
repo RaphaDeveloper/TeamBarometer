@@ -50,6 +50,6 @@ export default class Session extends Component {
     refreshSession = async () => {
         const session =  await this.sessionRepository.getSession(this.state.session.id, this.props.userId);
 
-        this.setState({ session });
+        this.setState({ session, selectedQuestion: session.getCurrentQuestion() });
     }
 }
