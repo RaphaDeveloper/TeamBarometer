@@ -88,6 +88,8 @@ namespace Domain.Sessions
 					CurrentQuestion.DisableAnswers();
 
 					ChangeTheCurrentQuestion();
+
+					DomainEvent.Dispatch(new WhenAllUsersAnswerTheQuestion(this));
 				}
 			}
 		}

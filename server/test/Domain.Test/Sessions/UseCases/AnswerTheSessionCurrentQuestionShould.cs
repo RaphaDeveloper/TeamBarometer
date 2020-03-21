@@ -1,6 +1,10 @@
 ﻿using Domain.Sessions;
+using Domain.Sessions.Events;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
+using Domain.Test.Sessions.Doubles;
+using DomainEventManager;
+using Moq;
 using NUnit.Framework;
 using System;
 
@@ -9,6 +13,14 @@ namespace Domain.Test.Sessions.UseCases
 	public class AnswerTheSessionCurrentQuestionShould
 	{
 		private Guid facilitatorId = Guid.NewGuid();
+
+		public AnswerTheSessionCurrentQuestionShould()
+		{
+			Mock<IServiceProvider> serviceProviderMock = new Mock<IServiceProvider>();
+			serviceProviderMock.Setup(s => s.GetService(typeof(FakeHandler))).Returns(new FakeHandler());
+			
+			DomainEvent.Bind<WhenAllUsersAnswerTheQuestion, FakeHandler>(serviceProviderMock.Object);
+		}
 
 		[Test]
 		public void AnswerTheSessionQuestion()
@@ -47,6 +59,43 @@ namespace Domain.Test.Sessions.UseCases
 			Assert.That(priorQuestion.NextQuestion, Is.EqualTo(session.CurrentQuestion));
 			Assert.True(session.CurrentQuestion.IsTheCurrent);
 			Assert.False(priorQuestion.IsTheCurrent);
+		}
+
+		[Test]
+		public void DispatchEventWhenAllUsersAnswerTheQuestion()
+		{
+			Guid firstUserId = Guid.NewGuid();
+			Guid secondUserId = Guid.NewGuid();
+			SessionService service = CreateService();
+			Session session = service.CreateSession(facilitatorId);
+			service.JoinTheSession(session.Id, firstUserId);
+			service.JoinTheSession(session.Id, secondUserId);
+			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
+
+			
+			service.AnswerTheSessionCurrentQuestion(firstUserId, Answer.Green, session.Id);
+			service.AnswerTheSessionCurrentQuestion(secondUserId, Answer.Green, session.Id);
+
+			
+			Assert.True(FakeHandler.SessionWasNotified(session.Id));
+		}
+
+		[Test]
+		public void NotDispatchEventWhenAnyUsersNotAnswerTheQuestion()
+		{
+			Guid firstUserId = Guid.NewGuid();
+			Guid secondUserId = Guid.NewGuid();
+			SessionService service = CreateService();
+			Session session = service.CreateSession(facilitatorId);
+			service.JoinTheSession(session.Id, firstUserId);
+			service.JoinTheSession(session.Id, secondUserId);
+			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
+
+
+			service.AnswerTheSessionCurrentQuestion(firstUserId, Answer.Green, session.Id);
+
+
+			Assert.False(FakeHandler.SessionWasNotified(session.Id));
 		}
 
 		[Test]

@@ -48,6 +48,7 @@ namespace API
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			DomainEvent.Bind<WhenTheQuestionIsEnabled, RefreshSession>(app.ApplicationServices);
+			DomainEvent.Bind<WhenAllUsersAnswerTheQuestion, RefreshSession>(app.ApplicationServices);
 
 			app.UseCors("CorsPolicy");
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Domain.Test.Sessions.Doubles
 {
-	public class FakeHandler : Handler<WhenTheQuestionIsEnabled>
+	public class FakeHandler : Handler<SessionEventBase>
 	{
 		private static List<Guid> notifiedSessions = new List<Guid>();
 
@@ -14,7 +14,7 @@ namespace Domain.Test.Sessions.Doubles
 			return notifiedSessions.Contains(sessionId);
 		}
 
-		public override void Handle(WhenTheQuestionIsEnabled domainEvent)
+		public override void Handle(SessionEventBase domainEvent)
 		{
 			notifiedSessions.Add(domainEvent.Session.Id);
 		}
