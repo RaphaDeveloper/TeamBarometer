@@ -12,13 +12,13 @@
 	color: white;
 	text-align: center;
 	padding: 10px;
-	border: 10px solid #707070;	
+	border: 6px solid #707070;	
 	background-color: #BC4747;
-	outline: none;	
+	outline: none;
 }
 
 .answers .yellow {
-	border: 10px solid #707070;
+	border: 6px solid #707070;
 	margin-top: 10px;
 	height: 100px;
 	background-color: #FFCC00;
@@ -29,8 +29,32 @@
 	color: white;
 	text-align: center;
 	padding: 10px;
-	border: 10px solid #707070;
+	border: 6px solid #707070;
 	margin-top: 10px;
 	background-color: #38A134;
 	outline: none;
+}
+
+.answers .red:disabled {
+	opacity: 0.8;
+}
+
+.answers .yellow:disabled {
+	opacity: 0.8;
+}
+
+.answers .green:disabled {
+	opacity: 0.8;
+}
+
+.answers .red:not(:disabled):hover {	
+	border: 6px solid #99E1DE;
+}
+
+.answers .yellow:not(:disabled):hover {	
+	border: 6px solid #99E1DE;
+}
+
+.answers .green:not(:disabled):hover {	
+	border: 6px solid #99E1DE;
 }

@@ -23,8 +23,10 @@ export default class SessionQuestions extends Component {
             this.props.session.questions.map(question =>
                 <li onClick={() => this.props.onSelectQuestion(question)} key={question.description} className={this.getQuestionClassName(question)}>
                     <div className="question d-flex">
-                        <div className="question-description mr-auto">{question.description}</div>
-                        {this.renderPlayButton(question)}
+                        <div className="question-description">{question.description}</div>
+                        <div class="play mr-auto"> 
+                            {this.renderPlayButton(question)}
+                        </div>
                         <div className="count-red">{question.amountOfRedAnswers}</div>
                         <div className="count-yellow">{question.amountOfYellowAnswers}</div>
                         <div className="count-green">{question.amountOfGreenAnswers}</div>
@@ -52,7 +54,7 @@ export default class SessionQuestions extends Component {
         return (
             question.isTheCurrent &&
             this.props.session.userIsTheFacilitator &&
-            <input className="play" type="image" src={playImage} alt="Play" onClick={this.props.onPlayQuestion} />
+            <a class="button button-play" onClick={this.props.onPlayQuestion}  href="javascript:void(0)"></a>
         );
     }
 }
