@@ -13,11 +13,11 @@ export default class SessionAnswers extends Component {
     render() {        
         return (
             <div className="answers col-sm">
-                <button onClick={() => this.onSelectAnswer('Red')} className={this.getAnswerClasses("btn-block red", "Red", this.props.question)} disabled={this.disableAnswer()}>
+                <button onClick={() => this.onSelectAnswer('Red')} className={this.getAnswerClasses("btn-block red", "Red")} disabled={this.disableAnswer()}>
                     {this.props.question && this.props.question.redAnswer}
                 </button>
-                <button onClick={() => this.onSelectAnswer('Yellow')} className={this.getAnswerClasses("btn-block yellow", "Yellow", this.props.question)} disabled={this.disableAnswer()}></button>
-                <button onClick={() => this.onSelectAnswer('Green')} className={this.getAnswerClasses("btn-block green", "Green", this.props.question)} disabled={this.disableAnswer()}>
+                <button onClick={() => this.onSelectAnswer('Yellow')} className={this.getAnswerClasses("btn-block yellow", "Yellow")} disabled={this.disableAnswer()}></button>
+                <button onClick={() => this.onSelectAnswer('Green')} className={this.getAnswerClasses("btn-block green", "Green")} disabled={this.disableAnswer()}>
                     {this.props.question && this.props.question.greenAnswer}
                 </button>
             </div>
