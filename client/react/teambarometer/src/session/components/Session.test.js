@@ -107,6 +107,14 @@ describe('when the session is loaded', () => {
 
     expect(firstQuestion.hasClass('selected')).toBe(true);
   });
+    
+  it('should be possible to select an answer', () => {
+    let redAnswer = session.find('.answers .red');
+    
+    redAnswer = redAnswer.simulate('click') && session.find('.answers .red');
+
+    expect(redAnswer.hasClass('selected-answer')).toBe(true);
+  });
 
   it('selected question should be the last question when the session is finished', () => {
     const userIsTheFacilitator = false;

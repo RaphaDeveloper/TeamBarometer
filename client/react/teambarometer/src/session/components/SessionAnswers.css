@@ -58,3 +58,7 @@
 .answers .green:not(:disabled):hover {	
 	border: 6px solid #99E1DE;
 }
+
+.answers .selected-answer {	
+	border: 6px solid #99E1DE;
+}

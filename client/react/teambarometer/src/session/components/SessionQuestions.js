@@ -54,7 +54,7 @@ export default class SessionQuestions extends Component {
         return (
             question.isTheCurrent &&
             this.props.session.userIsTheFacilitator &&
-            <a class="button button-play" onClick={this.props.onPlayQuestion}  href="javascript:void(0)"></a>
+            <a className="button button-play" onClick={this.props.onPlayQuestion}  href="javascript:void(0)"></a>
         );
     }
 }
