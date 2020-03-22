@@ -37,18 +37,6 @@
 	min-height: 100px;
 }
 
-.answers .red:disabled {
-	opacity: 0.8;
-}
-
-.answers .yellow:disabled {
-	opacity: 0.8;
-}
-
-.answers .green:disabled {
-	opacity: 0.8;
-}
-
 .answers .red:not(:disabled):hover {	
 	border: 6px solid #99E1DE;
 }

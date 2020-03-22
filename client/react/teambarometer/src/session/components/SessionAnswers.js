@@ -6,18 +6,18 @@ export default class SessionAnswers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedAnswer: null
+            answerByQuestion: null
         };
     }
 
-    render() {
+    render() {        
         return (
             <div className="answers col-sm">
-                <button onClick={() => this.onSelectAnswer('Red')} className={this.getAnswerClasses("btn-block red", "Red")} disabled={this.disableAnswer()}>
+                <button onClick={() => this.onSelectAnswer('Red')} className={this.getAnswerClasses("btn-block red", "Red", this.props.question)} disabled={this.disableAnswer()}>
                     {this.props.question && this.props.question.redAnswer}
                 </button>
-                <button onClick={() => this.onSelectAnswer('Yellow')} className={this.getAnswerClasses("btn-block yellow", "Yellow")} disabled={this.disableAnswer()}></button>
-                <button onClick={() => this.onSelectAnswer('Green')} className={this.getAnswerClasses("btn-block green", "Green")} disabled={this.disableAnswer()}>
+                <button onClick={() => this.onSelectAnswer('Yellow')} className={this.getAnswerClasses("btn-block yellow", "Yellow", this.props.question)} disabled={this.disableAnswer()}></button>
+                <button onClick={() => this.onSelectAnswer('Green')} className={this.getAnswerClasses("btn-block green", "Green", this.props.question)} disabled={this.disableAnswer()}>
                     {this.props.question && this.props.question.greenAnswer}
                 </button>
             </div>
@@ -25,8 +25,10 @@ export default class SessionAnswers extends Component {
     }
 
     getAnswerClasses(classes, answer) {
-        if (this.state.selectedAnswer === answer) {
-            classes += " selected-answer";
+        if (this.state.answerByQuestion) {
+            if (this.state.answerByQuestion[this.props.question.id.toString()] === answer) {
+                classes += " selected-answer";
+            }
         }
 
         return classes;
@@ -36,8 +38,17 @@ export default class SessionAnswers extends Component {
         return !this.props.question.isUpForAnswer || this.props.userIsTheFacilitator;
     }
 
-    onSelectAnswer = (selectedAnswer) => {
-        this.props.onSelectAnswer(selectedAnswer);
-        this.setState({ selectedAnswer });
+    onSelectAnswer = (answer) => {        
+        let answerByQuestion = {};
+
+        if (this.state.answerByQuestion) {
+            answerByQuestion = this.state.answerByQuestion;
+        }
+        
+        answerByQuestion[this.props.question.id.toString()] = answer;
+
+        this.setState({ answerByQuestion });
+        
+        this.props.onSelectAnswer(answer);
     }
 }

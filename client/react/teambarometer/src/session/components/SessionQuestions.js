@@ -26,6 +26,7 @@ export default class SessionQuestions extends Component {
                         <div className="question-description">{question.description}</div>
                         <div class="play mr-auto"> 
                             {this.renderPlayButton(question)}
+                            {this.renderLoader(question)}
                         </div>
                         <div className="count-red">{question.amountOfRedAnswers}</div>
                         <div className="count-yellow">{question.amountOfYellowAnswers}</div>
@@ -52,9 +53,17 @@ export default class SessionQuestions extends Component {
 
     renderPlayButton(question) {
         return (
+            !question.isUpForAnswer &&
             question.isTheCurrent &&
             this.props.session.userIsTheFacilitator &&
             <a className="button button-play" onClick={this.props.onPlayQuestion}  href="javascript:void(0)"></a>
+        );
+    }
+
+    renderLoader(question) {
+        return (
+            question.isUpForAnswer &&
+            <div class="loader"></div>
         );
     }
 }
