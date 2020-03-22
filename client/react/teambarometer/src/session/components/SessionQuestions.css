@@ -97,7 +97,7 @@ ul li:not(.current-question):not(.selected):hover {
 			transform: translate(-13px, 50%);
 }
 
-.button-play:hover, .button-play.active {
+.button-play:hover {
 	border: 3px solid white;
 }
 
