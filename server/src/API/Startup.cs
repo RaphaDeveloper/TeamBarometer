@@ -30,8 +30,8 @@ namespace API
 
 			services.AddScoped<SessionAppService>();
 			services.AddScoped<SessionService>();
-			services.AddScoped<InMemorySessionRepository>();
-			services.AddScoped<InMemoryTemplateQuestionRepository>();
+			services.AddSingleton<InMemorySessionRepository>();
+			services.AddSingleton<TemplateQuestionRepository, InMemoryTemplateQuestionRepository>();
 			services.AddSingleton<SessionHub>();
 			services.AddSingleton<RefreshSession>();
 

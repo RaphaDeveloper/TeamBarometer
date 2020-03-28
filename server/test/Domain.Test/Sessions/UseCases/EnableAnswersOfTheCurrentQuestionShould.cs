@@ -2,7 +2,8 @@
 using Domain.Sessions.Events;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
-using Domain.Test.Sessions.Doubles;
+using Domain.Test.Sessions.Doubles.DomainEventHandlers;
+using Domain.Test.Sessions.Doubles.Repositories;
 using DomainEventManager;
 using Moq;
 using NUnit.Framework;
@@ -80,7 +81,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
 
-			InMemoryTemplateQuestionRepository questionRepository = new InMemoryTemplateQuestionRepository();
+			FakeTemplateQuestionRepository questionRepository = new FakeTemplateQuestionRepository();
 
 			return new SessionService(sessionRepository, questionRepository);
 		}

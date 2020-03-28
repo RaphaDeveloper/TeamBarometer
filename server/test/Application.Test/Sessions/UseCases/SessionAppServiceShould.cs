@@ -3,6 +3,7 @@ using Application.Sessions.UseCases;
 using Domain.Sessions;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
+using Domain.Test.Sessions.Doubles.Repositories;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Application.Test.Sessions.UseCases
 		public void Setup()
 		{
 			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
-			InMemoryTemplateQuestionRepository questionTemplateRepository = new InMemoryTemplateQuestionRepository();
+			FakeTemplateQuestionRepository questionTemplateRepository = new FakeTemplateQuestionRepository();
 			SessionService sessionService = new SessionService(sessionRepository, questionTemplateRepository);
 			
 			sessionAppService = new SessionAppService(sessionService);

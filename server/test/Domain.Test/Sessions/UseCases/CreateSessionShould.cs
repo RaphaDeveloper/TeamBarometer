@@ -1,6 +1,7 @@
 ﻿using Domain.Sessions;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
+using Domain.Test.Sessions.Doubles.Repositories;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			sessionRepository ??= new InMemorySessionRepository();
 
-			InMemoryTemplateQuestionRepository questionRepository = new InMemoryTemplateQuestionRepository();
+			FakeTemplateQuestionRepository questionRepository = new FakeTemplateQuestionRepository();
 
 			return new SessionService(sessionRepository, questionRepository);
 		}

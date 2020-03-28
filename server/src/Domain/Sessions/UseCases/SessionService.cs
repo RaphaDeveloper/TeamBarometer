@@ -7,17 +7,17 @@ namespace Domain.Sessions.UseCases
 	public class SessionService
 	{
 		private InMemorySessionRepository SessionRepository { get; }
-		private InMemoryTemplateQuestionRepository QuestionTemplateRepository { get; }
+		private TemplateQuestionRepository TemplateQuestionRepository { get; }
 
-		public SessionService(InMemorySessionRepository sessionRepository, InMemoryTemplateQuestionRepository questionTemplateRepository)
+		public SessionService(InMemorySessionRepository sessionRepository, TemplateQuestionRepository templateQuestionRepository)
 		{
 			SessionRepository = sessionRepository;
-			QuestionTemplateRepository = questionTemplateRepository;
+			TemplateQuestionRepository = templateQuestionRepository;
 		}
 
 		public Session CreateSession(Guid userId)
 		{
-			IEnumerable<TemplateQuestion> questions = QuestionTemplateRepository.GetAll();
+			IEnumerable<TemplateQuestion> questions = TemplateQuestionRepository.GetAll();
 
 			Session session = new Session(userId, questions);
 
