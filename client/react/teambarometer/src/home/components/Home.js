@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import Session from '../../session/components/Session';
 import './Home.css';
 import SessionRepository from '../../session/repositories/SessionRepository';
-import { Popover, OverlayTrigger } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
+import SessionIdPopover from './SessionIdPopover';
 
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.sessionRepository = new SessionRepository();
-        this.state = { session: null, sessionId: '', userId: null };
+        this.state = { session: null, userId: null };
     }
 
     componentDidMount() {
@@ -59,34 +59,12 @@ export default class Home extends Component {
 
     renderEnterSessionLink() {
         return (
-            <OverlayTrigger trigger="click" placement="bottom" overlay={this.renderPopover()}>
-                <a id="enterToSession" href="javascript:void(0)" onClick={() => this.setState({ sessionId: '' })}>Entre</a>
-            </OverlayTrigger>
+            <SessionIdPopover onEnterToTheSession={this.enterToTheSession}></SessionIdPopover>
         );
     }
 
-    renderPopover() {
-        return (
-            <Popover id="popover-enter-session">
-                <Popover.Title as="h3">Entrar em uma sessão</Popover.Title>
-                <Popover.Content>
-                    <div className="input-group mb-3">
-                        <input onChange={this.updateSessionId} type="text" className="form-control" placeholder="Código da Sessão" aria-label="Código da Sessão" id="input-session-id" />
-                        <div className="input-group-append">
-                            <button onClick={this.enterToTheSession} className="btn btn-outline-secondary" type="button" id="button-enter-session" disabled={!this.state.sessionId}>Entrar</button>
-                        </div>
-                    </div>
-                </Popover.Content>
-            </Popover>
-        )
-    };
-
-    updateSessionId = (event) => {
-        this.setState({ sessionId: event.target.value });
-    }
-
-    enterToTheSession = async () => {
-        const session = await this.sessionRepository.enterToTheSession(this.state.sessionId, this.state.userId);
+    enterToTheSession = async (sessionId) => {
+        const session = await this.sessionRepository.enterToTheSession(sessionId, this.state.userId);
 
         this.setState({ session: session });
     }
