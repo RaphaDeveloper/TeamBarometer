@@ -1,9 +1,12 @@
 main {
 	background-color: #D6D5D5;
-    min-height: 939px;
+    min-height: 930px;
     min-width: 1400px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%)
 }
 
 header {
@@ -42,4 +45,20 @@ header h1 {
 .link, .link:hover {
     color: #707070;    
     font-weight: bold;
+}
+
+.row-background-header {
+    background-color: rgb(0, 150, 136);
+    min-height: 10vh;
+}
+
+.row-background-body {
+    background-color: #d2dbdc;
+    min-height: 90vh;
+}
+
+.background {
+    width: 100%;
+    height: 100%;
+    position: relative;
 }

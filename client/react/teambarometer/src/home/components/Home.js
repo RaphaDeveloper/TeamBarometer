@@ -19,17 +19,23 @@ export default class Home extends Component {
 
     render() {
         return (
-            <main className="container">
-                <div className="row">
-                    <header className="col-sm">
-                        {this.state.session && <span id="sessionId">{this.state.session.id}</span>}
-                        <h1>Team Barometer</h1>
-                    </header>
+            <>
+                <div className="background">
+                    <div className="row-background-header"></div>
+                    <div className="row-background-body"></div>
                 </div>
-                <div className="row">
-                    {this.renderMainContent()}
-                </div>
-            </main>
+                <main className="container">
+                    <div className="row">
+                        <header className="col-sm">
+                            {this.state.session && <span id="sessionId">{this.state.session.id}</span>}
+                            <h1>Team Barometer</h1>
+                        </header>
+                    </div>
+                    <div className="row">
+                        {this.renderMainContent()}
+                    </div>
+                </main>
+            </>
         );
     }
 

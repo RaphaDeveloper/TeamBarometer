@@ -5,6 +5,8 @@
     color: #707070;
 	font-size: 35px;
 	background-color: #F2F2F2;
+	overflow-y: scroll;
+	height: 780px;
 }
 
 .questions ul {
@@ -14,7 +16,7 @@
 
  .question {
 	 padding: 10px;
-	 cursor: pointer;
+	 cursor: pointer;	 
  }
 
  .count-red {	
