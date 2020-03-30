@@ -32,7 +32,7 @@ export default class SessionIdPopover extends Component {
 
         return (
             <OverlayTrigger trigger="click" placement="bottom" overlay={popOver}>
-                <a href="javascript:void(0)" onClick={this.openPopover}>Entre</a>
+                <a href="javascript:void(0)" className="link" onClick={this.openPopover}>Entre</a>
             </OverlayTrigger>
         );
     };

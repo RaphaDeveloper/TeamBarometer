@@ -46,7 +46,7 @@ export default class Home extends Component {
     renderHomeContent() {
         return (
             <div className="main col-sm">
-                <a id="createSession" onClick={this.createSession} href="javascript:void(0)">Crie</a> uma sessão ou {this.renderEnterSessionLink()} em uma existente.
+                <a id="createSession" onClick={this.createSession} className="link" href="javascript:void(0)">Crie</a> uma sessão ou {this.renderEnterSessionLink()} em uma existente.
             </div>
         );
     }

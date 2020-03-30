@@ -38,3 +38,8 @@ header h1 {
     max-width: 430px;
     width: 430px;
 }
+
+.link, .link:hover {
+    color: #707070;    
+    font-weight: bold;
+}
