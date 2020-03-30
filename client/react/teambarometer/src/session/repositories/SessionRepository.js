@@ -20,6 +20,10 @@ export default class SessionRepository {
     async enterToTheSession(sessionId, userId) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/sessions/jointhesession/${sessionId}/user/${userId}`, { method: 'PUT' });
 
+        if (!response.ok) {
+            return null;
+        }
+
         const session = await response.json();
 
         return new SessionModel(session);

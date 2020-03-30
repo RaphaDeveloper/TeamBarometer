@@ -25,7 +25,7 @@ namespace Application.Sessions.UseCases
 		{
 			Session session = SessionService.JoinTheSession(sessionId, userId);
 
-			return new SessionModel(session, userId);
+			return session == null ? null : new SessionModel(session, userId);
 		}
 
 		public void EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)

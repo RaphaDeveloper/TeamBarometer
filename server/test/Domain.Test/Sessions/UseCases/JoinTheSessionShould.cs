@@ -36,6 +36,18 @@ namespace Domain.Test.Sessions.UseCases
 			Assert.That(session.NumberOfParticipants, Is.EqualTo(1));
 		}
 
+		[Test]
+		public void ReturnNullWhenTheSessionDoesNotExists()
+		{
+			SessionService sessionService = CreateService();
+			Guid sessionId = Guid.NewGuid();
+			Guid userId = Guid.NewGuid();
+
+			Session session = sessionService.JoinTheSession(sessionId, userId);
+
+			Assert.Null(session);
+		}
+
 		private SessionService CreateService()
 		{
 			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();

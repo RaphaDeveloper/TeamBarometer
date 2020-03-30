@@ -65,13 +65,11 @@ export default class Home extends Component {
 
     renderEnterSessionLink() {
         return (
-            <SessionIdPopover onEnterToTheSession={this.enterToTheSession}></SessionIdPopover>
+            <SessionIdPopover onEnterToTheSession={this.enterToTheSession} userId={this.state.userId}></SessionIdPopover>
         );
     }
 
-    enterToTheSession = async (sessionId) => {
-        const session = await this.sessionRepository.enterToTheSession(sessionId, this.state.userId);
-
+    enterToTheSession = async (session) => {
         this.setState({ session: session });
     }
 }

@@ -31,6 +31,11 @@ namespace API.Controllers
 		{
 			SessionModel session = sessionAppService.JoinTheSession(sessionId, userId);
 
+			if (session == null)
+			{
+				return NotFound();
+			}
+
 			return Ok(session);
 		}
 

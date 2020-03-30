@@ -84,9 +84,20 @@ namespace Application.Test.Sessions.UseCases
 
 				Assert.That(questionOfTheJoinedSession, Is.EqualTo(questionOfTheCreatedSession));
 			}
-		}		
+		}
 
-		
+		[Test]
+		public void ReturnNullWhenTheSessionDoesNotExists()
+		{
+			Guid sessionId = Guid.NewGuid();
+			Guid userId = Guid.NewGuid();
+
+			SessionModel session = sessionAppService.JoinTheSession(sessionId, userId);
+
+			Assert.Null(session);
+		}
+
+
 		[Test]
 		public void TurnTheCurrentQuestionUpForAnswerWhenTheUserWhoGetTheSessionIsNotTheFacilitator()
 		{

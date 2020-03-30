@@ -30,7 +30,10 @@ namespace Domain.Sessions.UseCases
 		{
 			Session session = SessionRepository.GetById(sessionId);
 
-			session.AddParticipant(userId);
+			if (session != null)
+			{
+				session.AddParticipant(userId);
+			}
 
 			return session;
 		}

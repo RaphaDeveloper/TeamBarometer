@@ -62,3 +62,12 @@ header h1 {
     height: 100%;
     position: relative;
 }
+
+.invalid-code-container {
+    margin-bottom: 3px;
+    color: red;
+    background: #f7f7f7;
+    text-align: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
