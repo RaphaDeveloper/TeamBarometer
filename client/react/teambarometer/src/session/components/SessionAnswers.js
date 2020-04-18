@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import './SessionAnswers.css';
 
 export default class SessionAnswers extends Component {
@@ -39,11 +38,7 @@ export default class SessionAnswers extends Component {
     }
 
     onSelectAnswer = (answer) => {        
-        let answerByQuestion = {};
-
-        if (this.state.answerByQuestion) {
-            answerByQuestion = this.state.answerByQuestion;
-        }
+        let answerByQuestion = this.state.answerByQuestion || {};
         
         answerByQuestion[this.props.question.id.toString()] = answer;
 

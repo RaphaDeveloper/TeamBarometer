@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
-
 import './SessionQuestions.css';
-import playImage from '../assets/play-button.png';
+import SessionQuestion from './SessionQuestion';
 
 export default class SessionQuestions extends Component {
     constructor(props) {
         super(props);
+        this.questions = React.createRef();
+    }
+
+    scrollToQuestion = (questionElement) => {
+        let questionsElementTop = this.questions.current.scrollTop;
+        let questionsElementBottom = questionsElementTop + this.questions.current.offsetHeight;
+
+        var questionElementTop = questionElement.offsetTop;
+        var questionElementBottom = questionElementTop + questionElement.offsetHeight;
+
+        if (questionElementTop < questionsElementTop || questionElementBottom > questionsElementBottom)
+            this.questions.current.scrollTo(0, questionElementTop);
     }
 
     render() {
         return (
-            <div className="questions col-sm-6">
+            <div ref={this.questions} className="questions col-sm-6">
                 <ul>
                     {this.renderQuestions()}
                 </ul>
@@ -20,50 +31,9 @@ export default class SessionQuestions extends Component {
 
     renderQuestions() {
         return (
-            this.props.session.questions.map(question =>
-                <li onClick={() => this.props.onSelectQuestion(question)} key={question.description} className={this.getQuestionClassName(question)}>
-                    <div className="question d-flex">
-                        <div className="question-description">{question.description}</div>
-                        <div class="play mr-auto"> 
-                            {this.renderPlayButton(question)}
-                            {this.renderLoader(question)}
-                        </div>
-                        <div className="count-red">{question.amountOfRedAnswers}</div>
-                        <div className="count-yellow">{question.amountOfYellowAnswers}</div>
-                        <div className="count-green">{question.amountOfGreenAnswers}</div>
-                    </div>
-                </li>
+            this.props.session.questions.map(question =>                
+                <SessionQuestion key={question.description} session={this.props.session} question={question} selectedQuestion={this.props.selectedQuestion} onSelectQuestion={this.props.onSelectQuestion} onPlayQuestion={this.props.onPlayQuestion} onUpdateCurrentQuestion={this.scrollToQuestion} />
             )
-        );
-    }
-
-    getQuestionClassName(question) {
-        let className = '';
-
-        if (this.props.selectedQuestion.isEqualTo(question)) {
-            className = 'selected';
-        }
-
-        if (question.isTheCurrent) {
-            className = 'current-question';
-        }
-
-        return className;
-    }
-
-    renderPlayButton(question) {
-        return (
-            !question.isUpForAnswer &&
-            question.isTheCurrent &&
-            this.props.session.userIsTheFacilitator &&
-            <a className="button button-play" onClick={this.props.onPlayQuestion}  href="javascript:void(0)"></a>
-        );
-    }
-
-    renderLoader(question) {
-        return (
-            question.isUpForAnswer &&
-            <div class="loader"></div>
         );
     }
 }
