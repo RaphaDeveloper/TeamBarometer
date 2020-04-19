@@ -8,77 +8,56 @@ namespace Domain.Sessions
 {
 	public class Session
 	{
+		private Guid FacilitatorId { get; }
+		private List<Guid> Participants { get; set; } = new List<Guid>();
+		private bool SessionFinished => CurrentQuestionNode == null;
+		private LinkedList<Question> LinkedQuestions { get; set; }
+		private LinkedListNode<Question> CurrentQuestionNode { get; set; }
+		
+		
 		public Session(Guid facilitatorId, IEnumerable<TemplateQuestion> questions)
 		{
 			FacilitatorId = facilitatorId;
 			ConstructQuestionsOfThisSession(questions);
 		}
 
-		public Guid Id { get; } = Guid.NewGuid();
-		public IEnumerable<Question> Questions => QuestionsById.Values;
-
-		private Dictionary<Guid, Question> QuestionsById { get; set; } = new Dictionary<Guid, Question>();
-		private List<Guid> Participants { get; set; } = new List<Guid>();
-		private Guid FacilitatorId { get; }
 		
-		private Question currentQuestion;
-		public Question CurrentQuestion 
-		{
-			get { return this.currentQuestion; }
-			private set 
-			{
-				if (this.currentQuestion != null)
-				{
-					this.currentQuestion.IsTheCurrent = false;
-				}
-
-				this.currentQuestion = value;
-
-				if (this.currentQuestion != null)
-				{
-					this.currentQuestion.IsTheCurrent = true;
-				}
-			}
-		}
-
+		public Guid Id { get; } = Guid.NewGuid();
+		public IEnumerable<Question> Questions => LinkedQuestions.Select(q => q);
+		public Question CurrentQuestion => CurrentQuestionNode?.Value;
 		public int NumberOfParticipants => Participants.Count;
+
 
 		private void ConstructQuestionsOfThisSession(IEnumerable<TemplateQuestion> questions)
 		{
-			IndexTheQuestionsById(questions);
+			ConstructLinkedQuestions(questions);
 
-			DefineTheCurrentQuestion();
-
-			LinkTheQuestions();
+			SetTheFirstQuestionsAsTheCurrent();
 		}
 
-		private void IndexTheQuestionsById(IEnumerable<TemplateQuestion> questions)
+		private void ConstructLinkedQuestions(IEnumerable<TemplateQuestion> templateQuestions)
 		{
-			foreach (TemplateQuestion question in questions)
-			{
-				QuestionsById.Add(question.Id, new Question(question));
-			}
+			IEnumerable<Question> questions = templateQuestions.Select(q => new Question(q));
+
+			LinkedQuestions = new LinkedList<Question>(questions);
 		}
 
-		private void DefineTheCurrentQuestion()
+		private void SetTheFirstQuestionsAsTheCurrent()
 		{
-			CurrentQuestion = Questions.First();
+			CurrentQuestionNode = LinkedQuestions.First;
+
+			CurrentQuestionNode.Value.SetAsCurrent();
 		}
 
-		private void LinkTheQuestions()
+
+
+		internal void AddParticipant(Guid userId)
 		{
-			Question priorQuestion = null;
-
-			foreach (Question question in Questions)
-			{
-				if (priorQuestion != null)
-				{
-					priorQuestion.NextQuestion = question;
-				}
-
-				priorQuestion = question;
-			}
+			if (!UserIsParticipating(userId))
+				Participants.Add(userId);
 		}
+
+
 
 		internal void AnswerTheCurrentQuestion(Guid userId, Answer answer)
 		{
@@ -97,18 +76,27 @@ namespace Domain.Sessions
 			}
 		}
 
-		private void ChangeTheCurrentQuestion()
+		public bool UserIsParticipating(Guid userId)
 		{
-			CurrentQuestion = CurrentQuestion.NextQuestion;
+			return Participants.Contains(userId);
 		}
 
-		internal void AddParticipant(Guid userId)
+		private void ChangeTheCurrentQuestion()
 		{
-			if (!UserIsParticipating(userId))
-			{
-				Participants.Add(userId);
-			}
+			CurrentQuestionNode.Value.SetAsNotCurrent();
+
+			SetTheNextQuestionAsTheCurrent();
 		}
+
+		private void SetTheNextQuestionAsTheCurrent()
+		{
+			CurrentQuestionNode = CurrentQuestionNode.Next;
+
+			if (!SessionFinished)
+				CurrentQuestionNode.Value.SetAsCurrent();
+		}
+
+		
 
 		internal void EnableAnswersOfTheCurrentQuestion(Guid userId)
 		{
@@ -118,11 +106,6 @@ namespace Domain.Sessions
 
 				DomainEvent.Dispatch(new WhenTheQuestionIsEnabled(this));
 			}
-		}
-
-		public bool UserIsParticipating(Guid userId)
-		{
-			return Participants.Contains(userId);
 		}
 
 		public bool UserIsTheFacilitator(Guid userId)

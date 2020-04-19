@@ -22,7 +22,7 @@ namespace Domain.Test.Sessions.UseCases
 			Assert.That(session, Is.Not.Null);
 			Assert.IsTrue(session.UserIsTheFacilitator(facilitatorId));
 			Assert.That(session.Questions, Is.Not.Null.And.Not.Empty);
-		}
+		}		
 
 		[Test]
 		public void PersistTheCreatedSession()

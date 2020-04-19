@@ -57,7 +57,7 @@ namespace Domain.Test.Sessions.UseCases
 			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, session.Id);
 
 
-			Assert.That(priorQuestion.NextQuestion, Is.EqualTo(session.CurrentQuestion));
+			Assert.That(priorQuestion, Is.Not.EqualTo(session.CurrentQuestion));
 			Assert.True(session.CurrentQuestion.IsTheCurrent);
 			Assert.False(priorQuestion.IsTheCurrent);
 		}

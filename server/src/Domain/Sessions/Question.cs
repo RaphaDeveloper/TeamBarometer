@@ -17,7 +17,6 @@ namespace Domain.Sessions
 
 		private List<Answer> Answers { get; set; } = new List<Answer>();
 		private List<Guid> UsersWhoAnswered { get; set; } = new List<Guid>();
-		public Question NextQuestion { get; internal set; }
 		public bool IsUpForAnswer { get; private set; }
 		public bool IsTheCurrent { get; internal set; }
 
@@ -64,6 +63,16 @@ namespace Domain.Sessions
 		public string GetDescriptionOfTheAnswer(Answer answer)
 		{
 			return TemplateQuestion.GetDescriptionOfTheAnswer(answer);
+		}
+
+		internal void SetAsCurrent()
+		{
+			IsTheCurrent = true;
+		}
+
+		internal void SetAsNotCurrent()
+		{
+			IsTheCurrent = false;
 		}
 	}
 }
