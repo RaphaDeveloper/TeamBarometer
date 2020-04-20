@@ -1,4 +1,5 @@
-﻿using Domain.Sessions.Repositories;
+﻿using Domain.Sessions.Exceptions;
+using Domain.Sessions.Repositories;
 using System;
 using System.Collections.Generic;
 
@@ -15,6 +16,7 @@ namespace Domain.Sessions.UseCases
 			TemplateQuestionRepository = templateQuestionRepository;
 		}
 
+
 		public Session CreateSession(Guid userId)
 		{
 			IEnumerable<TemplateQuestion> questions = TemplateQuestionRepository.GetAll();
@@ -26,35 +28,44 @@ namespace Domain.Sessions.UseCases
 			return session;
 		}
 
-		public Session JoinTheSession(Guid sessionId, Guid userId)
+
+		public void JoinTheSession(Guid sessionId, Guid userId)
 		{
-			Session session = SessionRepository.GetById(sessionId);
+			Session session = GetSessionById(sessionId);
 
-			if (session != null)
-			{
-				session.AddParticipant(userId);
-			}
-
-			return session;
+			session.AddParticipant(userId);
 		}
+
 
 		public void EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)
 		{
-			Session session = SessionRepository.GetById(sessionId);
+			Session session = GetSessionById(sessionId);
 
 			session.EnableAnswersOfTheCurrentQuestion(userId);
 		}
 
-		public Session GetSessionById(Guid sessionId)
-		{
-			return SessionRepository.GetById(sessionId);
-		}
 
 		public void AnswerTheCurrentQuestion(Guid userId, Answer answer, Guid sessionId)
 		{
-			Session session = SessionRepository.GetById(sessionId);
+			Session session = GetSessionById(sessionId);
 
 			session.AnswerTheCurrentQuestion(userId, answer);
+		}
+
+
+		public Session GetSessionById(Guid sessionId)
+		{
+			Session session = SessionRepository.GetById(sessionId);
+
+			ValidateIfSessionExists(session);
+
+			return session;
+		}
+
+		private void ValidateIfSessionExists(Session session)
+		{
+			if (session == null)
+				throw new NonExistentSessionException();
 		}
 	}
 }

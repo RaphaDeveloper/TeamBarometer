@@ -1,5 +1,4 @@
 ﻿using Domain.Sessions;
-using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
 using System;
 
@@ -23,9 +22,9 @@ namespace Application.Sessions.UseCases
 
 		public SessionModel JoinTheSession(Guid sessionId, Guid userId)
 		{
-			Session session = SessionService.JoinTheSession(sessionId, userId);
+			SessionService.JoinTheSession(sessionId, userId);
 
-			return session == null ? null : new SessionModel(session, userId);
+			return GetSession(sessionId, userId);
 		}
 
 		public void EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)

@@ -1,4 +1,5 @@
 ﻿using Domain.Sessions;
+using Domain.Sessions.Exceptions;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
 using Domain.Test.Sessions.Doubles.Repositories;
@@ -43,9 +44,7 @@ namespace Domain.Test.Sessions.UseCases
 			Guid sessionId = Guid.NewGuid();
 			Guid userId = Guid.NewGuid();
 
-			Session session = sessionService.JoinTheSession(sessionId, userId);
-
-			Assert.Null(session);
+			Assert.Throws<NonExistentSessionException>(() => sessionService.JoinTheSession(sessionId, userId));
 		}
 
 		private SessionService CreateService()

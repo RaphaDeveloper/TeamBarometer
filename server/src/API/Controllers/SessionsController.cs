@@ -1,7 +1,7 @@
-﻿using API.Hubs;
-using Application.Sessions;
+﻿using Application.Sessions;
 using Application.Sessions.UseCases;
 using Domain.Sessions;
+using Domain.Sessions.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -29,14 +29,16 @@ namespace API.Controllers
 		[HttpPut("JoinTheSession/{sessionId}/user/{userId}/")]
 		public IActionResult JoinTheSession(Guid sessionId, Guid userId)
 		{
-			SessionModel session = sessionAppService.JoinTheSession(sessionId, userId);
-
-			if (session == null)
+			try
 			{
-				return NotFound();
-			}
+				SessionModel session = sessionAppService.JoinTheSession(sessionId, userId);
 
-			return Ok(session);
+				return Ok(session);
+			}
+			catch (NonExistentSessionException)
+			{
+				return BadRequest();
+			}
 		}
 
 		[HttpPut("EnableAnswersOfTheCurrentQuestion/{sessionId}/user/{userId}/")]
@@ -58,9 +60,16 @@ namespace API.Controllers
 		[HttpGet("{sessionId}/user/{userId}")]
 		public IActionResult Get(Guid sessionId, Guid userId)
 		{
-			SessionModel session = sessionAppService.GetSession(sessionId, userId);
-
-			return Ok(session);
+			try
+			{
+				SessionModel session = sessionAppService.GetSession(sessionId, userId);
+				
+				return Ok(session);
+			}
+			catch (NonExistentSessionException)
+			{
+				return BadRequest();
+			}
 		}
 	}
 }
