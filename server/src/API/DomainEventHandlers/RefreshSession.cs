@@ -14,7 +14,6 @@ namespace API.DomainEventHandlers
 		}
 
 		public IServiceProvider ServiceProvider { get; }
-		private SessionHub SessionHub { get; }
 
 		public override void Handle(SessionEventBase domainEvent)
 		{

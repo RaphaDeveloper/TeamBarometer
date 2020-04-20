@@ -49,8 +49,8 @@ namespace Application.Test.Sessions.UseCases
 
 				Assert.That(questionModel.Id, Is.Not.EqualTo(Guid.Empty));
 				Assert.AreEqual(questionTemplate.Description, questionModel.Description);
-				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Red), questionModel.RedAnswer);
-				Assert.AreEqual(questionTemplate.GetDescriptionOfTheAnswer(Answer.Green), questionModel.GreenAnswer);
+				Assert.AreEqual(questionTemplate.GetAnswerDescription(Answer.Red), questionModel.RedAnswer);
+				Assert.AreEqual(questionTemplate.GetAnswerDescription(Answer.Green), questionModel.GreenAnswer);
 			}
 		}
 		private void AssertThatTheQuestionsHasNotAnyAmountOfAnswer(SessionModel session)

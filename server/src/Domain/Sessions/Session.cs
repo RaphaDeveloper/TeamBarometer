@@ -7,20 +7,19 @@ using System.Linq;
 namespace Domain.Sessions
 {
 	public class Session
-	{
+	{	
+		public Session(Guid facilitatorId, IEnumerable<TemplateQuestion> questions)
+		{
+			FacilitatorId = facilitatorId;
+			ConstructQuestionsFromTemplate(questions);
+		}
+
+
 		private Guid FacilitatorId { get; }
 		private List<Guid> Participants { get; set; } = new List<Guid>();
 		private bool SessionFinished => CurrentQuestionNode == null;
 		private LinkedList<Question> LinkedQuestions { get; set; }
 		private LinkedListNode<Question> CurrentQuestionNode { get; set; }
-		
-		
-		public Session(Guid facilitatorId, IEnumerable<TemplateQuestion> questions)
-		{
-			FacilitatorId = facilitatorId;
-			ConstructQuestionsOfThisSession(questions);
-		}
-
 		
 		public Guid Id { get; } = Guid.NewGuid();
 		public IEnumerable<Question> Questions => LinkedQuestions.Select(q => q);
@@ -28,9 +27,16 @@ namespace Domain.Sessions
 		public int NumberOfParticipants => Participants.Count;
 
 
-		private void ConstructQuestionsOfThisSession(IEnumerable<TemplateQuestion> questions)
+		internal void AddParticipant(Guid userId)
 		{
-			ConstructLinkedQuestions(questions);
+			if (!UserIsParticipating(userId))
+				Participants.Add(userId);
+		}
+
+
+		private void ConstructQuestionsFromTemplate(IEnumerable<TemplateQuestion> templateQuestions)
+		{
+			ConstructLinkedQuestions(templateQuestions);
 
 			SetTheFirstQuestionsAsTheCurrent();
 		}
@@ -50,18 +56,9 @@ namespace Domain.Sessions
 		}
 
 
-
-		internal void AddParticipant(Guid userId)
-		{
-			if (!UserIsParticipating(userId))
-				Participants.Add(userId);
-		}
-
-
-
 		internal void AnswerTheCurrentQuestion(Guid userId, Answer answer)
 		{
-			if (UserIsParticipating(userId) && CurrentQuestion.IsUpForAnswer)
+			if (UserCanAnswerTheCurrentQuestion(userId))
 			{
 				CurrentQuestion.ContabilizeTheAnswer(userId, answer);
 
@@ -74,6 +71,11 @@ namespace Domain.Sessions
 					DomainEvent.Dispatch(new WhenAllUsersAnswerTheQuestion(this));
 				}
 			}
+		}
+
+		private bool UserCanAnswerTheCurrentQuestion(Guid userId)
+		{
+			return UserIsParticipating(userId) && CurrentQuestion.IsUpForAnswer;
 		}
 
 		public bool UserIsParticipating(Guid userId)
@@ -95,7 +97,6 @@ namespace Domain.Sessions
 			if (!SessionFinished)
 				CurrentQuestionNode.Value.SetAsCurrent();
 		}
-
 		
 
 		internal void EnableAnswersOfTheCurrentQuestion(Guid userId)

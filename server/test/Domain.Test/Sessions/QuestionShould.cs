@@ -43,9 +43,9 @@ namespace Domain.Test.Sessions
 
 			Question question = new Question(questionTemplate);
 
-			Assert.That(question.GetDescriptionOfTheAnswer(Answer.Green), Is.Not.Empty.And.Not.Null.And.EqualTo(questionTemplate.GetDescriptionOfTheAnswer(Answer.Green)));
-			Assert.That(question.GetDescriptionOfTheAnswer(Answer.Red), Is.Not.Empty.And.Not.Null.And.EqualTo(questionTemplate.GetDescriptionOfTheAnswer(Answer.Red)));
-			Assert.That(question.GetDescriptionOfTheAnswer(Answer.Yellow), Is.Null);
+			Assert.That(question.GetAnswerDescription(Answer.Green), Is.Not.Empty.And.Not.Null.And.EqualTo(questionTemplate.GetAnswerDescription(Answer.Green)));
+			Assert.That(question.GetAnswerDescription(Answer.Red), Is.Not.Empty.And.Not.Null.And.EqualTo(questionTemplate.GetAnswerDescription(Answer.Red)));
+			Assert.That(question.GetAnswerDescription(Answer.Yellow), Is.Null);
 		}
 
 		private TemplateQuestion CreateQuestionTemplate()

@@ -14,7 +14,7 @@ namespace Domain.Sessions
 		public Guid Id { get; } = Guid.NewGuid();
 		public string Description { get; set; }
 
-		public string GetDescriptionOfTheAnswer(Answer answer)
+		public string GetAnswerDescription(Answer answer)
 		{
 			DescriptionByAnswer.TryGetValue(answer, out string description);
 

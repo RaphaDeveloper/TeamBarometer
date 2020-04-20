@@ -11,14 +11,40 @@ namespace Domain.Sessions
 			TemplateQuestion = templateQuestion;
 		}
 
-		public TemplateQuestion TemplateQuestion { get; }
+
+		private TemplateQuestion TemplateQuestion { get; }
+		private List<Answer> Answers { get; } = new List<Answer>();
+		private List<Guid> UsersWhoAnswered { get; } = new List<Guid>();
+		
 		public Guid Id => TemplateQuestion.Id;
 		public string Description => TemplateQuestion.Description;
-
-		private List<Answer> Answers { get; set; } = new List<Answer>();
-		private List<Guid> UsersWhoAnswered { get; set; } = new List<Guid>();
 		public bool IsUpForAnswer { get; private set; }
-		public bool IsTheCurrent { get; internal set; }
+		public bool IsTheCurrent { get; private set; }
+
+
+		public bool HasAnyAnswer()
+		{
+			return Answers.Any();
+		}
+
+
+		public int GetCountOfTheAnswer(Answer answer)
+		{
+			return Answers.Count(a => a == answer);
+		}
+
+
+		public string GetAnswerDescription(Answer answer)
+		{
+			return TemplateQuestion.GetAnswerDescription(answer);
+		}
+
+
+		internal bool AllUsersHasAnswered(List<Guid> userIds)
+		{
+			return Answers.Count == userIds.Count;
+		}
+
 
 		internal void ContabilizeTheAnswer(Guid userId, Answer answer)
 		{
@@ -35,20 +61,6 @@ namespace Domain.Sessions
 			return UsersWhoAnswered.Contains(userId);
 		}
 
-		public bool HasAnyAnswer()
-		{
-			return Answers.Any();
-		}
-
-		public int GetCountOfTheAnswer(Answer answer)
-		{
-			return Answers.Count(a => a == answer);
-		}
-
-		internal bool AllUsersHasAnswered(List<Guid> userIds)
-		{
-			return Answers.Count == userIds.Count;
-		}
 
 		internal void EnableAnswers()
 		{
@@ -59,11 +71,7 @@ namespace Domain.Sessions
 		{
 			IsUpForAnswer = false;
 		}
-
-		public string GetDescriptionOfTheAnswer(Answer answer)
-		{
-			return TemplateQuestion.GetDescriptionOfTheAnswer(answer);
-		}
+		
 
 		internal void SetAsCurrent()
 		{

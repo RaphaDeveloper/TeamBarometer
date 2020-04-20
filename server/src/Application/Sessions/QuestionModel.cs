@@ -9,8 +9,8 @@ namespace Application.Sessions
         {
             Id = question.Id;
             Description = question.Description;
-            RedAnswer = question.GetDescriptionOfTheAnswer(Answer.Red);
-            GreenAnswer = question.GetDescriptionOfTheAnswer(Answer.Green);
+            RedAnswer = question.GetAnswerDescription(Answer.Red);
+            GreenAnswer = question.GetAnswerDescription(Answer.Green);
             IsTheCurrent = question.IsTheCurrent;
             IsUpForAnswer = question.IsUpForAnswer;
             AmountOfGreenAnswers = question.GetCountOfTheAnswer(Answer.Green);
