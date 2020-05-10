@@ -1,6 +1,6 @@
+import './styles/Home.css';
 import React, { Component } from 'react';
 import Session from '../../session/components/Session';
-import './Home.css';
 import SessionRepository from '../../session/repositories/SessionRepository';
 import { v4 as uuidv4 } from 'uuid';
 import SessionIdPopover from './SessionIdPopover';

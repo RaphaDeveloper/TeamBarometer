@@ -1,5 +1,5 @@
+import './styles/SessionAnswers.css';
 import React, { Component } from "react";
-import './SessionAnswers.css';
 
 export default class SessionAnswers extends Component {
     constructor(props) {

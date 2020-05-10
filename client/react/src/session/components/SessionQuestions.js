@@ -1,5 +1,5 @@
+import './styles/SessionQuestions.css';
 import React, { Component } from 'react';
-import './SessionQuestions.css';
 import SessionQuestion from './SessionQuestion';
 
 export default class SessionQuestions extends Component {

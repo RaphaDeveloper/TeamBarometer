@@ -1,6 +1,5 @@
+import './styles/Session.css';
 import React, { Component } from 'react';
-
-import './Session.css';
 import SessionQuestions from './SessionQuestions';
 import SessionAnswers from './SessionAnswers';
 import SessionRepository from '../repositories/SessionRepository';
