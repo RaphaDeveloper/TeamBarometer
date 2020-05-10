@@ -38,5 +38,9 @@
   "devDependencies": {
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2"
+  },
+  "resolutions": {
+    "acorn": "^7.1.1",
+    "minimist": "^1.2.3"
   }
 }
