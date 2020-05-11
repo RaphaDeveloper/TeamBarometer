@@ -17,7 +17,7 @@ namespace Domain.Sessions
 
 		private Guid FacilitatorId { get; }
 		private List<Guid> Participants { get; set; } = new List<Guid>();
-		private bool SessionFinished => CurrentQuestionNode == null;
+		private bool Finished => CurrentQuestionNode == null;
 		private LinkedList<Question> LinkedQuestions { get; set; }
 		private LinkedListNode<Question> CurrentQuestionNode { get; set; }
 		
@@ -94,7 +94,7 @@ namespace Domain.Sessions
 		{
 			CurrentQuestionNode = CurrentQuestionNode.Next;
 
-			if (!SessionFinished)
+			if (!Finished)
 				CurrentQuestionNode.Value.SetAsCurrent();
 		}
 		
