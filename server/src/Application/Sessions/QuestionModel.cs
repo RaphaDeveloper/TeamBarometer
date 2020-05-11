@@ -1,4 +1,4 @@
-﻿using Domain.Sessions.Entities;
+﻿using Domain.TeamBarometer.Entities;
 using System;
 
 namespace Application.Sessions

@@ -1,7 +1,7 @@
-﻿using Domain.Sessions.Entities;
-using Domain.Sessions.Events;
-using Domain.Sessions.Repositories;
-using Domain.Sessions.UseCases;
+﻿using Domain.TeamBarometer.Entities;
+using Domain.TeamBarometer.Events;
+using Domain.TeamBarometer.Repositories;
+using Domain.TeamBarometer.UseCases;
 using Domain.Test.Sessions.Doubles.DomainEventHandlers;
 using Domain.Test.Sessions.Doubles.Repositories;
 using DomainEventManager;
@@ -26,8 +26,8 @@ namespace Domain.Test.Sessions.UseCases
 		[Test]
 		public void EnableAnswersOfTheCurrentQuestionOfTheSessionWhenTheUserIsTheFacilitator()
 		{
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 
 
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
@@ -39,8 +39,8 @@ namespace Domain.Test.Sessions.UseCases
 		[Test]
 		public void DispatchEventWhenTheUserIsTheFacilitator()
 		{
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 
 
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
@@ -53,8 +53,8 @@ namespace Domain.Test.Sessions.UseCases
 		public void NotEnableAnswersOfTheCurrentQuestionOfTheSessionWhenTheUserIsNotTheFacilitator()
 		{
 			Guid userId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 
 
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, userId);
@@ -67,8 +67,8 @@ namespace Domain.Test.Sessions.UseCases
 		public void NotDispatchEventWhenTheUserIsNotTheFacilitator()
 		{
 			Guid userId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 
 
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, userId);
@@ -77,13 +77,13 @@ namespace Domain.Test.Sessions.UseCases
 			Assert.False(FakeHandler.SessionWasNotified(session.Id));
 		}
 
-		private SessionService CreateService()
+		private MeetingService CreateService()
 		{
-			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
+			InMemoryMeetingRepository sessionRepository = new InMemoryMeetingRepository();
 
 			FakeTemplateQuestionRepository questionRepository = new FakeTemplateQuestionRepository();
 
-			return new SessionService(sessionRepository, questionRepository);
+			return new MeetingService(sessionRepository, questionRepository);
 		}
 	}
 }

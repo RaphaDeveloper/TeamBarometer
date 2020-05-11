@@ -1,7 +1,7 @@
 ﻿using Application.Sessions;
 using Application.Sessions.UseCases;
-using Domain.Sessions.Entities;
-using Domain.Sessions.Exceptions;
+using Domain.TeamBarometer.Entities;
+using Domain.TeamBarometer.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -35,7 +35,7 @@ namespace API.Controllers
 
 				return Ok(session);
 			}
-			catch (NonExistentSessionException)
+			catch (NonExistentMeetingException)
 			{
 				return BadRequest();
 			}
@@ -66,7 +66,7 @@ namespace API.Controllers
 				
 				return Ok(session);
 			}
-			catch (NonExistentSessionException)
+			catch (NonExistentMeetingException)
 			{
 				return BadRequest();
 			}

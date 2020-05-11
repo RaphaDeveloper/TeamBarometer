@@ -1,8 +1,8 @@
 ﻿using Application.Sessions;
 using Application.Sessions.UseCases;
-using Domain.Sessions.Entities;
-using Domain.Sessions.Repositories;
-using Domain.Sessions.UseCases;
+using Domain.TeamBarometer.Entities;
+using Domain.TeamBarometer.Repositories;
+using Domain.TeamBarometer.UseCases;
 using Domain.Test.Sessions.Doubles.Repositories;
 using NUnit.Framework;
 using System;
@@ -20,9 +20,9 @@ namespace Application.Test.Sessions.UseCases
 		[SetUp]
 		public void Setup()
 		{
-			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
+			InMemoryMeetingRepository sessionRepository = new InMemoryMeetingRepository();
 			FakeTemplateQuestionRepository questionTemplateRepository = new FakeTemplateQuestionRepository();
-			SessionService sessionService = new SessionService(sessionRepository, questionTemplateRepository);
+			MeetingService sessionService = new MeetingService(sessionRepository, questionTemplateRepository);
 			
 			sessionAppService = new SessionAppService(sessionService);
 			questionTemplates = questionTemplateRepository.GetAll();

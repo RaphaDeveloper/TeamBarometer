@@ -1,7 +1,7 @@
-﻿using Domain.Sessions.Entities;
+﻿using Domain.TeamBarometer.Entities;
 using System.Collections.Generic;
 
-namespace Domain.Sessions.Repositories
+namespace Domain.TeamBarometer.Repositories
 {
 	public interface TemplateQuestionRepository
 	{

@@ -1,7 +1,7 @@
-﻿using Domain.Sessions.Entities;
-using Domain.Sessions.Events;
-using Domain.Sessions.Repositories;
-using Domain.Sessions.UseCases;
+﻿using Domain.TeamBarometer.Entities;
+using Domain.TeamBarometer.Events;
+using Domain.TeamBarometer.Repositories;
+using Domain.TeamBarometer.UseCases;
 using Domain.Test.Sessions.Doubles.DomainEventHandlers;
 using Domain.Test.Sessions.Doubles.Repositories;
 using DomainEventManager;
@@ -27,10 +27,10 @@ namespace Domain.Test.Sessions.UseCases
 		public void AnswerTheSessionQuestion()
 		{
 			Guid userId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
-			service.JoinTheSession(session.Id, userId);
+			service.JoinTheMeeting(session.Id, userId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
@@ -45,11 +45,11 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 			Question priorQuestion = session.CurrentQuestion;
-			service.JoinTheSession(session.Id, firstUserId);
-			service.JoinTheSession(session.Id, secondUserId);
+			service.JoinTheMeeting(session.Id, firstUserId);
+			service.JoinTheMeeting(session.Id, secondUserId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
@@ -67,10 +67,10 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
-			service.JoinTheSession(session.Id, firstUserId);
-			service.JoinTheSession(session.Id, secondUserId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
+			service.JoinTheMeeting(session.Id, firstUserId);
+			service.JoinTheMeeting(session.Id, secondUserId);
 
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
@@ -89,10 +89,10 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
-			service.JoinTheSession(session.Id, firstUserId);
-			service.JoinTheSession(session.Id, secondUserId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
+			service.JoinTheMeeting(session.Id, firstUserId);
+			service.JoinTheMeeting(session.Id, secondUserId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 			
@@ -108,10 +108,10 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
-			service.JoinTheSession(session.Id, firstUserId);
-			service.JoinTheSession(session.Id, secondUserId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
+			service.JoinTheMeeting(session.Id, firstUserId);
+			service.JoinTheMeeting(session.Id, secondUserId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
@@ -126,11 +126,11 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
-			service.JoinTheSession(session.Id, firstUserId);
-			service.JoinTheSession(session.Id, secondUserId);
+			service.JoinTheMeeting(session.Id, firstUserId);
+			service.JoinTheMeeting(session.Id, secondUserId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
@@ -145,10 +145,10 @@ namespace Domain.Test.Sessions.UseCases
 		public void NotAnswerTheSessionQuestionMoreThanOnceForTheSameUser()
 		{
 			Guid userId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
-			service.JoinTheSession(session.Id, userId);
+			service.JoinTheMeeting(session.Id, userId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
 
@@ -163,8 +163,8 @@ namespace Domain.Test.Sessions.UseCases
 		public void NotAnswerTheSessionQuestionWhenTheUserIsNotInTheSession()
 		{
 			Guid userId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
@@ -179,10 +179,10 @@ namespace Domain.Test.Sessions.UseCases
 		public void NotAnswerTheSessionQuestionWhenTheQuestionsIsNotUpForAnswer()
 		{
 			Guid firstUserId = Guid.NewGuid();
-			SessionService service = CreateService();
-			Meeting session = service.CreateSession(facilitatorId);
+			MeetingService service = CreateService();
+			Meeting session = service.CreateMeeting(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
-			service.JoinTheSession(session.Id, firstUserId);
+			service.JoinTheMeeting(session.Id, firstUserId);
 
 
 			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
@@ -191,13 +191,13 @@ namespace Domain.Test.Sessions.UseCases
 			Assert.False(currentQuestion.HasAnyAnswer());
 		}
 
-		private SessionService CreateService()
+		private MeetingService CreateService()
 		{
-			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
+			InMemoryMeetingRepository sessionRepository = new InMemoryMeetingRepository();
 
 			FakeTemplateQuestionRepository questionRepository = new FakeTemplateQuestionRepository();
 
-			return new SessionService(sessionRepository, questionRepository);
+			return new MeetingService(sessionRepository, questionRepository);
 		}
 	}
 }

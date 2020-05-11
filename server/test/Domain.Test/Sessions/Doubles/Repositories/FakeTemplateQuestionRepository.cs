@@ -1,5 +1,5 @@
-﻿using Domain.Sessions.Entities;
-using Domain.Sessions.Repositories;
+﻿using Domain.TeamBarometer.Entities;
+using Domain.TeamBarometer.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 

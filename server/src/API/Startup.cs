@@ -1,9 +1,9 @@
 using API.DomainEventHandlers;
 using API.Hubs;
 using Application.Sessions.UseCases;
-using Domain.Sessions.Events;
-using Domain.Sessions.Repositories;
-using Domain.Sessions.UseCases;
+using Domain.TeamBarometer.Events;
+using Domain.TeamBarometer.Repositories;
+using Domain.TeamBarometer.UseCases;
 using DomainEventManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,8 +29,8 @@ namespace API
 			services.AddSignalR();
 
 			services.AddScoped<SessionAppService>();
-			services.AddScoped<SessionService>();
-			services.AddSingleton<InMemorySessionRepository>();
+			services.AddScoped<MeetingService>();
+			services.AddSingleton<InMemoryMeetingRepository>();
 			services.AddSingleton<TemplateQuestionRepository, InMemoryTemplateQuestionRepository>();
 			services.AddSingleton<SessionHub>();
 			services.AddSingleton<RefreshSession>();

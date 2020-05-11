@@ -1,5 +1,5 @@
 ﻿using Application.Sessions;
-using Domain.Sessions.Entities;
+using Domain.TeamBarometer.Entities;
 using Domain.Test.Sessions.Doubles.Repositories;
 using NUnit.Framework;
 using System;

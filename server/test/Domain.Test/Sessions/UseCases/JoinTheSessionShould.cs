@@ -1,7 +1,7 @@
-﻿using Domain.Sessions.Entities;
-using Domain.Sessions.Exceptions;
-using Domain.Sessions.Repositories;
-using Domain.Sessions.UseCases;
+﻿using Domain.TeamBarometer.Entities;
+using Domain.TeamBarometer.Exceptions;
+using Domain.TeamBarometer.Repositories;
+using Domain.TeamBarometer.UseCases;
 using Domain.Test.Sessions.Doubles.Repositories;
 using NUnit.Framework;
 using System;
@@ -15,11 +15,11 @@ namespace Domain.Test.Sessions.UseCases
 		[Test]
 		public void JoinTheSessionWhenTheUserIsNotInTheSession()
 		{
-			SessionService sessionService = CreateService();
-			Meeting session = sessionService.CreateSession(facilitatorId);
+			MeetingService sessionService = CreateService();
+			Meeting session = sessionService.CreateMeeting(facilitatorId);
 			Guid userId = Guid.NewGuid();
 
-			sessionService.JoinTheSession(session.Id, userId);
+			sessionService.JoinTheMeeting(session.Id, userId);
 
 			Assert.True(session.UserIsParticipating(userId));
 		}
@@ -27,12 +27,12 @@ namespace Domain.Test.Sessions.UseCases
 		[Test]
 		public void NotJoinTheSessionWhenTheUserIsAlreadyInTheSession()
 		{
-			SessionService sessionService = CreateService();
-			Meeting session = sessionService.CreateSession(facilitatorId);
+			MeetingService sessionService = CreateService();
+			Meeting session = sessionService.CreateMeeting(facilitatorId);
 			Guid userId = Guid.NewGuid();
 
-			sessionService.JoinTheSession(session.Id, userId);
-			sessionService.JoinTheSession(session.Id, userId);
+			sessionService.JoinTheMeeting(session.Id, userId);
+			sessionService.JoinTheMeeting(session.Id, userId);
 
 			Assert.That(session.NumberOfParticipants, Is.EqualTo(1));
 		}
@@ -40,20 +40,20 @@ namespace Domain.Test.Sessions.UseCases
 		[Test]
 		public void ReturnNullWhenTheSessionDoesNotExists()
 		{
-			SessionService sessionService = CreateService();
+			MeetingService sessionService = CreateService();
 			Guid sessionId = Guid.NewGuid();
 			Guid userId = Guid.NewGuid();
 
-			Assert.Throws<NonExistentSessionException>(() => sessionService.JoinTheSession(sessionId, userId));
+			Assert.Throws<NonExistentMeetingException>(() => sessionService.JoinTheMeeting(sessionId, userId));
 		}
 
-		private SessionService CreateService()
+		private MeetingService CreateService()
 		{
-			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
+			InMemoryMeetingRepository sessionRepository = new InMemoryMeetingRepository();
 
 			FakeTemplateQuestionRepository questionRepository = new FakeTemplateQuestionRepository();
 
-			return new SessionService(sessionRepository, questionRepository);
+			return new MeetingService(sessionRepository, questionRepository);
 		}
 	}
 }

@@ -1,8 +1,8 @@
-﻿using Domain.Sessions.Entities;
+﻿using Domain.TeamBarometer.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Domain.Sessions.Repositories
+namespace Domain.TeamBarometer.Repositories
 {
 	public class InMemoryTemplateQuestionRepository : TemplateQuestionRepository
 	{

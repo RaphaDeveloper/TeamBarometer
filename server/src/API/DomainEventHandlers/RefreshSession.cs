@@ -1,12 +1,12 @@
 ﻿using API.Hubs;
-using Domain.Sessions.Events;
+using Domain.TeamBarometer.Events;
 using DomainEventManager;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace API.DomainEventHandlers
 {
-	public class RefreshSession : Handler<SessionEventBase>
+	public class RefreshSession : Handler<MeetingEventBase>
 	{
 		public RefreshSession(IServiceProvider serviceProvider)
 		{
@@ -15,9 +15,9 @@ namespace API.DomainEventHandlers
 
 		public IServiceProvider ServiceProvider { get; }
 
-		public override void Handle(SessionEventBase domainEvent)
+		public override void Handle(MeetingEventBase domainEvent)
 		{
-			ServiceProvider.GetService<SessionHub>().NotifySession(domainEvent.Session.Id);
+			ServiceProvider.GetService<SessionHub>().NotifySession(domainEvent.Meeting.Id);
 		}
 	}
 }

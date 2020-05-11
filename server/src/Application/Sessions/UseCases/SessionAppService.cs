@@ -1,28 +1,28 @@
-﻿using Domain.Sessions.Entities;
-using Domain.Sessions.UseCases;
+﻿using Domain.TeamBarometer.Entities;
+using Domain.TeamBarometer.UseCases;
 using System;
 
 namespace Application.Sessions.UseCases
 {
 	public class SessionAppService
 	{
-		public SessionAppService(SessionService sessionService)
+		public SessionAppService(MeetingService sessionService)
 		{
 			SessionService = sessionService;
 		}
 
-		private SessionService SessionService { get; }
+		private MeetingService SessionService { get; }
 
 		public SessionModel CreateSession(Guid userId)
 		{
-			Meeting session = SessionService.CreateSession(userId);
+			Meeting session = SessionService.CreateMeeting(userId);
 
 			return new SessionModel(session, userId);
 		}
 
 		public SessionModel JoinTheSession(Guid sessionId, Guid userId)
 		{
-			SessionService.JoinTheSession(sessionId, userId);
+			SessionService.JoinTheMeeting(sessionId, userId);
 
 			return GetSession(sessionId, userId);
 		}
@@ -34,7 +34,7 @@ namespace Application.Sessions.UseCases
 
 		public SessionModel GetSession(Guid sessionId, Guid userId)
 		{
-			Meeting session = SessionService.GetSessionById(sessionId);
+			Meeting session = SessionService.GetMeetingById(sessionId);
 
 			return new SessionModel(session, userId);
 		}

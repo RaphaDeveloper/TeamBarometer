@@ -1,6 +1,6 @@
-﻿using Domain.Sessions.Entities;
-using Domain.Sessions.Repositories;
-using Domain.Sessions.UseCases;
+﻿using Domain.TeamBarometer.Entities;
+using Domain.TeamBarometer.Repositories;
+using Domain.TeamBarometer.UseCases;
 using Domain.Test.Sessions.Doubles.Repositories;
 using NUnit.Framework;
 using System;
@@ -15,9 +15,9 @@ namespace Domain.Test.Sessions.UseCases
 		[Test]
 		public void CreateSessionWithFacilitatorAndQuestions()
 		{
-			SessionService service = CreateService();
+			MeetingService service = CreateService();
 
-			Meeting session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateMeeting(facilitatorId);
 
 			Assert.That(session, Is.Not.Null);
 			Assert.IsTrue(session.UserIsTheFacilitator(facilitatorId));
@@ -27,10 +27,10 @@ namespace Domain.Test.Sessions.UseCases
 		[Test]
 		public void PersistTheCreatedSession()
 		{
-			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
-			SessionService service = CreateService(sessionRepository);
+			InMemoryMeetingRepository sessionRepository = new InMemoryMeetingRepository();
+			MeetingService service = CreateService(sessionRepository);
 
-			Meeting session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateMeeting(facilitatorId);
 
 			Assert.That(session, Is.EqualTo(sessionRepository.GetById(session.Id)));
 		}
@@ -38,21 +38,21 @@ namespace Domain.Test.Sessions.UseCases
 		[Test]
 		public void CreateTheSessionWithTheFirstQuestionBeingTheCurrent()
 		{
-			SessionService service = CreateService();
+			MeetingService service = CreateService();
 
-			Meeting session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateMeeting(facilitatorId);
 
 			Assert.That(session.Questions.First(), Is.EqualTo(session.CurrentQuestion));
 			Assert.True(session.CurrentQuestion.IsTheCurrent);
 		}
 
-		private SessionService CreateService(InMemorySessionRepository sessionRepository = null)
+		private MeetingService CreateService(InMemoryMeetingRepository sessionRepository = null)
 		{
-			sessionRepository ??= new InMemorySessionRepository();
+			sessionRepository ??= new InMemoryMeetingRepository();
 
 			FakeTemplateQuestionRepository questionRepository = new FakeTemplateQuestionRepository();
 
-			return new SessionService(sessionRepository, questionRepository);
+			return new MeetingService(sessionRepository, questionRepository);
 		}
 	}
 }
