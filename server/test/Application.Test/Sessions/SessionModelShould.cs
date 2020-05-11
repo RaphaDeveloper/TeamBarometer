@@ -1,6 +1,6 @@
 ﻿using Application.Sessions;
 using Domain.TeamBarometer.Entities;
-using Domain.Test.Sessions.Doubles.Repositories;
+using Domain.Test.TeamBarometer.Doubles.Repositories;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

@@ -3,7 +3,7 @@ using DomainEventManager;
 using System;
 using System.Collections.Generic;
 
-namespace Domain.Test.Sessions.Doubles.DomainEventHandlers
+namespace Domain.Test.TeamBarometer.Doubles.DomainEventHandlers
 {
 	public class FakeHandler : Handler<MeetingEventBase>
 	{

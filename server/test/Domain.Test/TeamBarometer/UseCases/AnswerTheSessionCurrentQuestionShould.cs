@@ -2,14 +2,14 @@
 using Domain.TeamBarometer.Events;
 using Domain.TeamBarometer.Repositories;
 using Domain.TeamBarometer.UseCases;
-using Domain.Test.Sessions.Doubles.DomainEventHandlers;
-using Domain.Test.Sessions.Doubles.Repositories;
+using Domain.Test.TeamBarometer.Doubles.DomainEventHandlers;
+using Domain.Test.TeamBarometer.Doubles.Repositories;
 using DomainEventManager;
 using Moq;
 using NUnit.Framework;
 using System;
 
-namespace Domain.Test.Sessions.UseCases
+namespace Domain.Test.TeamBarometer.UseCases
 {
 	public class AnswerTheSessionCurrentQuestionShould
 	{
@@ -19,7 +19,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Mock<IServiceProvider> serviceProviderMock = new Mock<IServiceProvider>();
 			serviceProviderMock.Setup(s => s.GetService(typeof(FakeHandler))).Returns(new FakeHandler());
-			
+
 			DomainEvent.Bind<WhenAllUsersAnswerTheQuestion, FakeHandler>(serviceProviderMock.Object);
 		}
 
@@ -95,11 +95,11 @@ namespace Domain.Test.Sessions.UseCases
 			service.JoinTheMeeting(session.Id, secondUserId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
-			
+
 			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, session.Id);
 			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, session.Id);
 
-			
+
 			Assert.True(FakeHandler.SessionWasNotified(session.Id));
 		}
 

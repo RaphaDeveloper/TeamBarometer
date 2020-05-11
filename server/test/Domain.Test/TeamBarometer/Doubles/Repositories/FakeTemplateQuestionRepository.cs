@@ -3,7 +3,7 @@ using Domain.TeamBarometer.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Domain.Test.Sessions.Doubles.Repositories
+namespace Domain.Test.TeamBarometer.Doubles.Repositories
 {
 	public class FakeTemplateQuestionRepository : TemplateQuestionRepository
 	{

@@ -1,12 +1,12 @@
 ﻿using Domain.TeamBarometer.Entities;
 using Domain.TeamBarometer.Repositories;
 using Domain.TeamBarometer.UseCases;
-using Domain.Test.Sessions.Doubles.Repositories;
+using Domain.Test.TeamBarometer.Doubles.Repositories;
 using NUnit.Framework;
 using System;
 using System.Linq;
 
-namespace Domain.Test.Sessions.UseCases
+namespace Domain.Test.TeamBarometer.UseCases
 {
 	public class CreateSessionShould
 	{
@@ -22,7 +22,7 @@ namespace Domain.Test.Sessions.UseCases
 			Assert.That(session, Is.Not.Null);
 			Assert.IsTrue(session.UserIsTheFacilitator(facilitatorId));
 			Assert.That(session.Questions, Is.Not.Null.And.Not.Empty);
-		}		
+		}
 
 		[Test]
 		public void PersistTheCreatedSession()

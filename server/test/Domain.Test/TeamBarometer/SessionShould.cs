@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace Domain.Test.Sessions
+namespace Domain.Test.TeamBarometer
 {
 	public class SessionShould
 	{

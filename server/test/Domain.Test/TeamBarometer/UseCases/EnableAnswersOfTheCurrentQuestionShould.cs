@@ -2,14 +2,14 @@
 using Domain.TeamBarometer.Events;
 using Domain.TeamBarometer.Repositories;
 using Domain.TeamBarometer.UseCases;
-using Domain.Test.Sessions.Doubles.DomainEventHandlers;
-using Domain.Test.Sessions.Doubles.Repositories;
+using Domain.Test.TeamBarometer.Doubles.DomainEventHandlers;
+using Domain.Test.TeamBarometer.Doubles.Repositories;
 using DomainEventManager;
 using Moq;
 using NUnit.Framework;
 using System;
 
-namespace Domain.Test.Sessions.UseCases
+namespace Domain.Test.TeamBarometer.UseCases
 {
 	public class EnableAnswersOfTheCurrentQuestionShould
 	{
