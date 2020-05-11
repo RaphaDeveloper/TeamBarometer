@@ -6,9 +6,9 @@ using System;
 
 namespace API.DomainEventHandlers
 {
-	public class RefreshSession : Handler<MeetingEventBase>
+	public class RefreshMeeting : Handler<MeetingEventBase>
 	{
-		public RefreshSession(IServiceProvider serviceProvider)
+		public RefreshMeeting(IServiceProvider serviceProvider)
 		{
 			ServiceProvider = serviceProvider;
 		}
@@ -17,7 +17,7 @@ namespace API.DomainEventHandlers
 
 		public override void Handle(MeetingEventBase domainEvent)
 		{
-			ServiceProvider.GetService<SessionHub>().NotifySession(domainEvent.Meeting.Id);
+			ServiceProvider.GetService<MeetingHub>().NotifyMeeting(domainEvent.Meeting.Id);
 		}
 	}
 }

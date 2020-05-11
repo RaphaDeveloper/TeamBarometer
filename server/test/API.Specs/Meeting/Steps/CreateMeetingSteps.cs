@@ -1,4 +1,4 @@
-﻿using API.Specs.Session.Support;
+﻿using API.Specs.Meeting.Support;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
@@ -7,22 +7,22 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
-namespace API.Specs.Session.Steps
+namespace API.Specs.Meeting.Steps
 {
 	[Binding]
-	public class CreateSessionSteps
+	public class CreateMeetingSteps
 	{
 		private readonly Context context;
 		private readonly HttpClient httpClient;
 
-		public CreateSessionSteps(Context context)
+		public CreateMeetingSteps(Context context)
 		{
 			this.context = context;
-			this.httpClient = new HttpClient();
+			httpClient = new HttpClient();
 		}
 
 		[Given(@"I am a user")]
-		public void GivenIAmCreatingASession()
+		public void GivenIAmCreatingAMeeting()
 		{
 			context.UserId = Guid.NewGuid().ToString();
 		}
@@ -30,13 +30,13 @@ namespace API.Specs.Session.Steps
 		[When(@"I request the creation")]
 		public async Task WhenIRequestTheCreation()
 		{
-			string endpoint = $"http://localhost:58824/api/sessions/createsession/user/{context.UserId}";
+			string endpoint = $"http://localhost:58824/api/Meeting/CreateMeeting/User/{context.UserId}";
 
 			context.HttpResponse = await httpClient.PostAsync(endpoint, null);
 		}
 
-		[Then(@"The session should be created successfully")]
-		public void ThenTheSessionShouldBeCreatedSuccessfully()
+		[Then(@"The meeting should be created successfully")]
+		public void ThenTheMeetingShouldBeCreatedSuccessfully()
 		{
 			Assert.That(context.HttpResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
 		}
@@ -46,19 +46,19 @@ namespace API.Specs.Session.Steps
 		{
 			string content = await context.HttpResponse.Content.ReadAsStringAsync();
 
-			SessionModel session = JsonConvert.DeserializeObject<SessionModel>(content);
+			MeetingModel meeting = JsonConvert.DeserializeObject<MeetingModel>(content);
 
-			Assert.True(session.userIsTheFacilitator);
+			Assert.True(meeting.userIsTheFacilitator);
 		}
 
-		[Then(@"The created session should has an Id")]
-		public async Task ThenTheCreatedSessionShouldHasAnId()
+		[Then(@"The created meeting should has an Id")]
+		public async Task ThenTheCreatedMeetingShouldHasAnId()
 		{
 			string content = await context.HttpResponse.Content.ReadAsStringAsync();
 
-			SessionModel session = JsonConvert.DeserializeObject<SessionModel>(content);
+			MeetingModel meeting = JsonConvert.DeserializeObject<MeetingModel>(content);
 
-			Assert.That(session.id, Is.Not.EqualTo(Guid.Empty));
+			Assert.That(meeting.id, Is.Not.EqualTo(Guid.Empty));
 		}
 	}
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace API.Specs.Session.Support
+namespace API.Specs.Meeting.Support
 {
-	public class SessionModel
+	public class MeetingModel
 	{
 		public Guid id;
 		public bool userIsTheFacilitator;

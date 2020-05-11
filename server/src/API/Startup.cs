@@ -1,6 +1,6 @@
 using API.DomainEventHandlers;
 using API.Hubs;
-using Application.Sessions.UseCases;
+using Application.TeamBarometer.UseCases;
 using Domain.TeamBarometer.Events;
 using Domain.TeamBarometer.Repositories;
 using Domain.TeamBarometer.UseCases;
@@ -28,12 +28,12 @@ namespace API
 			services.AddControllers();
 			services.AddSignalR();
 
-			services.AddScoped<SessionAppService>();
+			services.AddScoped<MeetingAppService>();
 			services.AddScoped<MeetingService>();
 			services.AddSingleton<InMemoryMeetingRepository>();
 			services.AddSingleton<TemplateQuestionRepository, InMemoryTemplateQuestionRepository>();
-			services.AddSingleton<SessionHub>();
-			services.AddSingleton<RefreshSession>();
+			services.AddSingleton<MeetingHub>();
+			services.AddSingleton<RefreshMeeting>();
 
 			services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
 			{
@@ -47,8 +47,8 @@ namespace API
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			DomainEvent.Bind<WhenTheQuestionIsEnabled, RefreshSession>(app.ApplicationServices);
-			DomainEvent.Bind<WhenAllUsersAnswerTheQuestion, RefreshSession>(app.ApplicationServices);
+			DomainEvent.Bind<WhenTheQuestionIsEnabled, RefreshMeeting>(app.ApplicationServices);
+			DomainEvent.Bind<WhenAllUsersAnswerTheQuestion, RefreshMeeting>(app.ApplicationServices);
 
 			app.UseCors("CorsPolicy");
 
@@ -64,7 +64,7 @@ namespace API
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
-				endpoints.MapHub<SessionHub>("/sessionHub/{sessionId}");
+				endpoints.MapHub<MeetingHub>("/meetingHub/{meetingId}");
 			});
 		}
 	}

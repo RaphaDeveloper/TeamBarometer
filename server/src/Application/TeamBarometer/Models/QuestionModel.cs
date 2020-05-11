@@ -1,9 +1,9 @@
 ﻿using Domain.TeamBarometer.Entities;
 using System;
 
-namespace Application.Sessions
+namespace Application.TeamBarometer.Models
 {
-	public class QuestionModel
+    public class QuestionModel
     {
         public QuestionModel(Question question)
         {
@@ -26,13 +26,13 @@ namespace Application.Sessions
         public int AmountOfRedAnswers { get; private set; }
         public int AmountOfYellowAnswers { get; private set; }
         public int AmountOfGreenAnswers { get; private set; }
-		public bool IsUpForAnswer { get; set; }
+        public bool IsUpForAnswer { get; set; }
 
-		public override bool Equals(object obj)
+        public override bool Equals(object obj)
         {
             QuestionModel question = obj as QuestionModel;
 
-            return this.Id == question?.Id;
+            return Id == question?.Id;
         }
 
         public override int GetHashCode()

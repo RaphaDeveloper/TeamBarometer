@@ -1,13 +1,13 @@
-﻿using Application.Sessions;
+﻿using Application.TeamBarometer.Models;
 using Domain.TeamBarometer.Entities;
 using Domain.Test.TeamBarometer.Doubles.Repositories;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace Application.Test.Sessions
+namespace Application.Test.TeamBarometer.Models
 {
-	public class SessionModelShould
+	public class MeetingModelShould
 	{
 		private FakeTemplateQuestionRepository questionTemplateRepository = new FakeTemplateQuestionRepository();
 		private IEnumerable<TemplateQuestion> questionTemplates;
@@ -19,25 +19,25 @@ namespace Application.Test.Sessions
 		}
 
 		[Test]
-		public void CreateItselfFromSession()
+		public void CreateItselfFromMeeting()
 		{
 			Guid userId = Guid.NewGuid();
-			Meeting session = new Meeting(userId, questionTemplates);
+			Meeting meeting = new Meeting(userId, questionTemplates);
 
-			SessionModel sessionModel = new SessionModel(session, userId);
+			MeetingModel meetingModel = new MeetingModel(meeting, userId);
 
-			Assert.AreEqual(session.Id, sessionModel.Id);
+			Assert.AreEqual(meeting.Id, meetingModel.Id);
 		}
 
 		[Test]
 		public void HasUserAsFacilitatorWhenTheUserIsEqualsTheFacilitator()
 		{
 			Guid userId = Guid.NewGuid();
-			Meeting session = new Meeting(userId, questionTemplates);
+			Meeting meeting = new Meeting(userId, questionTemplates);
 
-			SessionModel sessionModel = new SessionModel(session, userId);
+			MeetingModel meetingModel = new MeetingModel(meeting, userId);
 
-			Assert.IsTrue(sessionModel.UserIsTheFacilitator);
+			Assert.IsTrue(meetingModel.UserIsTheFacilitator);
 		}
 
 		[Test]
@@ -45,11 +45,11 @@ namespace Application.Test.Sessions
 		{
 			Guid facilitatorId = Guid.NewGuid();
 			Guid userId = Guid.NewGuid();
-			Meeting session = new Meeting(facilitatorId, questionTemplates);
+			Meeting meeting = new Meeting(facilitatorId, questionTemplates);
 
-			SessionModel sessionModel = new SessionModel(session, userId);
+			MeetingModel meetingModel = new MeetingModel(meeting, userId);
 
-			Assert.IsFalse(sessionModel.UserIsTheFacilitator);
+			Assert.IsFalse(meetingModel.UserIsTheFacilitator);
 		}
 	}
 }

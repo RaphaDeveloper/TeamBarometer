@@ -3,15 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Application.Sessions
+namespace Application.TeamBarometer.Models
 {
-	public class SessionModel
+	public class MeetingModel
 	{
-		public SessionModel(Meeting session, Guid userId)
+		public MeetingModel(Meeting meeting, Guid userId)
 		{
-			Id = session.Id;
-			Questions = session.Questions.Select(question => new QuestionModel(question));
-			UserIsTheFacilitator = session.UserIsTheFacilitator(userId);
+			Id = meeting.Id;
+			Questions = meeting.Questions.Select(question => new QuestionModel(question));
+			UserIsTheFacilitator = meeting.UserIsTheFacilitator(userId);
 		}
 
 		public Guid Id { get; set; }
@@ -20,9 +20,9 @@ namespace Application.Sessions
 
 		public override bool Equals(object obj)
 		{
-			SessionModel session = obj as SessionModel;
+			MeetingModel meeting = obj as MeetingModel;
 
-			return this.Id == session?.Id;
+			return Id == meeting?.Id;
 		}
 
 		public override int GetHashCode()

@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace API.Specs.Session.Support
+namespace API.Specs.Meeting.Support
 {
 	public class Context
 	{
