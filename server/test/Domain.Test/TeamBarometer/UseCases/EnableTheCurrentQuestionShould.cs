@@ -11,11 +11,11 @@ using System;
 
 namespace Domain.Test.TeamBarometer.UseCases
 {
-	public class EnableAnswersOfTheCurrentQuestionShould
+	public class EnableTheCurrentQuestionShould
 	{
 		private Guid facilitatorId = Guid.NewGuid();
 
-		public EnableAnswersOfTheCurrentQuestionShould()
+		public EnableTheCurrentQuestionShould()
 		{
 			Mock<IServiceProvider> serviceProviderMock = new Mock<IServiceProvider>();
 			serviceProviderMock.Setup(s => s.GetService(typeof(FakeHandler))).Returns(new FakeHandler());
@@ -24,43 +24,43 @@ namespace Domain.Test.TeamBarometer.UseCases
 		}
 
 		[Test]
-		public void EnableAnswersOfTheCurrentQuestionOfTheSessionWhenTheUserIsTheFacilitator()
+		public void EnableAnswersOfTheCurrentQuestionWhenTheUserIsTheFacilitator()
 		{
 			MeetingService service = CreateService();
-			Meeting session = service.CreateMeeting(facilitatorId);
+			Meeting meeting = service.CreateMeeting(facilitatorId);
 
 
-			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
+			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
 
 
-			Assert.True(session.CurrentQuestion.IsUpForAnswer);
+			Assert.True(meeting.CurrentQuestion.IsUpForAnswer);
 		}
 
 		[Test]
 		public void DispatchEventWhenTheUserIsTheFacilitator()
 		{
 			MeetingService service = CreateService();
-			Meeting session = service.CreateMeeting(facilitatorId);
+			Meeting meeting = service.CreateMeeting(facilitatorId);
 
 
-			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
+			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
 
 
-			Assert.True(FakeHandler.SessionWasNotified(session.Id));
+			Assert.True(FakeHandler.MeetingWasNotified(meeting.Id));
 		}
 
 		[Test]
-		public void NotEnableAnswersOfTheCurrentQuestionOfTheSessionWhenTheUserIsNotTheFacilitator()
+		public void NotEnableAnswersOfTheCurrentQuestionWhenTheUserIsNotTheFacilitator()
 		{
 			Guid userId = Guid.NewGuid();
 			MeetingService service = CreateService();
-			Meeting session = service.CreateMeeting(facilitatorId);
+			Meeting meeting = service.CreateMeeting(facilitatorId);
 
 
-			service.EnableAnswersOfTheCurrentQuestion(session.Id, userId);
+			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, userId);
 
 
-			Assert.False(session.CurrentQuestion.IsUpForAnswer);
+			Assert.False(meeting.CurrentQuestion.IsUpForAnswer);
 		}
 
 		[Test]
@@ -68,22 +68,22 @@ namespace Domain.Test.TeamBarometer.UseCases
 		{
 			Guid userId = Guid.NewGuid();
 			MeetingService service = CreateService();
-			Meeting session = service.CreateMeeting(facilitatorId);
+			Meeting meeting = service.CreateMeeting(facilitatorId);
 
 
-			service.EnableAnswersOfTheCurrentQuestion(session.Id, userId);
+			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, userId);
 
 
-			Assert.False(FakeHandler.SessionWasNotified(session.Id));
+			Assert.False(FakeHandler.MeetingWasNotified(meeting.Id));
 		}
 
 		private MeetingService CreateService()
 		{
-			InMemoryMeetingRepository sessionRepository = new InMemoryMeetingRepository();
+			InMemoryMeetingRepository meetingRepository = new InMemoryMeetingRepository();
 
 			FakeTemplateQuestionRepository questionRepository = new FakeTemplateQuestionRepository();
 
-			return new MeetingService(sessionRepository, questionRepository);
+			return new MeetingService(meetingRepository, questionRepository);
 		}
 	}
 }

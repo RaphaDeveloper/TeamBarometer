@@ -7,16 +7,16 @@ namespace Domain.Test.TeamBarometer.Doubles.DomainEventHandlers
 {
 	public class FakeHandler : Handler<MeetingEventBase>
 	{
-		private static List<Guid> notifiedSessions = new List<Guid>();
+		private static List<Guid> notifiedMeetings = new List<Guid>();
 
-		public static bool SessionWasNotified(Guid sessionId)
+		public static bool MeetingWasNotified(Guid meetingId)
 		{
-			return notifiedSessions.Contains(sessionId);
+			return notifiedMeetings.Contains(meetingId);
 		}
 
 		public override void Handle(MeetingEventBase domainEvent)
 		{
-			notifiedSessions.Add(domainEvent.Meeting.Id);
+			notifiedMeetings.Add(domainEvent.Meeting.Id);
 		}
 	}
 }

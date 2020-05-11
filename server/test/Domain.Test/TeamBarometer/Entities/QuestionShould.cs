@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace Domain.Test.TeamBarometer
+namespace Domain.Test.TeamBarometer.Entities
 {
 	public class QuestionShould
 	{
