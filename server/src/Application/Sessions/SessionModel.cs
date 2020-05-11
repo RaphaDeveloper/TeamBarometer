@@ -1,4 +1,4 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ namespace Application.Sessions
 {
 	public class SessionModel
 	{
-		public SessionModel(Session session, Guid userId)
+		public SessionModel(Meeting session, Guid userId)
 		{
 			Id = session.Id;
 			Questions = session.Questions.Select(question => new QuestionModel(question));

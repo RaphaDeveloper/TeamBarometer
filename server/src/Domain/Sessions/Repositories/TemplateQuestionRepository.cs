@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Sessions.Entities;
+using System.Collections.Generic;
 
 namespace Domain.Sessions.Repositories
 {

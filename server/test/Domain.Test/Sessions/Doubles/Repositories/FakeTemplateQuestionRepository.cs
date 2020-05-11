@@ -1,4 +1,4 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using Domain.Sessions.Repositories;
 using System.Collections.Generic;
 using System.Linq;

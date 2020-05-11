@@ -1,9 +1,9 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using System;
 
 namespace Application.Sessions
 {
-    public class QuestionModel
+	public class QuestionModel
     {
         public QuestionModel(Question question)
         {

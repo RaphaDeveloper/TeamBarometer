@@ -1,4 +1,4 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using NUnit.Framework;
 using System.Collections.Generic;
 

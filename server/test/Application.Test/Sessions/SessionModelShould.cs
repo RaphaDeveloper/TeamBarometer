@@ -1,5 +1,5 @@
 ﻿using Application.Sessions;
-using Domain.Sessions;
+using Domain.Sessions.Entities;
 using Domain.Test.Sessions.Doubles.Repositories;
 using NUnit.Framework;
 using System;
@@ -22,7 +22,7 @@ namespace Application.Test.Sessions
 		public void CreateItselfFromSession()
 		{
 			Guid userId = Guid.NewGuid();
-			Session session = new Session(userId, questionTemplates);
+			Meeting session = new Meeting(userId, questionTemplates);
 
 			SessionModel sessionModel = new SessionModel(session, userId);
 
@@ -33,7 +33,7 @@ namespace Application.Test.Sessions
 		public void HasUserAsFacilitatorWhenTheUserIsEqualsTheFacilitator()
 		{
 			Guid userId = Guid.NewGuid();
-			Session session = new Session(userId, questionTemplates);
+			Meeting session = new Meeting(userId, questionTemplates);
 
 			SessionModel sessionModel = new SessionModel(session, userId);
 
@@ -45,7 +45,7 @@ namespace Application.Test.Sessions
 		{
 			Guid facilitatorId = Guid.NewGuid();
 			Guid userId = Guid.NewGuid();
-			Session session = new Session(facilitatorId, questionTemplates);
+			Meeting session = new Meeting(facilitatorId, questionTemplates);
 
 			SessionModel sessionModel = new SessionModel(session, userId);
 

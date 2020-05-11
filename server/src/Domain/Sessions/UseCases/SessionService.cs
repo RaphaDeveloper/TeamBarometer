@@ -1,4 +1,5 @@
-﻿using Domain.Sessions.Exceptions;
+﻿using Domain.Sessions.Entities;
+using Domain.Sessions.Exceptions;
 using Domain.Sessions.Repositories;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,11 @@ namespace Domain.Sessions.UseCases
 		}
 
 
-		public Session CreateSession(Guid userId)
+		public Meeting CreateSession(Guid userId)
 		{
 			IEnumerable<TemplateQuestion> questions = TemplateQuestionRepository.GetAll();
 
-			Session session = new Session(userId, questions);
+			Meeting session = new Meeting(userId, questions);
 
 			SessionRepository.Insert(session);
 
@@ -31,7 +32,7 @@ namespace Domain.Sessions.UseCases
 
 		public void JoinTheSession(Guid sessionId, Guid userId)
 		{
-			Session session = GetSessionById(sessionId);
+			Meeting session = GetSessionById(sessionId);
 
 			session.AddParticipant(userId);
 		}
@@ -39,7 +40,7 @@ namespace Domain.Sessions.UseCases
 
 		public void EnableAnswersOfTheCurrentQuestion(Guid sessionId, Guid userId)
 		{
-			Session session = GetSessionById(sessionId);
+			Meeting session = GetSessionById(sessionId);
 
 			session.EnableAnswersOfTheCurrentQuestion(userId);
 		}
@@ -47,22 +48,22 @@ namespace Domain.Sessions.UseCases
 
 		public void AnswerTheCurrentQuestion(Guid userId, Answer answer, Guid sessionId)
 		{
-			Session session = GetSessionById(sessionId);
+			Meeting session = GetSessionById(sessionId);
 
 			session.AnswerTheCurrentQuestion(userId, answer);
 		}
 
 
-		public Session GetSessionById(Guid sessionId)
+		public Meeting GetSessionById(Guid sessionId)
 		{
-			Session session = SessionRepository.GetById(sessionId);
+			Meeting session = SessionRepository.GetById(sessionId);
 
 			ValidateIfSessionExists(session);
 
 			return session;
 		}
 
-		private void ValidateIfSessionExists(Session session)
+		private void ValidateIfSessionExists(Meeting session)
 		{
 			if (session == null)
 				throw new NonExistentSessionException();

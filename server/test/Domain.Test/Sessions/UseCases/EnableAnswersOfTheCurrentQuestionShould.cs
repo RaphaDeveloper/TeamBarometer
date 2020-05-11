@@ -1,4 +1,4 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using Domain.Sessions.Events;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
@@ -27,7 +27,7 @@ namespace Domain.Test.Sessions.UseCases
 		public void EnableAnswersOfTheCurrentQuestionOfTheSessionWhenTheUserIsTheFacilitator()
 		{
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 
 
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
@@ -40,7 +40,7 @@ namespace Domain.Test.Sessions.UseCases
 		public void DispatchEventWhenTheUserIsTheFacilitator()
 		{
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 
 
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
@@ -54,7 +54,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid userId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 
 
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, userId);
@@ -68,7 +68,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid userId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 
 
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, userId);

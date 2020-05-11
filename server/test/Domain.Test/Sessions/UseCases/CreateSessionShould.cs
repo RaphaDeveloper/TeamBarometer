@@ -1,4 +1,4 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
 using Domain.Test.Sessions.Doubles.Repositories;
@@ -17,7 +17,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			SessionService service = CreateService();
 
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 
 			Assert.That(session, Is.Not.Null);
 			Assert.IsTrue(session.UserIsTheFacilitator(facilitatorId));
@@ -30,7 +30,7 @@ namespace Domain.Test.Sessions.UseCases
 			InMemorySessionRepository sessionRepository = new InMemorySessionRepository();
 			SessionService service = CreateService(sessionRepository);
 
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 
 			Assert.That(session, Is.EqualTo(sessionRepository.GetById(session.Id)));
 		}
@@ -40,7 +40,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			SessionService service = CreateService();
 
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 
 			Assert.That(session.Questions.First(), Is.EqualTo(session.CurrentQuestion));
 			Assert.True(session.CurrentQuestion.IsTheCurrent);

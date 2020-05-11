@@ -1,4 +1,4 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Domain.Test.Sessions
 		[Test]
 		public void HasId()
 		{
-			Session session = CreateSession();
+			Meeting session = CreateSession();
 
 			Assert.That(session.Id, Is.Not.Null);
 		}
@@ -20,9 +20,9 @@ namespace Domain.Test.Sessions
 		[Test]
 		public void HasUniqueId()
 		{
-			Session firstSession = CreateSession();
-			Session secondSession = CreateSession();
-			Session thirdSession = CreateSession();
+			Meeting firstSession = CreateSession();
+			Meeting secondSession = CreateSession();
+			Meeting thirdSession = CreateSession();
 
 			Assert.That(firstSession.Id, Is.Not.EqualTo(secondSession.Id));
 			Assert.That(secondSession.Id, Is.Not.EqualTo(thirdSession.Id));
@@ -31,14 +31,14 @@ namespace Domain.Test.Sessions
 		[Test]
 		public void HasReadOnlyId()
 		{
-			Session session = CreateSession();
+			Meeting session = CreateSession();
 
 			bool idIsReadOnly = !session.GetType().GetProperty(nameof(session.Id)).CanWrite;
 
 			Assert.True(idIsReadOnly, "Session id is not read only");
 		}
 
-		private Session CreateSession()
+		private Meeting CreateSession()
 		{
 			List<TemplateQuestion> questionsTemplate = new List<TemplateQuestion>
 			{
@@ -46,7 +46,7 @@ namespace Domain.Test.Sessions
 				new TemplateQuestion("Feedback", null)
 			};
 
-			return new Session(facilitatorId, questionsTemplate);
+			return new Meeting(facilitatorId, questionsTemplate);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using Domain.Sessions.Events;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
@@ -28,7 +28,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid userId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
 			service.JoinTheSession(session.Id, userId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
@@ -46,7 +46,7 @@ namespace Domain.Test.Sessions.UseCases
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 			Question priorQuestion = session.CurrentQuestion;
 			service.JoinTheSession(session.Id, firstUserId);
 			service.JoinTheSession(session.Id, secondUserId);
@@ -68,7 +68,7 @@ namespace Domain.Test.Sessions.UseCases
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 			service.JoinTheSession(session.Id, firstUserId);
 			service.JoinTheSession(session.Id, secondUserId);
 
@@ -90,7 +90,7 @@ namespace Domain.Test.Sessions.UseCases
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 			service.JoinTheSession(session.Id, firstUserId);
 			service.JoinTheSession(session.Id, secondUserId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
@@ -109,7 +109,7 @@ namespace Domain.Test.Sessions.UseCases
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 			service.JoinTheSession(session.Id, firstUserId);
 			service.JoinTheSession(session.Id, secondUserId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
@@ -127,7 +127,7 @@ namespace Domain.Test.Sessions.UseCases
 			Guid firstUserId = Guid.NewGuid();
 			Guid secondUserId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
 			service.JoinTheSession(session.Id, firstUserId);
 			service.JoinTheSession(session.Id, secondUserId);
@@ -146,7 +146,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid userId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
 			service.JoinTheSession(session.Id, userId);
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
@@ -164,7 +164,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid userId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
 			service.EnableAnswersOfTheCurrentQuestion(session.Id, facilitatorId);
 
@@ -180,7 +180,7 @@ namespace Domain.Test.Sessions.UseCases
 		{
 			Guid firstUserId = Guid.NewGuid();
 			SessionService service = CreateService();
-			Session session = service.CreateSession(facilitatorId);
+			Meeting session = service.CreateSession(facilitatorId);
 			Question currentQuestion = session.CurrentQuestion;
 			service.JoinTheSession(session.Id, firstUserId);
 

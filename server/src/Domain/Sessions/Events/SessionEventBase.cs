@@ -1,12 +1,14 @@
-﻿namespace Domain.Sessions.Events
+﻿using Domain.Sessions.Entities;
+
+namespace Domain.Sessions.Events
 {
 	public abstract class SessionEventBase
 	{
-		public SessionEventBase(Session session)
+		public SessionEventBase(Meeting session)
 		{
 			Session = session;
 		}
 
-		public Session Session { get; }
+		public Meeting Session { get; }
 	}
 }

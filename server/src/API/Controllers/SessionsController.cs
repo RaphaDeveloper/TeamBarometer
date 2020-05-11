@@ -1,6 +1,6 @@
 ﻿using Application.Sessions;
 using Application.Sessions.UseCases;
-using Domain.Sessions;
+using Domain.Sessions.Entities;
 using Domain.Sessions.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;

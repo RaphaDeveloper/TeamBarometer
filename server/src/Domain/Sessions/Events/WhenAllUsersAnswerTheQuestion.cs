@@ -1,8 +1,10 @@
-﻿namespace Domain.Sessions.Events
+﻿using Domain.Sessions.Entities;
+
+namespace Domain.Sessions.Events
 {
 	public class WhenAllUsersAnswerTheQuestion : SessionEventBase
 	{
-		public WhenAllUsersAnswerTheQuestion(Session session)
+		public WhenAllUsersAnswerTheQuestion(Meeting session)
 			: base(session)
 		{
 		}

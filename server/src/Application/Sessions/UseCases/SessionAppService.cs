@@ -1,4 +1,4 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using Domain.Sessions.UseCases;
 using System;
 
@@ -15,7 +15,7 @@ namespace Application.Sessions.UseCases
 
 		public SessionModel CreateSession(Guid userId)
 		{
-			Session session = SessionService.CreateSession(userId);
+			Meeting session = SessionService.CreateSession(userId);
 
 			return new SessionModel(session, userId);
 		}
@@ -34,7 +34,7 @@ namespace Application.Sessions.UseCases
 
 		public SessionModel GetSession(Guid sessionId, Guid userId)
 		{
-			Session session = SessionService.GetSessionById(sessionId);
+			Meeting session = SessionService.GetSessionById(sessionId);
 
 			return new SessionModel(session, userId);
 		}

@@ -1,4 +1,4 @@
-﻿using Domain.Sessions;
+﻿using Domain.Sessions.Entities;
 using Domain.Sessions.Exceptions;
 using Domain.Sessions.Repositories;
 using Domain.Sessions.UseCases;
@@ -16,7 +16,7 @@ namespace Domain.Test.Sessions.UseCases
 		public void JoinTheSessionWhenTheUserIsNotInTheSession()
 		{
 			SessionService sessionService = CreateService();
-			Session session = sessionService.CreateSession(facilitatorId);
+			Meeting session = sessionService.CreateSession(facilitatorId);
 			Guid userId = Guid.NewGuid();
 
 			sessionService.JoinTheSession(session.Id, userId);
@@ -28,7 +28,7 @@ namespace Domain.Test.Sessions.UseCases
 		public void NotJoinTheSessionWhenTheUserIsAlreadyInTheSession()
 		{
 			SessionService sessionService = CreateService();
-			Session session = sessionService.CreateSession(facilitatorId);
+			Meeting session = sessionService.CreateSession(facilitatorId);
 			Guid userId = Guid.NewGuid();
 
 			sessionService.JoinTheSession(session.Id, userId);

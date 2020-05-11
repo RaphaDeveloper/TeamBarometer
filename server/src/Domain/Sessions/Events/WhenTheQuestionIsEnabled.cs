@@ -1,8 +1,10 @@
-﻿namespace Domain.Sessions.Events
+﻿using Domain.Sessions.Entities;
+
+namespace Domain.Sessions.Events
 {
 	public class WhenTheQuestionIsEnabled : SessionEventBase
 	{
-		public WhenTheQuestionIsEnabled(Session session)
+		public WhenTheQuestionIsEnabled(Meeting session)
 			: base(session)
 		{
 		}
