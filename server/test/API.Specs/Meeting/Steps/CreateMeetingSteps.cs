@@ -30,7 +30,7 @@ namespace API.Specs.Meeting.Steps
 		[When(@"I request the creation")]
 		public async Task WhenIRequestTheCreation()
 		{
-			string endpoint = $"http://localhost:58824/api/Meeting/CreateMeeting/User/{context.UserId}";
+			string endpoint = $"http://localhost:58824/api/Meetings/CreateMeeting/User/{context.UserId}";
 
 			context.HttpResponse = await httpClient.PostAsync(endpoint, null);
 		}

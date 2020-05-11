@@ -1,9 +1,9 @@
-import Question from "./Question";
+import QuestionModel from "./QuestionModel";
 
-export default class SessionModel {
+export default class MeetingModel {
     constructor({id, questions, userIsTheFacilitator}) {
         this.id = id;
-        this.questions = (questions || []).map(question => new Question(question));
+        this.questions = (questions || []).map(question => new QuestionModel(question));
         this.userIsTheFacilitator = userIsTheFacilitator;
     }
 

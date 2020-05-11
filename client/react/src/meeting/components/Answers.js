@@ -1,7 +1,7 @@
-import './styles/SessionAnswers.css';
+import './styles/Answers.css';
 import React, { Component } from "react";
 
-export default class SessionAnswers extends Component {
+export default class Answers extends Component {
     constructor(props) {
         super(props);
         this.state = {

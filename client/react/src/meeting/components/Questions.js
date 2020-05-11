@@ -1,8 +1,8 @@
-import './styles/SessionQuestions.css';
+import './styles/Questions.css';
 import React, { Component } from 'react';
-import SessionQuestion from './SessionQuestion';
+import Question from './Question';
 
-export default class SessionQuestions extends Component {
+export default class Questions extends Component {
     constructor(props) {
         super(props);
         this.questions = React.createRef();
@@ -31,8 +31,8 @@ export default class SessionQuestions extends Component {
 
     renderQuestions() {
         return (
-            this.props.session.questions.map(question =>                
-                <SessionQuestion key={question.description} session={this.props.session} question={question} selectedQuestion={this.props.selectedQuestion} onSelectQuestion={this.props.onSelectQuestion} onPlayQuestion={this.props.onPlayQuestion} onUpdateCurrentQuestion={this.scrollToQuestion} />
+            this.props.meeting.questions.map(question =>                
+                <Question key={question.description} meeting={this.props.meeting} question={question} selectedQuestion={this.props.selectedQuestion} onSelectQuestion={this.props.onSelectQuestion} onPlayQuestion={this.props.onPlayQuestion} onUpdateCurrentQuestion={this.scrollToQuestion} />
             )
         );
     }

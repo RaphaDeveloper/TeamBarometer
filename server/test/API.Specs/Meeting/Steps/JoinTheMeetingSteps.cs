@@ -26,7 +26,7 @@ namespace API.Specs.Meeting.Steps
         {
             Guid facilitatorId = Guid.NewGuid();
 
-            string endpoint = $"http://localhost:58824/api/Meeting/CreateMeeting/User/{facilitatorId}";
+            string endpoint = $"http://localhost:58824/api/Meetings/CreateMeeting/User/{facilitatorId}";
 
             context.HttpResponse = await httpClient.PostAsync(endpoint, null);
         }
@@ -40,7 +40,7 @@ namespace API.Specs.Meeting.Steps
 
             MeetingModel meeting = JsonConvert.DeserializeObject<MeetingModel>(content);
 
-            string endpoint = $"http://localhost:58824/api/Meeting/JoinTheMeeting/{meeting.id}/User/{userId}";
+            string endpoint = $"http://localhost:58824/api/Meetings/JoinTheMeeting/{meeting.id}/User/{userId}";
 
             context.HttpResponse = await httpClient.PutAsync(endpoint, null);
         }

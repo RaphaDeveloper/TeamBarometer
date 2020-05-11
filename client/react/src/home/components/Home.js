@@ -1,16 +1,16 @@
 import './styles/Home.css';
 import React, { Component } from 'react';
-import Session from '../../session/components/Session';
-import SessionRepository from '../../session/repositories/SessionRepository';
+import Meeting from '../../meeting/components/Meeting';
+import MeetingRepository from '../../meeting/repositories/MeetingRepository';
 import { v4 as uuidv4 } from 'uuid';
-import SessionIdPopover from './SessionIdPopover';
+import MeetingIdPopover from './MeetingIdPopover';
 
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        this.sessionRepository = new SessionRepository();
-        this.state = { session: null, userId: null };
+        this.meetingRepository = new MeetingRepository();
+        this.state = { meeting: null, userId: null };
     }
 
     componentDidMount() {
@@ -27,7 +27,7 @@ export default class Home extends Component {
                 <main className="container">
                     <div className="row">
                         <header className="col-sm">
-                            {this.state.session && <span id="sessionId">{this.state.session.id}</span>}
+                            {this.state.meeting && <span id="meetingId">{this.state.meeting.id}</span>}
                             <h1>Team Barometer</h1>
                         </header>
                     </div>
@@ -40,36 +40,36 @@ export default class Home extends Component {
     }
 
     renderMainContent() {
-        return this.state.session ? this.renderSession() : this.renderHomeContent();
+        return this.state.meeting ? this.renderMeeting() : this.renderHomeContent();
     }
 
-    renderSession() {
+    renderMeeting() {
         return (
-            <Session session={this.state.session} userId={this.state.userId} />
+            <Meeting meeting={this.state.meeting} userId={this.state.userId} />
         );
     }
 
     renderHomeContent() {
         return (
             <div className="main col-sm">
-                <a id="createSession" onClick={this.createSession} className="link" href="javascript:void(0)">Crie</a> uma sessão ou {this.renderEnterSessionLink()} em uma existente.
+                <a id="createMeeting" onClick={this.createMeeting} className="link" href="javascript:void(0)">Crie</a> uma reunião ou {this.renderEnterMeetingLink()} em uma existente.
             </div>
         );
     }
 
-    createSession = async () => {
-        const session = await this.sessionRepository.createSession(this.state.userId);
+    createMeeting = async () => {
+        const meeting = await this.meetingRepository.createMeeting(this.state.userId);
 
-        this.setState({ session: session });
+        this.setState({ meeting });
     }
 
-    renderEnterSessionLink() {
+    renderEnterMeetingLink() {
         return (
-            <SessionIdPopover onEnterToTheSession={this.enterToTheSession} userId={this.state.userId}></SessionIdPopover>
+            <MeetingIdPopover onEnterToTheMeeting={this.enterToTheMeeting} userId={this.state.userId}></MeetingIdPopover>
         );
     }
 
-    enterToTheSession = async (session) => {
-        this.setState({ session: session });
+    enterToTheMeeting = async (meeting) => {
+        this.setState({ meeting });
     }
 }

@@ -1,4 +1,4 @@
-export default class Question {
+export default class QuestionModel {
     constructor({id, description, redAnswer, greenAnswer, isTheCurrent, isUpForAnswer, amountOfRedAnswers, amountOfYellowAnswers, amountOfGreenAnswers}) {
         this.id = id;
         this.description = description;

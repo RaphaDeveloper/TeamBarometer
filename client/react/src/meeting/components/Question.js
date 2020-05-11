@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class SessinQuestion extends Component {
+export default class Question extends Component {
     constructor(props) {
         super(props);
         this.question = React.createRef();
@@ -48,7 +48,7 @@ export default class SessinQuestion extends Component {
         return (
             !question.isUpForAnswer &&
             question.isTheCurrent &&
-            this.props.session.userIsTheFacilitator &&
+            this.props.meeting.userIsTheFacilitator &&
             <a className="button button-play" onClick={this.props.onPlayQuestion} href="javascript:void(0)"></a>
         );
     }
