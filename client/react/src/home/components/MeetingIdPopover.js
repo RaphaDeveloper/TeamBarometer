@@ -26,7 +26,7 @@ export default class MeetingIdPopover extends Component {
                 <Popover.Content>
                     {this.renderInvalidCode()}                    
                     <div className="input-group mb-3">                        
-                        <input onChange={this.updateMeetingId} ref={this.meetingIdInput} type="text" className="form-control" placeholder="Código da Reunião" aria-label="Código da Reunião" id="meeting-id-input" />
+                        <input onChange={this.updateMeetingId} ref={this.meetingIdInput} type="text" className="form-control" placeholder="Código da Reunião" aria-label="Código da Reunião" id="meeting-id-input" value={this.state.meetingId} />
                         <div className="input-group-append">
                             <button onClick={this.enterToTheMeeting} className="btn btn-outline-secondary" type="button" id="button-enter-meeting" disabled={!this.state.meetingId}>Entrar</button>
                         </div>
@@ -36,7 +36,7 @@ export default class MeetingIdPopover extends Component {
 
         return (
             <OverlayTrigger trigger="click" placement="bottom" overlay={popOver}>
-                <a href="javascript:void(0)" className="link" onClick={this.openPopover}>Entre</a>
+                <a id="enterToMeeting" href="javascript:void(0)" className="link" onClick={this.openPopover}>Entre</a>
             </OverlayTrigger>
         );
     };
