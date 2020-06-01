@@ -9,7 +9,7 @@ import MeetingIdPopover from './MeetingIdPopover';
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        this.meetingRepository = new MeetingRepository();
+        this.meetingRepository = new MeetingRepository();        
         this.state = { meeting: null, userId: null };
     }
 

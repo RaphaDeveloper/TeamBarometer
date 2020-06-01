@@ -37,7 +37,7 @@ export default class Answers extends Component {
         return !this.props.question.isUpForAnswer || this.props.userIsTheFacilitator;
     }
 
-    onSelectAnswer = (answer) => {        
+    onSelectAnswer = (answer) => {   
         let answerByQuestion = this.state.answerByQuestion || {};
         
         answerByQuestion[this.props.question.id.toString()] = answer;
