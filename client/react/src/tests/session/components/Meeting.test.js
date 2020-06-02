@@ -4,45 +4,54 @@ import Meeting from '../../../meeting/components/Meeting';
 import Answers from '../../../meeting/components/Answers';
 import QuestionModel from '../../../meeting/models/QuestionModel';
 import MeetingModel from '../../../meeting/models/MeetingModel';
+import setupMeetingRepository from '../../doubles/repository.mock';
 
 jest.mock('../../../meeting/repositories/MeetingRepository');
 
 describe('when the meeting is loaded', () => {
-  function getSession(userIsTheFacilitator, sessionFinished, isUpForAnswer) {
+  function getMeeting(userIsTheFacilitator, meetingFinished, isUpForAnswer) {
     const questions = [
       new QuestionModel({
-          id: 1,
-          description: 'Confiança',
-          redAnswer: 'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
-          greenAnswer: 'Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.',
-          isTheCurrent: false,
-          amountOfRedAnswers: 4,
-          amountOfYellowAnswers: 2,
-          amountOfGreenAnswers: 4
+        id: 1,
+        description: 'Confiança',
+        redAnswer: 'Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.',
+        greenAnswer: 'Temos a coragem de ser honesto com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.',
+        isTheCurrent: false,
+        amountOfRedAnswers: 4,
+        amountOfYellowAnswers: 2,
+        amountOfGreenAnswers: 4
       }),
 
       new QuestionModel({
-          id: 2,
-          description: 'Feedback',
-          redAnswer: 'Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.',
-          greenAnswer: 'Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.',
-          isTheCurrent: true && !sessionFinished,
-          isUpForAnswer: isUpForAnswer
+        id: 2,
+        description: 'Feedback',
+        redAnswer: 'Raramente nos elogiamos uns aos outros ou fazemos uma chamada de atenção quando alguém age de maneira irresponsável ou violando nossos princípios.',
+        greenAnswer: 'Damos uns aos outros feedback regularmente sobre pontos positivos e a melhorar.',
+        isTheCurrent: true && !meetingFinished,
+        isUpForAnswer: isUpForAnswer
       }),
 
-      new QuestionModel({id: 3, description: 'Autonomia', isTheCurrent: false}),
-  ];
+      new QuestionModel({ id: 3, description: 'Autonomia', isTheCurrent: false }),
+    ];
 
-  return new MeetingModel({ id: '123-456-789', questions, userIsTheFacilitator });
+    return new MeetingModel({ id: '123-456-789', questions, userIsTheFacilitator });
+  }
+
+  const createMeetingComponent = (userIsTheFacilitator = true, meetingFinished = false, isUpForAnswer = false) => {
+    return mount(<Meeting meeting={getMeeting(userIsTheFacilitator, meetingFinished, isUpForAnswer)} />);
   }
 
   let meeting;
 
+  beforeAll(() => {
+    setupMeetingRepository();
+  });
+
   beforeEach(() => {
     const userIsTheFacilitator = true;
-    const sessionFinished = false;
+    const meetingFinished = false;
 
-    meeting = mount(<Meeting meeting={getSession(userIsTheFacilitator, sessionFinished)}/>);
+    meeting = mount(<Meeting meeting={getMeeting(userIsTheFacilitator, meetingFinished)} />);
   });
 
   afterEach(() => {
@@ -69,32 +78,32 @@ describe('when the meeting is loaded', () => {
 
   it('answers of current question should be disabled if the question is not up for answer', () => {
     const question = new QuestionModel({ isUpForAnswer: false });
-    
-    const answers = mount(<Answers question={question} userIsTheFacilitator={false}/>);
 
-    expect(answers.find('.red[disabled=true]').length).toBe(1);
-    expect(answers.find('.yellow[disabled=true]').length).toBe(1);
-    expect(answers.find('.green[disabled=true]').length).toBe(1);
+    const answers = mount(<Answers question={question} userIsTheFacilitator={false} />);
+
+    expect(answers.find('.red[disabled=true]').exists()).toBe(true);
+    expect(answers.find('.yellow[disabled=true]').exists()).toBe(true);
+    expect(answers.find('.green[disabled=true]').exists()).toBe(true);
   });
 
   it('answers of current question should be disabled if user is the facilitator', () => {
     const question = new QuestionModel({ isUpForAnswer: true });
-    
-    const answers = mount(<Answers question={question} userIsTheFacilitator={true}/>);
 
-    expect(answers.find('.red[disabled=true]').length).toBe(1);
-    expect(answers.find('.yellow[disabled=true]').length).toBe(1);
-    expect(answers.find('.green[disabled=true]').length).toBe(1);
+    const answers = mount(<Answers question={question} userIsTheFacilitator={true} />);
+
+    expect(answers.find('.red[disabled=true]').exists()).toBe(true);
+    expect(answers.find('.yellow[disabled=true]').exists()).toBe(true);
+    expect(answers.find('.green[disabled=true]').exists()).toBe(true);
   });
 
   it('answers of current question should be enabled if question is up for answer and user is not the facilitator', () => {
     const question = new QuestionModel({ isUpForAnswer: true });
-    
-    const answers = mount(<Answers question={question} userIsTheFacilitator={false}/>);
 
-    expect(answers.find('.red[disabled=false]').length).toBe(1);
-    expect(answers.find('.yellow[disabled=false]').length).toBe(1);
-    expect(answers.find('.green[disabled=false]').length).toBe(1);
+    const answers = mount(<Answers question={question} userIsTheFacilitator={false} />);
+
+    expect(answers.find('.red[disabled=false]').exists()).toBe(true);
+    expect(answers.find('.yellow[disabled=false]').exists()).toBe(true);
+    expect(answers.find('.green[disabled=false]').exists()).toBe(true);
   });
 
   it('each question should has a description', () => {
@@ -102,30 +111,30 @@ describe('when the meeting is loaded', () => {
     expect(meeting.find('.question-description').at(1).text()).toBe('Feedback');
     expect(meeting.find('.question-description').at(2).text()).toBe('Autonomia');
   });
-  
+
   it('should be possible to select a question', () => {
-    let firstQuestion = meeting.find('.questions li').at(0);    
-    
+    let firstQuestion = meeting.find('.questions li').at(0);
+
     firstQuestion.simulate('click');
 
     expect(meeting.find('.questions li').at(0).hasClass('selected')).toBe(true);
-  });    
-  
+  });
+
   it('should be possible to select an answer', () => {
     const userIsTheFacilitator = false;
-    const sessionFinished = false;
+    const meetingFinished = false;
     const isUpForAnswer = true;
-    let meeting = mount(<Meeting meeting={getSession(userIsTheFacilitator, sessionFinished, isUpForAnswer)}/>);
+    let meeting = mount(<Meeting meeting={getMeeting(userIsTheFacilitator, meetingFinished, isUpForAnswer)} />);
     let redAnswer = meeting.find('.answers button.red').at(0);
 
     redAnswer.simulate('click');
-    
+
     expect(meeting.find('.answers .red').hasClass('selected-answer')).toBe(true);
   });
-  
+
   it('should refresh the answers when select a question', () => {
     let firstQuestion = meeting.find('.questions li').at(0);
-    
+
     firstQuestion.simulate('click');
 
     expect(meeting.find('.answers .red').text()).toBe('Raramente dizemos o que pensamos. Preferimos evitar conflitos e não nos expor.');
@@ -135,7 +144,7 @@ describe('when the meeting is loaded', () => {
 
   it('current question should not has its style changed when select it', () => {
     let currentQuestion = meeting.find('.questions .current-question');
-    
+
     currentQuestion.simulate('click');
 
     expect(meeting.find('.questions .current-question').hasClass('selected')).toBe(false);
@@ -164,19 +173,60 @@ describe('when the meeting is loaded', () => {
   });
 
   it('play button should be rendered for current question if user is the facilitator', () => {
-    expect(meeting.find('.current-question .question .button-play').length).toBe(1);
+    expect(meeting.find('.current-question .question .button-play').exists()).toBe(true);
   });
 
   it('play button should not be rendered for not current question', () => {
-    expect(meeting.find('li:not(.current-question) .question .button-play').length).toBe(0);
+    expect(meeting.find('li:not(.current-question) .question .button-play').exists()).toBe(false);
   });
 
   it('play button should not be rendered for current question if user is not the facilitator', () => {
     const userIsTheFacilitator = false;
 
-    let meeting = mount(<Meeting meeting={getSession(userIsTheFacilitator)}/>);
+    let meeting = mount(<Meeting meeting={getMeeting(userIsTheFacilitator)} />);
 
-    expect(meeting.find('.current-question .question .button-play').length).toBe(0);
+    expect(meeting.find('.current-question .question .button-play').exists()).toBe(false);
+  });
+
+  it('play button should not be rendered for current question if question is up for answer', () => {
+    const facilitator = false;
+    const meetingFinished = false;
+    const ableToAnswer = true;
+    let meetingComponent = createMeetingComponent(facilitator, meetingFinished, ableToAnswer);
+
+    expect(meetingComponent.find('.current-question .question .button-play').exists()).toBe(false);
+  });
+
+  it('loader should be rendered for current question if question is up for answer', () => {
+    const facilitator = false;
+    const meetingFinished = false;
+    const ableToAnswer = true;
+    let meetingComponent = createMeetingComponent(facilitator, meetingFinished, ableToAnswer);
+
+    expect(meetingComponent.find('.current-question .question .loader').exists()).toBe(true);
+  });
+
+  it('loader should not be rendered for current question if question is not up for answer', () => {
+    const facilitator = false;
+    const meetingFinished = false;
+    const ableToAnswer = false;
+    let meetingComponent = createMeetingComponent(facilitator, meetingFinished, ableToAnswer);
+
+    expect(meetingComponent.find('.current-question .question .loader').exists()).toBe(false);
+  });
+
+  it('meeting should be reloaded when refresh', async () => {
+    const facilitator = false;
+    const meetingFinished = false;
+    const ableToAnswer = false;
+    let meetingComponent = createMeetingComponent(facilitator, meetingFinished, ableToAnswer);
+    let meetingComponentInstance = meetingComponent.instance();    
+    
+    await meetingComponentInstance.refreshMeeting();
+    
+    expect(meetingComponent.find('.current-question .question .question-description').text()).toBe('Feedback');
+    meetingComponent.update();
+    expect(meetingComponent.find('.current-question .question .question-description').text()).toBe('Autonomia');
   });
 });
 
