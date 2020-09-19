@@ -17,7 +17,7 @@ export default class Meeting extends Component {
     }
 
     componentDidMount() {
-        const hubConnection = new signalR.HubConnectionBuilder().withUrl(`https://teambarometer-api-test.azurewebsites.net/meetingHub/${this.props.meeting.id}`).build();
+        const hubConnection = new signalR.HubConnectionBuilder().withUrl(`${process.env.REACT_APP_API_URL}/meetingHub/${this.props.meeting.id}`).build();
 
         hubConnection.on("RefreshMeeting", this.refreshMeeting);
 
