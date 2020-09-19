@@ -2,7 +2,7 @@ import MeetingModel from '../models/MeetingModel';
 
 export default class MeetingRepository {
     async getMeeting(meetingId, userId) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/Meetings/${meetingId}/User/${userId}`, { method: 'GET' });
+        const response = await fetch(`https://teambarometer-api-test.azurewebsites.net/api/Meetings/${meetingId}/User/${userId}`, { method: 'GET' });
 
         const meeting = await response.json();
 
@@ -10,7 +10,7 @@ export default class MeetingRepository {
     }
 
     async createMeeting(userId) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/Meetings/CreateMeeting/User/${userId}`, { method: 'POST' });
+        const response = await fetch(`https://teambarometer-api-test.azurewebsites.net/api/Meetings/CreateMeeting/User/${userId}`, { method: 'POST' });
 
         const meeting = await response.json();
 
@@ -18,7 +18,7 @@ export default class MeetingRepository {
     }
 
     async enterToTheMeeting(meetingId, userId) {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/Meetings/JoinTheMeeting/${meetingId}/User/${userId}`, { method: 'PUT' });
+        const response = await fetch(`https://teambarometer-api-test.azurewebsites.net/api/Meetings/JoinTheMeeting/${meetingId}/User/${userId}`, { method: 'PUT' });
 
         if (!response.ok) {
             return null;
@@ -30,10 +30,10 @@ export default class MeetingRepository {
     }
 
     enableAnswersOfTheCurrentQuestion(meetingId, userId) {
-        fetch(`${process.env.REACT_APP_API_URL}/api/Meetings/EnableAnswersOfTheCurrentQuestion/${meetingId}/User/${userId}`, { method: 'PUT' });
+        fetch(`https://teambarometer-api-test.azurewebsites.net/api/Meetings/EnableAnswersOfTheCurrentQuestion/${meetingId}/User/${userId}`, { method: 'PUT' });
     }
 
     answerTheCurrentQuestion(userId, answer, meetingId) {
-        fetch(`${process.env.REACT_APP_API_URL}/api/Meetings/AnswerTheCurrentQuestion/${meetingId}/User/${userId}/Answer/${answer}`, { method: 'PUT' });
+        fetch(`https://teambarometer-api-test.azurewebsites.net/api/Meetings/AnswerTheCurrentQuestion/${meetingId}/User/${userId}/Answer/${answer}`, { method: 'PUT' });
     }
 }
