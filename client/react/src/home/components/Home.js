@@ -28,7 +28,7 @@ export default class Home extends Component {
                     <div className="row">
                         <header className="col-sm">
                             {this.state.meeting && <span id="meetingId">{this.state.meeting.id}</span>}
-                            <h1>Team Barometer 2020</h1>
+                            <h1>Team Barometer</h1>
                         </header>
                     </div>
                     <div className="row">
