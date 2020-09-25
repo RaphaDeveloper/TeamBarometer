@@ -24,7 +24,7 @@ steps:
     repository: 'raphadeveloper/teambarometer-api'
     command: 'buildAndPush'
     Dockerfile: 'Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/Server/'
+    buildContext: '/Server/'
     tags: |
       $(Build.BuildId)
       latest
