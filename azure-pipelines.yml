@@ -23,8 +23,8 @@ steps:
     containerRegistry: 'RaphaDeveloper_DockerHub'
     repository: 'raphadeveloper/teambarometer-api'
     command: 'buildAndPush'
-    Dockerfile: '**Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/Server/'
+    Dockerfile: '$(Build.SourcesDirectory)/Server/Dockerfile'
+    buildContext: 
     tags: |
       $(Build.BuildId)
       latest
