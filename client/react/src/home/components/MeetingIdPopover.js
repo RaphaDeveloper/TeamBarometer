@@ -22,13 +22,13 @@ export default class MeetingIdPopover extends Component {
     render() {
         const popOver = 
             <Popover id="popover-enter-meeting">
-                <Popover.Title as="h3">Entrar em uma reunião</Popover.Title>
+                <Popover.Title as="h3">Join in a meeting</Popover.Title>
                 <Popover.Content>
                     {this.renderInvalidCode()}                    
                     <div className="input-group mb-3">                        
                         <input onChange={this.updateMeetingId} ref={this.meetingIdInput} type="text" className="form-control" placeholder="Código da Reunião" aria-label="Código da Reunião" id="meeting-id-input" value={this.state.meetingId} />
                         <div className="input-group-append">
-                            <button onClick={this.enterToTheMeeting} className="btn btn-outline-secondary" type="button" id="button-enter-meeting" disabled={!this.state.meetingId}>Entrar</button>
+                            <button onClick={this.enterToTheMeeting} className="btn btn-outline-secondary" type="button" id="button-enter-meeting" disabled={!this.state.meetingId}>Join</button>
                         </div>
                     </div>
                 </Popover.Content>
@@ -36,7 +36,7 @@ export default class MeetingIdPopover extends Component {
 
         return (
             <OverlayTrigger trigger="click" placement="bottom" overlay={popOver}>
-                <a id="enterToMeeting" href="javascript:void(0)" className="link" onClick={this.openPopover}>Entre</a>
+                <a id="enterToMeeting" href="javascript:void(0)" className="link" onClick={this.openPopover}>Join</a>
             </OverlayTrigger>
         );
     };
@@ -45,7 +45,7 @@ export default class MeetingIdPopover extends Component {
         return (
             this.state.invalidCode && 
             <div className="invalid-code-container">
-                <span>Código Inválido</span>
+                <span>Invalid Code</span>
             </div>
         );
     }

@@ -52,7 +52,7 @@ export default class Home extends Component {
     renderHomeContent() {
         return (
             <div className="main col-sm">
-                <a id="createMeeting" onClick={this.createMeeting} className="link" href="javascript:void(0)">Crie</a> uma reunião ou {this.renderEnterMeetingLink()} em uma existente.
+                <a id="createMeeting" onClick={this.createMeeting} className="link" href="javascript:void(0)">Create</a> a meeting or {this.renderEnterMeetingLink()} an existing one.
             </div>
         );
     }
