@@ -17,6 +17,20 @@ For more detailed information about this meeting you can read these articles:
 - https://blog.crisp.se/2014/01/30/jimmyjanlen/team-barometer-self-evaluation-tool
 - https://code.likeagirl.io/usando-o-team-barometer-para-entender-como-est%C3%A1-o-seu-time-e642aa00933e
 
+## 👨‍🎓 Practices
+
+As a **TDD** practioner, the code was writed using TDD all the time, this practice gives me short feedback cycle that I use to analyse and improve the design trough continuous **Refactoring**, with these two practices I control the design of my code so that I can create loosely coupled expressive objects with behaviours that represents domain concepts. The goal is to create a code that is simple, clear and expressive, these practices gives me the opportunity to acomplish this.
+
+## 🏛 Architecture and Organization
+
+This project was created with concepts from **DDD**, **Clean Architecture** and **Hexagonal Architecture**.
+
+- I have implemented some **DDD** tactical tools like Domain Events, Aggregation, Entity, Domain Service and Repository Pattern. I also had a special care to include the correct terms and concepts into the code even without a domain expert to help me.
+
+- From **Clean Architecture** I like the idea to emphasize the Use Cases and I have implemented my Domain Services so they can express the use cases, they interact with Aggregations and Entities so that the Use Cases can be acomplished.
+
+- **Hexagonal Architecture** helps me to segregate layers based on concerns and level of abstraction and brings discipline to not create undesirable dependencies between these layers, a special layer that I like to maintain isolated and has the greatest level of abstraction is the Domain Layer, so this architecture fits well with DDD concepts. I didn't implemented all the concepts of Hexagonal Architecture because the problem is simple and some architectural details could influence negatively to create a simple solution.
+
 ## 🛠 Technologies
 
 The following tools were used to construct and build the project:
