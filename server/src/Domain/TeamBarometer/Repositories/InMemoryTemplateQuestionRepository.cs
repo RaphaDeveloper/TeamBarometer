@@ -10,76 +10,86 @@ namespace Domain.TeamBarometer.Repositories
 
 		public InMemoryTemplateQuestionRepository()
 		{
-			TemplateQuestion confianca = CreateQuestion("Confiança",
-				"Raramente dizemos o que nós pensamos. Nós preferimos evitar conflitos e não nos expor.",
-				"Temos a coragem de ser honestos com os outros. Nos sentimos confortáveis participando de discussões e conflitos construtivos.");
+			TemplateQuestion trust = CreateQuestion("Trust",
+				"We have the courage to be honest with each other. We don’t hesitate to engage in constructive conflicts.",
+				"Members rarely speak their mind. We avoid conflicts. Discussions are tentative and polite.");
 
-			TemplateQuestion teamCollaboration = CreateQuestion("Colaboração entre times",
-				"Nosso trabalho é individual. Colaboramos pouco ou nada dentro do time.",
-				"Trabalhamos em equipe. Nós trocamos conhecimentos, pontos de vista e idéias dentro do time.");
+			TemplateQuestion collaboration = CreateQuestion("Collaboration",
+				"The team cross-pollinates, sharing perspectives, context and innovations with other teams, and other parts of the organization..",
+				"Work is done individually. Little or no collaboration within the team or with other teams.");
 
 			TemplateQuestion feedback = CreateQuestion("Feedback",
-				"Nós raramente nos elogiamos ou chamamos a atenção quando alguém age de forma irresponsável ou quenbra nossos acordos de trabalho.",
-				"Nós damos feedback regularmente sobre aspectos positivos e também sobre aspectos a melhorar.");
+				"We give positive feedback, but also call out one another’s deficiencies and unproductive behaviors.",
+				"We rarely praise each other or give feedback or criticize each other for acting irresponsibly or breaking our Working Agreement.");
 
-			TemplateQuestion participatoryMeetings = CreateQuestion("Reuniões Participativas",
-				"Muitos se sentem como prisioneiros na reunião. Poucos participam das discussões.",
-				"Participamos ativamente nas reuniões. Queremos estar nelas e nos envolvemos interessadamente nas conversas.");
+			TemplateQuestion meetingEngagement = CreateQuestion("Meeting Engagement",
+				"People are engaged in meetings. They want to be there. Discussions are passionate.",
+				"Many feels like prisoners in the meeting. Only a few participate in discussions.");
 
-			TemplateQuestion commitment = CreateQuestion("Compromisso",
-				"Não existe um consenso real sobre nossos objetivos. Não acreditamos no planejamento ou não estamos comprometidos com ele.",
-				"Nos comprometemos com o planejamento e contamos com os outros para realizar as tarefas. Damos nosso melhor para alcançar nossos objetivos.");
+			TemplateQuestion commitment = CreateQuestion("Commitment",
+				"We commit to our plans and hold each other accountable for doing our best to reach our goals and execute assigned action points.",
+				"We don’t have real consensus about our goals. We don’t really buy in to the plan or follow up that people keep their commitments.");
 
-			TemplateQuestion continuousImprovement = CreateQuestion("Melhora Contínua",
-				"Não questionamos nossa forma de trabalho. Não podemos comprovar ou demonstrar se estamos melhorando.",
-				"Nos esforçamos para descobrir melhores formas de trabalhar em equipe. Nos interessamos em sabe se estamos melhorando.");
+			TemplateQuestion improving = CreateQuestion("Improving",
+				"We passionately strive to figure out how to work better and more efficiently as a team. We try to “know” if we get better.",
+				"We don’t focus on questioning our process or way of working. If someone asked us to prove that we’ve gotten better we have no clue how we would demonstrate that.");
 
-			TemplateQuestion mutualResponsibility = CreateQuestion("Responsabilidade Mútua",
-				"Buscamos culpados quando falhamos. Diante do sucesso o trabalho individual é mais reconhecido que o trabalho em equipe.",
-				"Nos sentimos mutuamente responsáveis por alcançar nossos objetivos. Triunfamos e fracassamos como uma equipe.");
+			TemplateQuestion mutuallyResponsible = CreateQuestion("Mutually Responsible",
+				"We feel mutually responsible for achieving our goals. We win and fail as a team.",
+				"When we fail we try to figure out who did what wrong. When we succeed we celebrate individuals. If we pay attention to it at all…");
 
-			TemplateQuestion autonomy = CreateQuestion("Autonomia",
-				"Quando existe algum impedimento, nos limitamos à alertar dos problemas.",
-				"Agimos diante dos problemas e impedimentos com autonomia.");
+			TemplateQuestion power = CreateQuestion("Power",
+				"We go out of our way to unblock ourselves when we run into impediments or dependencies.",
+				"When we run into problems or dependencies we alert managers, ask for their help, and then wait.");
 
-			TemplateQuestion pride = CreateQuestion("Orgulho",
-				"Não nos sentimos orgulhosos do nosso ritmo de trabalho, da forma como trabalhamos ou dos resultados que alcançamos.",
-				"Nos sentimos orgulhosos do trabalho que fazemos, da forma como fazemos e o dos resultados que alcançamos.");
+			TemplateQuestion pride = CreateQuestion("Pride",
+				"We feel pride in our work and what we accomplish.",
+				"We feel ashamed of our pace and the quality of our results.");
 
-			TemplateQuestion relationships = CreateQuestion("Relações",
-				"Não conhecemos realmente os interesses, objetivos e motivações dos nossos companheiros de equipe.",
-				"Investimos tempo e esforço em alimentar relações interpessoais, dentro e fora da equipe.");
+			TemplateQuestion relationships = CreateQuestion("Relationships",
+				"Team members spend time and effort building strong relationships among themselves, as well with partners outside the team.",
+				"We don’t really know each other or what makes others “tick”.");
 
-			TemplateQuestion Protagonism = CreateQuestion("Protagonismo",
-				"Nos sentimos como peões. Não somos convidados à participar da definição de nossos objetivos.",
-				"Participamos ativamente da definição de nossos objetivos. Somos protagonistas do nosso destino.");
+			TemplateQuestion ownership = CreateQuestion("Ownership",
+				"We engage in defining our own goals and take ownership of our destiny.",
+				"We act as pawns in a game of chess. We don’t demand involvement in defining our goals and destiny.");
 
-			TemplateQuestion sharing = CreateQuestion("Compartilhamento",
-				"Alguns se omitem de compartilhar as novidades ou as informações importantes. Não sabemos no que algumas pessoas estão trabalhando.",
-				"Compartilhamos toda informação relevante e as novidades quando tomamos conhecimento.");
+			TemplateQuestion sharing = CreateQuestion("Sharing",
+				"We share what we know and learn. No one withholds information that affects the team.",
+				"People do stuff under the radar and often forget to share news or relevant information.");
 
-			TemplateQuestion empowerOurselves = CreateQuestion("Nos Capacitar",
-				"Desconhecemos os interesses pessoais de nossos colegas. Encontramos problemas de colaboração devido às nossas diferenças e pontos de vista.",
-				"Nos interessamos pelas motivações e desenvolvimento pessoal de nossos colegas. Aproveitamos nossas diferenças para nos capacitar.");
+			TemplateQuestion boostsEachOther = CreateQuestion("Boosts each other",
+				"We unleash each other’s passion and care for each other’s personal development. We leverage our differences.",
+				"We don’t know in which areas people want to grow. We have trouble collaborating since we are very different and view things differently.");
 
-			TemplateQuestion loyalty = CreateQuestion("Lealdade",
-				"Nos sentimos como um grupo de pessoas com objetivos distintos. A fidelidade está fora da equipe.",
-				"Somos leais ao time, às confidencialidades de nossos colegas e nossos objetivos.");
+			TemplateQuestion loyalty = CreateQuestion("Loyalty",
+				"No one has hidden agendas. We feel that everyone’s loyalty is with THIS team.",
+				"The team feels like a diverse group of people with different goals and loyalties that lies elsewhere.");
 
-			questions.Add(confianca);
-			questions.Add(teamCollaboration);
+			TemplateQuestion passion = CreateQuestion("Passion",
+				"Each member wants THIS team to be great and successful.",
+				"People just come to work for 8 hours and focus on their own tasks.");
+
+			TemplateQuestion integrity = CreateQuestion("Integrity",
+				"We honor our processes and working agreements even when we are put under pressure.",
+				"Our behaviors, collaboration and communication fall apart when we get stressed.");
+
+			questions.Add(trust);
+			questions.Add(collaboration);
 			questions.Add(feedback);
-			questions.Add(participatoryMeetings);
+			questions.Add(meetingEngagement);
 			questions.Add(commitment);
-			questions.Add(continuousImprovement);
-			questions.Add(mutualResponsibility);
-			questions.Add(autonomy);
+			questions.Add(improving);
+			questions.Add(mutuallyResponsible);
+			questions.Add(power);
 			questions.Add(pride);
 			questions.Add(relationships);
-			questions.Add(Protagonism);
+			questions.Add(ownership);
 			questions.Add(sharing);
-			questions.Add(empowerOurselves);
+			questions.Add(boostsEachOther);
 			questions.Add(loyalty);
+			questions.Add(passion);
+			questions.Add(integrity);
 		}
 
 		public IEnumerable<TemplateQuestion> GetAll()
@@ -87,7 +97,7 @@ namespace Domain.TeamBarometer.Repositories
 			return questions;
 		}
 
-		private TemplateQuestion CreateQuestion(string name, string redDescription, string greenDescription)
+		private TemplateQuestion CreateQuestion(string name, string greenDescription, string redDescription)
 		{
 			Dictionary<Answer, string> descriptionByAnswer = new Dictionary<Answer, string>
 			{
