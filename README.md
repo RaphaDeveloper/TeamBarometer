@@ -1,3 +1,11 @@
+<h1 align="center">
+    <img alt="TeamBarometer" title="#TeamBarometer" src="./assets/banner.png" />
+</h1>
+
+<h4 align="center"> 
+	🚧 TeamBarometer 1.0 🚀 under construction... 🚧
+</h4>
+
 ## 💻 About the project
 
 ⏲ Team Barometer - is a self-evaluation tool created by Jimmy Janlén so that a team can measure if they get tighter and better as a team over time, it is executed as a survey in a workshop and it consists of some team characteristics, packaged as a deck of cards. Team members vote green, yellow or red for each card in the meeting. Once all cards have been run through, the team reflects and discusses the results.
