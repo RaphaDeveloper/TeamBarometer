@@ -17,6 +17,20 @@ For more detailed information about this meeting you can read these articles:
 - https://blog.crisp.se/2014/01/30/jimmyjanlen/team-barometer-self-evaluation-tool
 - https://code.likeagirl.io/usando-o-team-barometer-para-entender-como-est%C3%A1-o-seu-time-e642aa00933e
 
+## 🎨 Layout
+
+### Web
+
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="Home" title="#Home" src="./assets/home.png" width="400px">
+
+  <img alt="Meeting" title="#Meeting" src="./assets/meeting.png" width="400px">
+</p>
+
+### Mobile
+
+🚧 under construction... 🚧
+
 ## 👨‍🎓 Practices
 
 As a **TDD** practioner, the code was writed using TDD all the time, this practice gives me short feedback cycle that I use to analyse and improve the design trough continuous **Refactoring**, with these two practices I control the design of my code so that I can create loosely coupled expressive objects with behaviours that represents domain concepts. The goal is to create a code that is simple, clear and expressive, these practices gives me the opportunity to acomplish this.
