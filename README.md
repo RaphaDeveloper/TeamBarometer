@@ -118,7 +118,7 @@ $ npm install
 $ npm run start
 ```
 
-Powered by Raphael Silva 🤪 [Contacte me on linkedin!](https://www.linkedin.com/in/raphaelprogramador/)
+Powered by Raphael Silva 🤪 [Contact me on linkedin!](https://www.linkedin.com/in/raphaelprogramador/)
 
 [aspnet]: https://dotnet.microsoft.com/apps/aspnet
 [reactjs]: https://reactjs.org
