@@ -52,7 +52,7 @@ export default class Meeting extends Component {
         this.setState({ meeting, selectedQuestion: meeting.getCurrentQuestion() });
     }
 
-    answerTheCurrentQuestion = (answer) => {
-        this.meetingRepository.answerTheCurrentQuestion(this.props.userId, answer, this.state.meeting.id);
+    answerTheCurrentQuestion = (answer, annotation) => {
+        this.meetingRepository.answerTheCurrentQuestion(this.props.userId, answer, this.state.meeting.id, annotation);
     }
 }

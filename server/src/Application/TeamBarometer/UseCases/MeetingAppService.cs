@@ -40,9 +40,9 @@ namespace Application.TeamBarometer.UseCases
 			return new MeetingModel(meeting, userId);
 		}
 
-		public void AnswerTheCurrentQuestion(Guid userId, Answer answer, Guid meetingId)
+		public void AnswerTheCurrentQuestion(Guid meetingId, Guid userId, Answer answer, string annotation)
 		{
-			MeetingService.AnswerTheCurrentQuestion(userId, answer, meetingId);
+			MeetingService.AnswerTheCurrentQuestion(meetingId, userId, answer, annotation);
 		}
 	}
 }

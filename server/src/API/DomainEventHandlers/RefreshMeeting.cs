@@ -8,16 +8,17 @@ namespace API.DomainEventHandlers
 {
 	public class RefreshMeeting : Handler<MeetingEventBase>
 	{
+		private IServiceProvider serviceProvider;
+		
 		public RefreshMeeting(IServiceProvider serviceProvider)
 		{
-			ServiceProvider = serviceProvider;
+			this.serviceProvider = serviceProvider;
 		}
 
-		public IServiceProvider ServiceProvider { get; }
 
 		public override void Handle(MeetingEventBase domainEvent)
 		{
-			ServiceProvider.GetService<MeetingHub>().NotifyMeeting(domainEvent.Meeting.Id);
+			serviceProvider.GetService<MeetingHub>().NotifyMeeting(domainEvent.Meeting.Id);
 		}
 	}
 }

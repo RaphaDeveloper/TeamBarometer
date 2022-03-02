@@ -13,10 +13,10 @@ namespace Domain.TeamBarometer.Entities
 
 
 		private TemplateQuestion TemplateQuestion { get; }
-		private List<Answer> Answers { get; } = new List<Answer>();
-		private List<Guid> UsersWhoAnswered { get; } = new List<Guid>();
+		private Dictionary<Guid, AnswerWithAnnotation> AnswerByUser { get; } = new Dictionary<Guid, AnswerWithAnnotation>();
+		
 
-		public Guid Id => TemplateQuestion.Id;
+        public Guid Id => TemplateQuestion.Id;
 		public string Description => TemplateQuestion.Description;
 		public bool IsUpForAnswer { get; private set; }
 		public bool IsTheCurrent { get; private set; }
@@ -24,13 +24,13 @@ namespace Domain.TeamBarometer.Entities
 
 		public bool HasAnyAnswer()
 		{
-			return Answers.Any();
+			return AnswerByUser.Any();
 		}
 
 
 		public int GetCountOfTheAnswer(Answer answer)
 		{
-			return Answers.Count(a => a == answer);
+			return AnswerByUser.Count(a => a.Value.Answer == answer);
 		}
 
 
@@ -42,23 +42,19 @@ namespace Domain.TeamBarometer.Entities
 
 		internal bool AllUsersHasAnswered(List<Guid> userIds)
 		{
-			return Answers.Count == userIds.Count;
+			return userIds.All(UserHasAlreadyAnswered);
 		}
 
 
-		internal void ContabilizeTheAnswer(Guid userId, Answer answer)
+		internal void ContabilizeTheAnswer(Guid userId, Answer answer, string annoation)
 		{
 			if (!UserHasAlreadyAnswered(userId))
-			{
-				Answers.Add(answer);
-
-				UsersWhoAnswered.Add(userId);
-			}
+				AnswerByUser[userId] = new AnswerWithAnnotation(answer, annoation);
 		}
 
 		private bool UserHasAlreadyAnswered(Guid userId)
 		{
-			return UsersWhoAnswered.Contains(userId);
+			return AnswerByUser.ContainsKey(userId);
 		}
 
 
@@ -81,6 +77,12 @@ namespace Domain.TeamBarometer.Entities
 		internal void SetAsNotCurrent()
 		{
 			IsTheCurrent = false;
+		}
+		
+
+		public IEnumerable<AnswerWithAnnotation> GetAnswersWithAnnotation()
+		{
+			return AnswerByUser.Select(a => a.Value);
 		}
 	}
 }

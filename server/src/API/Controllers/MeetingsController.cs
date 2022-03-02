@@ -49,10 +49,10 @@ namespace API.Controllers
 			return Ok();
 		}
 
-		[HttpPut("AnswerTheCurrentQuestion/{meetingId}/user/{userId}/answer/{answer}")]
-		public IActionResult AnswerTheCurrentQuestion(Guid userId, Answer answer, Guid meetingId)
+		[HttpPut("AnswerTheCurrentQuestion/{meetingId}/user/{userId}/answer/{answer}/annotation/{annotation}")]
+		public IActionResult AnswerTheCurrentQuestion(Guid userId, Answer answer, Guid meetingId, string annotation)
 		{
-			meetingAppService.AnswerTheCurrentQuestion(userId, answer, meetingId);
+			meetingAppService.AnswerTheCurrentQuestion(meetingId, userId, answer, annotation);
 
 			return Ok();
 		}

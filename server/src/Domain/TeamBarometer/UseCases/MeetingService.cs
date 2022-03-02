@@ -46,11 +46,11 @@ namespace Domain.TeamBarometer.UseCases
 		}
 
 
-		public void AnswerTheCurrentQuestion(Guid userId, Answer answer, Guid meetingId)
+		public void AnswerTheCurrentQuestion(Guid meetingId, Guid userId, Answer answer, string annotation)
 		{
 			Meeting meeting = GetMeetingById(meetingId);
 
-			meeting.AnswerTheCurrentQuestion(userId, answer);
+			meeting.AnswerTheCurrentQuestion(userId, answer, annotation);
 		}
 
 

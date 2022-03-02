@@ -33,7 +33,7 @@ export default class MeetingRepository {
         fetch(`${process.env.REACT_APP_API_URL}/api/Meetings/EnableAnswersOfTheCurrentQuestion/${meetingId}/User/${userId}`, { method: 'PUT' });
     }
 
-    answerTheCurrentQuestion(userId, answer, meetingId) {
-        fetch(`${process.env.REACT_APP_API_URL}/api/Meetings/AnswerTheCurrentQuestion/${meetingId}/User/${userId}/Answer/${answer}`, { method: 'PUT' });
+    answerTheCurrentQuestion(userId, answer, meetingId, annotation) {
+        fetch(`${process.env.REACT_APP_API_URL}/api/Meetings/AnswerTheCurrentQuestion/${meetingId}/User/${userId}/Answer/${answer}/Annotation/${annotation}`, { method: 'PUT' });
     }
 }

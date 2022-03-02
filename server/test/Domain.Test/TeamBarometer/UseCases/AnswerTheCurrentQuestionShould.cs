@@ -34,7 +34,7 @@ namespace Domain.Test.TeamBarometer.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
 
 
-			service.AnswerTheCurrentQuestion(userId, Answer.Red, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, userId, Answer.Red, annotation: null);
 
 
 			Assert.That(currentQuestion.GetCountOfTheAnswer(Answer.Red), Is.EqualTo(1));
@@ -53,8 +53,8 @@ namespace Domain.Test.TeamBarometer.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
 
 
-			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, meeting.Id);
-			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, firstUserId, Answer.Green, annotation: null);
+			service.AnswerTheCurrentQuestion(meeting.Id, secondUserId, Answer.Green, annotation: null);
 
 
 			Assert.That(priorQuestion, Is.Not.EqualTo(meeting.CurrentQuestion));
@@ -73,12 +73,12 @@ namespace Domain.Test.TeamBarometer.UseCases
 			service.JoinTheMeeting(meeting.Id, secondUserId);
 
 			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
-			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, meeting.Id);
-			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, firstUserId, Answer.Green, annotation: null);
+			service.AnswerTheCurrentQuestion(meeting.Id, secondUserId, Answer.Green, annotation: null);
 
 			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
-			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, meeting.Id);
-			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, firstUserId, Answer.Green,  annotation: null);
+			service.AnswerTheCurrentQuestion(meeting.Id, secondUserId, Answer.Green, annotation: null);
 
 
 			Assert.IsNull(meeting.CurrentQuestion);
@@ -96,8 +96,8 @@ namespace Domain.Test.TeamBarometer.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
 
 
-			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, meeting.Id);
-			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, firstUserId, Answer.Green, annotation: null);
+			service.AnswerTheCurrentQuestion(meeting.Id, secondUserId, Answer.Green, annotation: null);
 
 
 			Assert.True(FakeHandler.MeetingWasNotified(meeting.Id));
@@ -115,7 +115,7 @@ namespace Domain.Test.TeamBarometer.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
 
 
-			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, firstUserId, Answer.Green, annotation: null);
 
 
 			Assert.False(FakeHandler.MeetingWasNotified(meeting.Id));
@@ -134,8 +134,8 @@ namespace Domain.Test.TeamBarometer.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
 
 
-			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, meeting.Id);
-			service.AnswerTheCurrentQuestion(secondUserId, Answer.Green, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, firstUserId, Answer.Green, annotation: null);
+			service.AnswerTheCurrentQuestion(meeting.Id, secondUserId, Answer.Green, annotation: null);
 
 
 			Assert.False(currentQuestion.IsUpForAnswer);
@@ -152,8 +152,8 @@ namespace Domain.Test.TeamBarometer.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
 
 
-			service.AnswerTheCurrentQuestion(userId, Answer.Green, meeting.Id);
-			service.AnswerTheCurrentQuestion(userId, Answer.Green, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, userId, Answer.Green, annotation: null);
+			service.AnswerTheCurrentQuestion(meeting.Id, userId, Answer.Green, annotation: null);
 
 
 			Assert.That(currentQuestion.GetCountOfTheAnswer(Answer.Green), Is.EqualTo(1));
@@ -169,7 +169,7 @@ namespace Domain.Test.TeamBarometer.UseCases
 			service.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
 
 
-			service.AnswerTheCurrentQuestion(userId, Answer.Red, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, userId, Answer.Red, annotation: null);
 
 
 			Assert.False(currentQuestion.HasAnyAnswer());
@@ -185,7 +185,7 @@ namespace Domain.Test.TeamBarometer.UseCases
 			service.JoinTheMeeting(meeting.Id, firstUserId);
 
 
-			service.AnswerTheCurrentQuestion(firstUserId, Answer.Green, meeting.Id);
+			service.AnswerTheCurrentQuestion(meeting.Id, firstUserId, Answer.Green, annotation: null);
 
 
 			Assert.False(currentQuestion.HasAnyAnswer());

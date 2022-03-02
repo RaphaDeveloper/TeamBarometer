@@ -1,5 +1,6 @@
 ﻿using Domain.TeamBarometer.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace Application.TeamBarometer.Models
 {
@@ -16,17 +17,19 @@ namespace Application.TeamBarometer.Models
             AmountOfGreenAnswers = question.GetCountOfTheAnswer(Answer.Green);
             AmountOfYellowAnswers = question.GetCountOfTheAnswer(Answer.Yellow);
             AmountOfRedAnswers = question.GetCountOfTheAnswer(Answer.Red);
+            AnswersWithAnnotation = question.GetAnswersWithAnnotation();
         }
 
-        public Guid Id { get; set; }
-        public string Description { get; private set; }
-        public string RedAnswer { get; private set; }
-        public string GreenAnswer { get; private set; }
-        public bool IsTheCurrent { get; private set; }
-        public int AmountOfRedAnswers { get; private set; }
-        public int AmountOfYellowAnswers { get; private set; }
-        public int AmountOfGreenAnswers { get; private set; }
-        public bool IsUpForAnswer { get; set; }
+        public Guid Id { get; }
+        public string Description { get; }
+        public string RedAnswer { get; }
+        public string GreenAnswer { get; }
+        public bool IsTheCurrent { get; }
+        public int AmountOfRedAnswers { get; }
+        public int AmountOfYellowAnswers { get; }
+        public int AmountOfGreenAnswers { get; }
+        public bool IsUpForAnswer { get; }
+        public IEnumerable<AnswerWithAnnotation> AnswersWithAnnotation { get; }
 
         public override bool Equals(object obj)
         {

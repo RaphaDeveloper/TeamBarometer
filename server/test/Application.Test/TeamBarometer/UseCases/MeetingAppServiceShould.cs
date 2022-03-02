@@ -117,9 +117,9 @@ namespace Application.Test.TeamBarometer.UseCases
 			meetingAppService.JoinTheMeeting(meetingModel.Id, redUser);
 			meetingAppService.EnableAnswersOfTheCurrentQuestion(meetingModel.Id, facilitatorId);
 
-			meetingAppService.AnswerTheCurrentQuestion(greenUser, Answer.Green, meetingModel.Id);
-			meetingAppService.AnswerTheCurrentQuestion(yellowUser, Answer.Yellow, meetingModel.Id);
-			meetingAppService.AnswerTheCurrentQuestion(redUser, Answer.Red, meetingModel.Id);
+			meetingAppService.AnswerTheCurrentQuestion(meetingModel.Id, greenUser, Answer.Green, annotation: null);
+			meetingAppService.AnswerTheCurrentQuestion(meetingModel.Id, yellowUser, Answer.Yellow, annotation: null);
+			meetingAppService.AnswerTheCurrentQuestion(meetingModel.Id, redUser, Answer.Red, annotation: null);
 
 			AssertThatTheAnswerWasContabilized(meetingModel);
 		}
@@ -131,6 +131,7 @@ namespace Application.Test.TeamBarometer.UseCases
 			Assert.That(meetingModel.Questions.First().AmountOfYellowAnswers, Is.EqualTo(1));
 			Assert.That(meetingModel.Questions.First().AmountOfRedAnswers, Is.EqualTo(1));
 		}
+
 
 		[Test]
 		public void UpdateTheCurrentQuestionWhenAllUsersAnswerTheQuestion()
@@ -145,9 +146,9 @@ namespace Application.Test.TeamBarometer.UseCases
 			meetingAppService.JoinTheMeeting(meetingModel.Id, redUser);
 			meetingAppService.EnableAnswersOfTheCurrentQuestion(meetingModel.Id, facilitatorId);
 
-			meetingAppService.AnswerTheCurrentQuestion(greenUser, Answer.Green, meetingModel.Id);
-			meetingAppService.AnswerTheCurrentQuestion(yellowUser, Answer.Yellow, meetingModel.Id);
-			meetingAppService.AnswerTheCurrentQuestion(redUser, Answer.Red, meetingModel.Id);
+			meetingAppService.AnswerTheCurrentQuestion(meetingModel.Id, greenUser, Answer.Green, annotation: null);
+			meetingAppService.AnswerTheCurrentQuestion(meetingModel.Id, yellowUser, Answer.Yellow, annotation: null);
+			meetingAppService.AnswerTheCurrentQuestion(meetingModel.Id, redUser, Answer.Red, annotation: null);
 
 			AssertThatTheCurrentQuestionHasChanged(meetingModel);
 		}
@@ -157,6 +158,28 @@ namespace Application.Test.TeamBarometer.UseCases
 
 			Assert.False(meetingModel.Questions.ElementAt(0).IsTheCurrent);
 			Assert.True(meetingModel.Questions.ElementAt(1).IsTheCurrent);
+		}
+
+
+		[Test]
+		public void AnswerTheCurrentQuestionWithAnnotation()
+        {
+			Guid userId = Guid.NewGuid();
+			MeetingModel meeting = meetingAppService.CreateMeeting(facilitatorId);
+			meetingAppService.JoinTheMeeting(meeting.Id, userId);
+			meetingAppService.EnableAnswersOfTheCurrentQuestion(meeting.Id, facilitatorId);
+			Answer answer = Answer.Red;
+			string annotation = "This is an annotation";
+
+			meetingAppService.AnswerTheCurrentQuestion(meeting.Id, userId, answer, annotation);
+
+			AssertThatTheCurrentQuestionHasAnnotation(meeting.Id, annotation);
+		}
+		private void AssertThatTheCurrentQuestionHasAnnotation(Guid meetingId, string annotation)
+		{
+			MeetingModel meeting = meetingAppService.GetMeeting(meetingId, facilitatorId);
+
+			Assert.That(meeting.Questions.First().AnswersWithAnnotation.Single().Annotation, Is.EqualTo(annotation));
 		}
 	}
 }

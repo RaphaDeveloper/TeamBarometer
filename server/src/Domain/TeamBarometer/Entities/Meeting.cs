@@ -56,11 +56,11 @@ namespace Domain.TeamBarometer.Entities
 		}
 
 
-		internal void AnswerTheCurrentQuestion(Guid userId, Answer answer)
+		internal void AnswerTheCurrentQuestion(Guid userId, Answer answer, string annotation)
 		{
 			if (UserCanAnswerTheCurrentQuestion(userId))
 			{
-				CurrentQuestion.ContabilizeTheAnswer(userId, answer);
+				CurrentQuestion.ContabilizeTheAnswer(userId, answer, annotation);
 
 				if (CurrentQuestion.AllUsersHasAnswered(Participants))
 				{
