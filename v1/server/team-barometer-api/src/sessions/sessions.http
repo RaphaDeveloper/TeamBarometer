@@ -1,0 +1,3 @@
+POST http://localhost:3000/sessions HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoicmFwaGFlbCIsImlhdCI6MTcwMDg2MDk3NywiZXhwIjoxNzAwODYxMDM3fQ.S-LG65gYy8hs6IdcVpD6YC5viLIGTw5y5A6lrNfYjqQ
