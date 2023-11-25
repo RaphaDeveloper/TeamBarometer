@@ -10,12 +10,12 @@ export class CreateSession {
 
     }
 
-    execute(creatorId: number): Session {
-        const creator = this.userRepository.getById(creatorId);
+    async execute(creatorId: number): Promise<Session> {
+        const creator = await this.userRepository.getById(creatorId);
 
-        const session = new Session(creator);
+        const session = new Session({creator, createdAt: new Date()});
 
-        this.sessionRepository.save(session);
+        await this.sessionRepository.save(session);
 
         return session;
     }

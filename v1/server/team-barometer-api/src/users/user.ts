@@ -4,7 +4,7 @@ export class User {
     username: string;
     password: string;
 
-    constructor(id: number) {
-        this.id = id;
+    constructor(data: any) {
+        Object.assign(this, data);
     }
 }

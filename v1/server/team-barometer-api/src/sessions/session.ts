@@ -2,12 +2,12 @@ import { User } from "src/users/user";
 
 export class Session {
     id: number;
-    creator: any;
+    creator: User;
     participants: Array<any> = [];
-    date: Date;
+    createdAt: Date;
 
-    constructor(creator: User | undefined) {
+    constructor({ creator, ...data }: any) {
         this.creator = creator;
-        this.date = new Date();
+        Object.assign(this, data);
     }
 }

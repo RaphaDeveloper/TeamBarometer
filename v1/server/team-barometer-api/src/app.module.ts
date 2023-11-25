@@ -7,17 +7,18 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/auth.constants';
 import { SessionsController } from './sessions/sessions.controller';
 import { AuthService } from './auth/auth.service';
-import { InMemoryUserRepository, USER_REPOSITORY } from './users/users.repository';
-import { InMemorySessionRepository, SESSION_REPOSITORY } from './sessions/sessions.repository';
+import { InMemoryUserRepository, PrismaUserRepository, USER_REPOSITORY } from './users/users.repository';
+import { InMemorySessionRepository, PrismaSessionRepository, SESSION_REPOSITORY } from './sessions/sessions.repository';
+import { PrismaModule } from './prisma/prisma.module';
 
 const userRepositoryProvider = {
   provide: USER_REPOSITORY,
-  useClass: InMemoryUserRepository,
+  useClass: PrismaUserRepository,
 };
 
 const sessionRepositoryProvider = {
   provide: SESSION_REPOSITORY,
-  useClass: InMemorySessionRepository,
+  useClass: PrismaSessionRepository,
 };
 
 @Module({
@@ -27,6 +28,7 @@ const sessionRepositoryProvider = {
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
     }),
+    PrismaModule,
   ],
   controllers: [AppController, AuthController, SessionsController],
   providers: [AppService, AuthService, CreateSession, userRepositoryProvider, sessionRepositoryProvider],

@@ -9,7 +9,7 @@ export class AuthService {
     }
 
     async signIn(username: string, pass: string): Promise<any> {
-        const user = this.userRepository.getbyUsername(username);
+        const user = await this.userRepository.getByUsername(username);
 
         if (user?.password !== pass)
             throw new UnauthorizedException();
